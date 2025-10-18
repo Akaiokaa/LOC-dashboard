@@ -1,37 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="">
-        <fieldset>
-            <legend>Math</legend>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../js/formValidation.js" defer></script>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <title>Math Department</title>
+  </head>
+  <body>
+    <form id="department-form" action="#" method="get">
+      <fieldset>
+        <legend>Math</legend>
 
-            <label for="Division">Division Name:</label>
-            <input type="text">
-            <br>
+        <label for="Division">Division Name:</label>
+        <span class="error" id="err-division"
+          >Please input a Division Name!</span
+        >
+        <input type="text" name="Division" id="Division" />
+        <br />
 
-            <label for="Dean">Dean:</label>
-            <input type="text">
-            <br>
+        <label for="Dean">Dean:</label>
+        <span class="error" id="err-dean">Please input a Dean!</span>
+        <input type="text" name="Dean" id="Dean" />
+        <br />
 
-            <label for="Pen">PEN Contact:</label>
-            <input type="text">
-            <br>
+        <label for="Pen">PEN Contact:</label>
+        <span class="error" id="err-pen">Please input a PEN Contact!</span>
+        <input type="text" name="Pen" id="Pen" />
+        <br />
 
-            <label for="LocRep">LOC Rep:</label>
-            <input type="text">
-            <br>
+        <label for="LocRep">LOC Rep:</label>
+        <span class="error" id="err-locRep">Please input a LOC Rep!</span>
+        <input type="text" name="LocRep" id="LocRep" />
+        <br />
 
-            <label for="Chair">Chair:</label>
-            <input type="text">
-            
-            <br>
-            <button>Submit</button>
-        </fieldset>
+        <label for="Chair">Chair:</label>
+        <span class="error" id="err-chair">Please input a Chair!</span>
+        <input type="text" name="Chair" id="Chair" />
+
+        <br />
+        <button>Submit</button>
+      </fieldset>
     </form>
     <!-- <ul>
         <li>Division Name: Technology</li>
@@ -40,5 +49,5 @@
         <li>LOC Rep: Josh Archer</li>
         <li>Chair: Michael Wood</li>
     </ul> -->
-</body>
+  </body>
 </html>
