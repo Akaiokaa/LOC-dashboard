@@ -3,17 +3,13 @@ document.getElementById("department-form").onsubmit = () => {
   clearErrors();
 
   let isValid = true;
-  let division = document.getElementById("Division").value.trim();
   let dean = document.getElementById("Dean").value.trim();
   let pen = document.getElementById("Pen").value.trim();
   let locRep = document.getElementById("LocRep").value.trim();
   let chair = document.getElementById("Chair").value.trim();
 
+
   //   this checks to see if any inputs are missing
-  if (!division) {
-    isValid = false;
-    document.getElementById("err-division").style.display = "block";
-  }
   if (!dean) {
     isValid = false;
     document.getElementById("err-dean").style.display = "block";
@@ -33,7 +29,6 @@ document.getElementById("department-form").onsubmit = () => {
     isValid = false;
     document.getElementById("err-chair").style.display = "block";
   }
-
   return isValid;
 };
 
