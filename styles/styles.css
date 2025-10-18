@@ -88,6 +88,57 @@ footer {
   text-align: center;
 }
 
+/* form styling */
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  box-sizing: border-box;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  font-size: large;
+}
+
+#department-form {
+  width: 40%;
+  margin: 0 auto;
+  padding: 1rem;
+  border-radius: 1%;
+}
+
+legend {
+  text-align: center;
+  font-weight: 600;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+#save-button {
+  background-color: var(--primary);
+  color: var(--secondary);
+  padding: 11px 22px;
+}
+
+#cancel-button {
+  background-color: var(--secondary);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
 /* error styling */
 .error {
   color: red;
