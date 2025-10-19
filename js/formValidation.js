@@ -32,6 +32,31 @@ document.getElementById("department-form").onsubmit = () => {
   return isValid;
 };
 
+document.getElementById("cancel-button").onclick = () => {
+  clearErrors();
+
+  document.getElementById("cancel-button").style.display = "none";
+  document.getElementById("save-button").style.display = "none";
+
+  const deanInput = document.getElementById("Dean");
+  const penInput = document.getElementById("Pen");
+  const locRepInput = document.getElementById("LocRep");
+  const chairInput = document.getElementById("Chair");
+
+  const allInputs = [deanInput, penInput, locRepInput, chairInput];
+
+  allInputs.forEach(input => {
+      // ensure the element was found before trying to modify it
+      if (input) {
+          // set the input field to non-editable
+          input.readOnly = true;
+
+          // add the class for greyed-out appearance
+          input.classList.add('view-only');
+      }
+  });
+}
+
 // function that clears all errors initially
 function clearErrors() {
   let errors = document.getElementsByClassName("error");

@@ -139,6 +139,29 @@ button {
   border: 1px solid var(--primary);
 }
 
+#cancel-button:hover,
+#cancel-button:focus {
+    background-color: #e6e8eb;
+
+    border: 2px solid var(--primary); 
+    
+    padding: calc(var(10px 15px, 8px 16px) - 1px); 
+
+    transition: background-color 0.2s ease, border 0.2s ease;
+}
+
+#cancel-button:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.view-only[readonly] {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc; 
+    color: #555; 
+    cursor: default; 
+}
+
 /* error styling */
 .error {
   color: red;
