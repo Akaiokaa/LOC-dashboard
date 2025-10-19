@@ -145,7 +145,9 @@ button {
 }
 
 #cancel-button:hover,
-#cancel-button:focus {
+#cancel-button:focus,
+.back-button:hover,
+.back-button:focus {
     box-shadow: 0 0 0 2px var(--primary); 
 
     background-color: #e6e8eb; 
@@ -155,7 +157,8 @@ button {
     outline: none;
 }
 
-#cancel-button:focus {
+#cancel-button:focus,
+.back-button:focus {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
 }
@@ -165,6 +168,34 @@ button {
     border: 1px solid #ccc; 
     color: #555; 
     cursor: default; 
+}
+
+.back-button {
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    padding: 8px 15px; 
+    border: 1px solid var(--primary);
+    background-color: var(--secondary); 
+    color: var(--primary); 
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    
+    transition: all 0.2s ease-in-out;
+    
+    box-sizing: border-box; 
+}
+
+/* Icon Specific Styling */
+.back-button .back-icon {
+    width: 18px; 
+    height: 18px;
+    margin-right: 8px; 
+    stroke: var(--primary);
+    transition: stroke 0.2s ease-in-out;
 }
 
 /* error styling */

@@ -2,6 +2,7 @@
 document.getElementById("department-form").onsubmit = () => {
   clearErrors();
 
+  // console.log("form submitted");
   let isValid = true;
   let dean = document.getElementById("Dean").value.trim();
   let pen = document.getElementById("Pen").value.trim();
@@ -35,6 +36,7 @@ document.getElementById("department-form").onsubmit = () => {
 document.getElementById("cancel-button").onclick = () => {
   clearErrors();
 
+  // console.log("cancel button clicked");
   document.getElementById("cancel-button").style.display = "none";
   document.getElementById("save-button").style.display = "none";
 
