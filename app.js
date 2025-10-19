@@ -26,7 +26,7 @@ app.get(['/', '/home.html'], (req, res) => {
 // --- 2. Route for the Math Department Page ---
 // Define a route that listens for the exact URL path the user is requesting.
 // Since the browser requests /Departments/Math.html, this is the route path.
-app.get('/Departments/Math.html', (req, res) => {
+app.get('/departments/math.html', (req, res) => {
     // Send the correct internal file path: views/departments/math.html
     res.sendFile(path.join(__dirname, 'views', 'departments', 'math.html'));
 });
@@ -35,5 +35,5 @@ app.get('/Departments/Math.html', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
     console.log(`Access Home Page at: http://localhost:${PORT}/ or http://localhost:${PORT}/home.html`);
-    console.log(`Access Math Page at: http://localhost:${PORT}/Departments/Math.html`);
+    console.log(`Access Math Page at: http://localhost:${PORT}/departments/math.html`);
 });
