@@ -134,20 +134,25 @@ button {
 }
 
 #cancel-button {
-  background-color: var(--secondary);
-  color: var(--primary);
-  border: 1px solid var(--primary);
+    background-color: var(--secondary);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    border: 2px solid transparent; 
+    
+    padding: 10px 15px;
+    
+    transition: all 0.2s ease-in-out;
 }
 
 #cancel-button:hover,
 #cancel-button:focus {
-    background-color: #e6e8eb;
+    box-shadow: 0 0 0 2px var(--primary); 
 
-    border: 2px solid var(--primary); 
+    background-color: #e6e8eb; 
     
-    padding: calc(var(10px 15px, 8px 16px) - 1px); 
-
-    transition: background-color 0.2s ease, border 0.2s ease;
+    border-color: var(--primary); 
+    
+    outline: none;
 }
 
 #cancel-button:focus {
