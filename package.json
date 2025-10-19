@@ -1,0 +1,24 @@
+{
+  "name": "loc-dashboard",
+  "version": "1.0.0",
+  "description": "LOC Project LAB GROUP",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akaiokaa/LOC-dashboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Akaiokaa/LOC-dashboard/issues"
+  },
+  "homepage": "https://github.com/Akaiokaa/LOC-dashboard#readme",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
