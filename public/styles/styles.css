@@ -52,9 +52,20 @@ nav ul li a {
 }
 
 /* right-column styling */
+#pencil{
+  margin-top: 0.8rem;
+  margin-right: 0.8rem;
+}
+.space-between{
+  display: flex;
+  justify-content: space-between;
+}
 main a {
   text-decoration: none;
   color: black;
+}
+main a:hover {
+  color: var(--primary);
 }
 .main-content {
   background-color: var(--secondary);
