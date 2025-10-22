@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url'; // NEW: Import utility for converting file 
 
 // UPDATED __dirname CALCULATION
 // This handles converting the 'file://' URL from import.meta.url into a proper
-// OS-specific path, resolving the 'C:\C:\' error on Windows.
+// OS-specific path,     resolving the 'C:\C:\' error on Windows.
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
