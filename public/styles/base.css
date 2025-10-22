@@ -1,0 +1,28 @@
+/* base.css is for editing the HTML elements without using classes */
+
+/* general */
+h1,
+body,
+ul,
+h2 {
+  list-style-type: none;
+  margin: 0px;
+}
+h1 {
+  padding: 1rem;
+}
+ul {
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+}
+ul li {
+  padding-left: 1rem;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+}

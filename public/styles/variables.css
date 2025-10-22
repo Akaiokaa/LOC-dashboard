@@ -1,0 +1,11 @@
+/* variables.css is for storing the primary and secondary variables */
+
+:root {
+  --primary: #004d80;
+  --secondary: #f4f6f8;
+}
+/* Apply fonts to all */
+* {
+  font-family: "Calibri", "Gill Sans", "Gill Sans MT", "Trebuchet MS",
+    sans-serif;
+}

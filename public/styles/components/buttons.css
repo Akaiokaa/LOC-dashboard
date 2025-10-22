@@ -1,0 +1,88 @@
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+#openNavBar {
+  margin: 1rem;
+  display: none;
+}
+
+#closeNavBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.5rem;
+}
+
+#save-button {
+  background-color: var(--primary);
+  color: var(--secondary);
+  padding: 11px 22px;
+}
+
+#cancel-button {
+  background-color: var(--secondary);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border: 2px solid transparent;
+
+  padding: 10px 15px;
+
+  transition: all 0.2s ease-in-out;
+}
+
+#cancel-button:hover,
+#cancel-button:focus,
+.back-button:hover,
+.back-button:focus {
+  box-shadow: 0 0 0 2px var(--primary);
+
+  background-color: #e6e8eb;
+
+  border-color: var(--primary);
+
+  outline: none;
+}
+
+#cancel-button:focus,
+.back-button:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.view-only[readonly] {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #555;
+  cursor: default;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border: 1px solid var(--primary);
+  background-color: var(--secondary);
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+
+  transition: all 0.2s ease-in-out;
+
+  box-sizing: border-box;
+}
+
+/* Icon Specific Styling */
+.back-button .back-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  stroke: var(--primary);
+  transition: stroke 0.2s ease-in-out;
+}

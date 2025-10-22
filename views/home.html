@@ -6,12 +6,14 @@
     <title>Loc Dashboard</title>
     <link rel="stylesheet" href="/styles/styles.css" />
     <link rel="icon" href="/images/GRC_logo.svg" />
+    <script src="js/index.js"></script>
   </head>
 
   <body>
     <!-- Side-bar Area, Left column -->
-    <aside class="left-column">
+    <aside class="left-column" id="left-column">
       <h1>Loc Dashboard</h1>
+      <button id="closeNavBar" onclick="navBar(false)">X</button>
       <nav>
         <ul>
           <li><a href="#">Divisions</a></li>
@@ -26,6 +28,7 @@
     <!-- Right column -->
     <div class="main-content">
       <header>
+        <button id="openNavBar" onclick="navBar(true)">☰</button>
         <h1>Welcome, user</h1>
       </header>
       <!-- Different Departments -->

@@ -1,0 +1,71 @@
+/* layout.css is the file for all the structural layout with the grid and two column layout. */
+
+/* two column layout */
+html,
+body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+/* left-column | side-bar styling */
+aside {
+  position: relative;
+  background-color: var(--primary);
+  width: 20%;
+  height: 100%;
+  color: white;
+}
+nav ul li a {
+  text-decoration: none;
+  color: white;
+}
+
+/* right-column styling */
+#pencil {
+  margin-top: 0.8rem;
+  margin-right: 0.8rem;
+}
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+main a {
+  text-decoration: none;
+  color: black;
+}
+main a:hover {
+  color: var(--primary);
+}
+.main-content {
+  background-color: var(--secondary);
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  flex: 1;
+}
+
+/* footer styling */
+footer {
+  color: white;
+  padding: 5px;
+  background-color: var(--primary);
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  aside {
+    position: relative;
+    background-color: var(--primary);
+    width: 50%;
+    height: 100%;
+    color: white;
+  }
+}
