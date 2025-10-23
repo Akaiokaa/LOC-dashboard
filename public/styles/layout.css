@@ -1,5 +1,7 @@
 /* layout.css is the file for all the structural layout with the grid and two column layout. */
-
+html{
+  background-color: var(--secondary);
+}
 /* two column layout */
 html,
 body {
