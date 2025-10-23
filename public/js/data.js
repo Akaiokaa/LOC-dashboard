@@ -6,7 +6,27 @@
 //           <option value="technology">Technology</option>
 //           <option value="health">Health Science</option>
 //           <option value="trades">Trades</option>
-
+let socialScienceDepartment ={
+  division: "social science",
+  dean: "social science",
+  pen: "social science",
+  locRep: "social science",
+  chair: "social science",
+}
+let scienceDepartment ={
+  division: "science",
+  dean: "science",
+  pen: "science",
+  locRep: "science",
+  chair: "science",
+}
+let englishDepartment ={
+  division: "english",
+  dean: "english",
+  pen: "english",
+  locRep: "english",
+  chair: "english",
+}
 let artDepartment = {
   division: "art",
   dean: "art",
@@ -35,10 +55,16 @@ const departmentMap = new Map([
   ["art", artDepartment],
   ["humanities", humanitiesDepartment],
   ["technology", technologyDepartment],
+  ["english", englishDepartment],
+  ["social", socialScienceDepartment],
+  ["science", scienceDepartment],
 ]);
 
 const optionMap = new Map([
   ["Fine Arts", "art"],
   ["Humanities", "humanities"],
   ["Technology", "technology"],
+  ["English","english"],
+  ["Social Science","social"],
+  ["Science","science"],
 ]);
