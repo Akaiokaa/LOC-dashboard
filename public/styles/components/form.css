@@ -39,3 +39,10 @@ legend {
   color: red;
   display: none;
 }
+
+#edit-Details{
+  color: white;
+  background-color: var(--primary);
+  display: none;
+}
+

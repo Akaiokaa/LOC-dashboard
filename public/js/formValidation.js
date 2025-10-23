@@ -33,9 +33,33 @@ document.getElementById("department-form").onsubmit = () => {
   return isValid;
 };
 
+//make buttons reappear
+document.getElementById("edit-Details").onclick = () => {
+  clearErrors();
+  document.getElementById("edit-Details").style.display = "none";
+  document.getElementById("cancel-button").style.display = "block";
+  document.getElementById("save-button").style.display = "block";
+
+  const deanInput = document.getElementById("Dean");
+  const penInput = document.getElementById("Pen");
+  const locRepInput = document.getElementById("LocRep");
+  const chairInput = document.getElementById("Chair");
+
+  const allInputs = [deanInput, penInput, locRepInput, chairInput];
+
+  allInputs.forEach(input => {
+      if (input) {
+          input.readOnly = false;
+
+      }
+  });
+  
+}
+
 document.getElementById("cancel-button").onclick = () => {
   clearErrors();
-
+  //Make button reappear
+  document.getElementById("edit-Details").style.display = "block";
   // console.log("cancel button clicked");
   document.getElementById("cancel-button").style.display = "none";
   document.getElementById("save-button").style.display = "none";

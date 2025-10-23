@@ -54,17 +54,17 @@ let technologyDepartment = {
 const departmentMap = new Map([
   ["art", artDepartment],
   ["humanities", humanitiesDepartment],
-  ["technology", technologyDepartment],
-  ["english", englishDepartment],
   ["social", socialScienceDepartment],
+  ["english", englishDepartment],
+  ["technology", technologyDepartment],
   ["science", scienceDepartment],
 ]);
 
 const optionMap = new Map([
   ["Fine Arts", "art"],
   ["Humanities", "humanities"],
-  ["Technology", "technology"],
-  ["English","english"],
   ["Social Science","social"],
+  ["English","english"],
+  ["Technology", "technology"],
   ["Science","science"],
 ]);
