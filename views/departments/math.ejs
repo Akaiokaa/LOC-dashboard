@@ -15,51 +15,89 @@
     <form id="department-form" action="submit_report" method="post">
       <fieldset>
         <legend>Division Management</legend>
+        <div class="grid-container">
+          <div class="grid-item1">
+            <label for="division">Division Name:</label>
+            <span class="error" id="err-division"
+              >Please input a Division Name!</span
+            >
+            <br />
+            <select name="division" id="division">
+              <option value="art">Fine Arts</option>
+              <option value="humanities">Humanities</option>
+              <option value="social">Social Science</option>
+              <option value="english">English</option>
+              <option value="science">Science</option>
+              <option value="technology">Technology</option>
+              <option value="health">Health Science</option>
+              <option value="trades">Trades</option>
+            </select>
+          </div>
 
-        <label for="division">Division Name:</label>
-        <span class="error" id="err-division"
-          >Please input a Division Name!</span
-        >
-        <br />
-        <select name="division" id="division">
-          <option value="art">Fine Arts</option>
-          <option value="humanities">Humanities</option>
-          <option value="social">Social Science</option>
-          <option value="english">English</option>
-          <option value="science">Science</option>
-          <option value="technology">Technology</option>
-          <!-- <option value="health">Health Science</option>
-          <option value="trades">Trades</option> -->
-        </select>
-        <br />
+          <div class="grid-item2">
+            <label for="program">Academic Program:</label>
+            <select name="program" id="program">
+              <option value="art">Fine Arts</option>
+              <option value="humanities">Humanities</option>
+              <option value="social">Social Science</option>
+              <option value="english">English</option>
+              <option value="science">Science</option>
+              <option value="technology">Technology</option>
+              <option value="health">Health Science</option>
+              <option value="trades">Trades</option>
+            </select>
+            <br />
+          </div>
 
-        <label for="program">Academic Program:</label>
-        <input type="text" name="program" id="program" />
-        <br />
-        <label for="chair">Divison Chair:</label>
-        <span class="error" id="err-chair">Please input a Chair!</span>
-        <input type="text" name="chair" id="chair" />
-        <label for="dean">Dean:</label>
-        <span class="error" id="err-dean">Please input a Dean!</span>
-        <input type="text" name="dean" id="dean" />
-        <br />
-        <label for="locRep">LOC Rep:</label>
-        <span class="error" id="err-locRep">Please input a LOC Rep!</span>
-        <input type="text" name="locRep" id="locRep" />
-        <br />
-        <label for="pen">PEN Contact:</label>
-        <span class="error" id="err-pen">Please input a PEN Contact!</span>
-        <input type="text" name="pen" id="pen" />
-        <br />
-        <label for="payee">Payee(s)</label>
-        <input type="text" name="payee" id="payee" />
-        <label for="paid">Has Been Paid</label>
-        <input type="checkbox" name="paid" id="paid" />
-        <label for="report">Report</label>
-        <input type="checkbox" name="report" id="report" />
-        <label for="notes">Notes</label>
-        <textarea name="notes" id="notes"></textarea>
-        <br />
+          <div class="grid-item3">
+            <label for="chair">Divison Chair:</label>
+            <span class="error" id="err-chair">Please input a Chair!</span>
+            <input type="text" name="chair" id="chair" />
+          </div>
+
+          <div class="grid-item4">
+            <label for="dean">Dean:</label>
+            <span class="error" id="err-dean">Please input a Dean!</span>
+            <input type="text" name="dean" id="dean" />
+            <br />
+          </div>
+
+          <div class="grid-item5">
+            <label for="locRep">LOC Rep:</label>
+            <span class="error" id="err-locRep">Please input a LOC Rep!</span>
+            <input type="text" name="locRep" id="locRep" />
+            <br />
+          </div>
+
+          <div class="grid-item6">
+            <label for="pen">PEN Contact:</label>
+            <span class="error" id="err-pen">Please input a PEN Contact!</span>
+            <input type="text" name="pen" id="pen" />
+            <br />
+          </div>
+
+          <div class="grid-item7">
+            <label for="payee">Payee(s)</label>
+            <input type="text" name="payee" id="payee" />
+          </div>
+          <div class="grid-item8">
+            <div>
+              <input type="checkbox" name="paid" id="paid" />
+              <label for="paid">Has Been Paid</label>
+            </div>
+            <div>
+              <input type="checkbox" name="report" id="report" />
+              <label for="report">Report</label>
+            </div>
+          </div>
+
+          <div class="notes">
+            <label for="notes">Notes</label>
+            <textarea name="notes" id="notes"></textarea>
+          </div>
+          <br />
+        </div>
+
         <div class="button-container">
           <div class="main-buttons">
             <button type="button" id="edit-Details">Edit Details</button>

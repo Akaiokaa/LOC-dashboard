@@ -42,8 +42,8 @@ app.post("/departments/submit_report", (req, res) => {
   }
 
   reports.push(report);
-  // res.render("confirm", { report });
-  res.json(report);
+  res.render("confirm", { report });
+  // res.json(report);
 });
 
 app.listen(PORT, () => {
