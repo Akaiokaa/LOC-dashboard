@@ -16,12 +16,12 @@
       <fieldset>
         <legend>Division Management</legend>
 
-        <label for="Division">Division Name:</label>
+        <label for="division">Division Name:</label>
         <span class="error" id="err-division"
           >Please input a Division Name!</span
         >
         <br />
-        <select name="Division" id="Division">
+        <select name="division" id="division">
           <option value="art">Fine Arts</option>
           <option value="humanities">Humanities</option>
           <option value="social">Social Science</option>
@@ -33,25 +33,32 @@
         </select>
         <br />
 
-        <label for="Dean">Dean:</label>
-        <span class="error" id="err-dean">Please input a Dean!</span>
-        <input type="text" name="Dean" id="Dean" />
+        <label for="program">Academic Program:</label>
+        <input type="text" name="program" id="program" />
         <br />
-
-        <label for="Pen">PEN Contact:</label>
-        <span class="error" id="err-pen">Please input a PEN Contact!</span>
-        <input type="text" name="Pen" id="Pen" />
-        <br />
-
-        <label for="LocRep">LOC Rep:</label>
-        <span class="error" id="err-locRep">Please input a LOC Rep!</span>
-        <input type="text" name="LocRep" id="LocRep" />
-        <br />
-
-        <label for="Chair">Chair:</label>
+        <label for="chair">Divison Chair:</label>
         <span class="error" id="err-chair">Please input a Chair!</span>
-        <input type="text" name="Chair" id="Chair" />
-
+        <input type="text" name="chair" id="chair" />
+        <label for="dean">Dean:</label>
+        <span class="error" id="err-dean">Please input a Dean!</span>
+        <input type="text" name="dean" id="dean" />
+        <br />
+        <label for="locRep">LOC Rep:</label>
+        <span class="error" id="err-locRep">Please input a LOC Rep!</span>
+        <input type="text" name="locRep" id="locRep" />
+        <br />
+        <label for="pen">PEN Contact:</label>
+        <span class="error" id="err-pen">Please input a PEN Contact!</span>
+        <input type="text" name="pen" id="pen" />
+        <br />
+        <label for="payee">Payee(s)</label>
+        <input type="text" name="payee" id="payee" />
+        <label for="paid">Has Been Paid</label>
+        <input type="checkbox" name="paid" id="paid" />
+        <label for="report">Report</label>
+        <input type="checkbox" name="report" id="report" />
+        <label for="notes">Notes</label>
+        <textarea name="notes" id="notes"></textarea>
         <br />
         <div class="button-container">
           <div class="main-buttons">

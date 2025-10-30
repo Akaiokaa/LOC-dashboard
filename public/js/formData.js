@@ -1,5 +1,5 @@
 // Grab the dropdown
-const selectedDivision = document.getElementById("Division");
+const selectedDivision = document.getElementById("division");
 
 setFormFields();
 
@@ -22,14 +22,14 @@ function setFormFields() {
 
   // Populate input fields
   if (myObject) {
-    document.getElementById("Dean").value = myObject.dean;
-    document.getElementById("Pen").value = myObject.pen;
-    document.getElementById("LocRep").value = myObject.locRep;
-    document.getElementById("Chair").value = myObject.chair;
+    document.getElementById("dean").value = myObject.dean;
+    document.getElementById("pen").value = myObject.pen;
+    document.getElementById("locRep").value = myObject.locRep;
+    document.getElementById("chair").value = myObject.chair;
   } else {
-    document.getElementById("Dean").value = "";
-    document.getElementById("Pen").value = "";
-    document.getElementById("LocRep").value = "";
-    document.getElementById("Chair").value = "";
+    document.getElementById("dean").value = "";
+    document.getElementById("pen").value = "";
+    document.getElementById("locRep").value = "";
+    document.getElementById("chair").value = "";
   }
 }
