@@ -32,9 +32,6 @@
 
   transition: all 0.2s ease-in-out;
 }
-#cancel-button{
-  border: 1px solid var(--primary);
-}
 
 #cancel-button:hover,
 #cancel-button:focus,
@@ -90,9 +87,9 @@
   transition: stroke 0.2s ease-in-out;
 }
 
-.main-buttons{
+.main-buttons {
   display: flex;
 }
-.main-buttons #save-button{
+.main-buttons #save-button {
   margin-left: 0.5rem;
 }

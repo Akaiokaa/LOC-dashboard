@@ -40,9 +40,8 @@ legend {
   display: none;
 }
 
-#edit-Details{
+#edit-Details {
   color: white;
   background-color: var(--primary);
   display: none;
 }
-

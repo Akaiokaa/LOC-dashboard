@@ -4,18 +4,24 @@ const app = express();
 
 app.use(express.static("public"));
 
+app.set("view engine", "ejs");
+
 const PORT = 3007;
 
 // define a default "route" ('/')
 // req: contains information about the incoming request
 // res: allows us to send back a response to the client
 app.get("/", (req, res) => {
-  res.sendFile(`${import.meta.dirname}/views/home.html`);
+  res.render("home");
+});
+
+app.get("/summary", (req, res) => {
+  res.render("summary");
 });
 
 // --- 2. Route for the Math Department Page ---
-app.get("/departments/math.html", (req, res) => {
-  res.sendFile(`${import.meta.dirname}/views/departments/math.html`);
+app.get("/departments/math", (req, res) => {
+  res.render("departments/math");
 });
 
 app.listen(PORT, () => {
