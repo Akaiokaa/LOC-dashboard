@@ -9,7 +9,6 @@ document.getElementById("department-form").onsubmit = () => {
   let locRep = document.getElementById("LocRep").value.trim();
   let chair = document.getElementById("Chair").value.trim();
 
-
   //   this checks to see if any inputs are missing
   if (!dean) {
     isValid = false;
@@ -47,14 +46,12 @@ document.getElementById("edit-Details").onclick = () => {
 
   const allInputs = [deanInput, penInput, locRepInput, chairInput];
 
-  allInputs.forEach(input => {
-      if (input) {
-          input.readOnly = false;
-
-      }
+  allInputs.forEach((input) => {
+    if (input) {
+      input.readOnly = false;
+    }
   });
-  
-}
+};
 
 document.getElementById("cancel-button").onclick = () => {
   clearErrors();
@@ -71,17 +68,17 @@ document.getElementById("cancel-button").onclick = () => {
 
   const allInputs = [deanInput, penInput, locRepInput, chairInput];
 
-  allInputs.forEach(input => {
-      // ensure the element was found before trying to modify it
-      if (input) {
-          // set the input field to non-editable
-          input.readOnly = true;
+  allInputs.forEach((input) => {
+    // ensure the element was found before trying to modify it
+    if (input) {
+      // set the input field to non-editable
+      input.readOnly = true;
 
-          // add the class for greyed-out appearance
-          input.classList.add('view-only');
-      }
+      // add the class for greyed-out appearance
+      input.classList.add("view-only");
+    }
   });
-}
+};
 
 // function that clears all errors initially
 function clearErrors() {

@@ -6,7 +6,11 @@ app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 
+app.use(express.urlencoded({ extended: true }));
+
 const PORT = 3007;
+
+const reports = [];
 
 // define a default "route" ('/')
 // req: contains information about the incoming request
@@ -22,6 +26,12 @@ app.get("/summary", (req, res) => {
 // --- 2. Route for the Math Department Page ---
 app.get("/departments/math", (req, res) => {
   res.render("departments/math");
+});
+
+app.post("/departments/submit_report", (req, res) => {
+  const report = req.body;
+  reports.push(report);
+  res.render("confirm", { report });
 });
 
 app.listen(PORT, () => {
