@@ -32,4 +32,6 @@ function setFormFields() {
     document.getElementById("locRep").value = "";
     document.getElementById("chair").value = "";
   }
+
+  
 }
