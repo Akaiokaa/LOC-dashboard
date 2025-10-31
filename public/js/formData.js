@@ -33,5 +33,21 @@ function setFormFields() {
     document.getElementById("chair").value = "";
   }
 
+  const programDropdown = document.getElementById('program');
   
+  // clear existing options
+  programDropdown.innerHTML = '<option value="">-- Select Program --</option>';
+
+  // get the list of programs for the selected division
+  const programs = divisionToProgramsMap[selectedText];
+
+  // populate the dropdown if programs exist
+  if (programs) {
+    programs.forEach(program => {
+      const option = document.createElement('option');
+      option.value = program.toLowerCase().replace(/[^a-z0-9]/g, ''); // cleans up values
+      option.textContent = program;
+      programDropdown.appendChild(option);
+    });
+  }
 }
