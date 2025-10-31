@@ -23,9 +23,8 @@ app.get("/summary", (req, res) => {
   res.render("summary", { reports });
 });
 
-// --- 2. Route for the Math Department Page ---
-app.get("/departments/math", (req, res) => {
-  res.render("departments/math");
+app.get("/departments/form", (req, res) => {
+  res.render("departments/form");
 });
 
 app.post("/departments/submit_report", (req, res) => {
@@ -35,20 +34,18 @@ app.post("/departments/submit_report", (req, res) => {
   } else {
     report.paid = "Yes";
   }
-  if (!report.report) {
-    report.report = "No";
-  } else {
-    report.report = "Yes";
-  }
+  // add time stamp of submission
+  report.timestamp = new Date().toISOString();
 
   reports.push(report);
-  res.render("confirm", { report });
+  console.log(reports);
+  res.render("confirm");
   // res.json(report);
 });
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
   console.log(
-    `Access Math Page at: http://localhost:${PORT}/departments/math.html`
+    `Access Form Page at: http://localhost:${PORT}/departments/edit_form.html`
   );
 });

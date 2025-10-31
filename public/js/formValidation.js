@@ -8,27 +8,34 @@ document.getElementById("department-form").onsubmit = () => {
   let pen = document.getElementById("pen").value.trim();
   let locRep = document.getElementById("locRep").value.trim();
   let chair = document.getElementById("chair").value.trim();
+  let program = document.getElementById("program").value;
 
   //   this checks to see if any inputs are missing
   if (!dean) {
     isValid = false;
-    document.getElementById("err-dean").style.display = "block";
+    document.getElementById("err-dean").style.display = "inline-block";
   }
 
   if (!pen) {
     isValid = false;
-    document.getElementById("err-pen").style.display = "block";
+    document.getElementById("err-pen").style.display = "inline-block";
   }
 
   if (!locRep) {
     isValid = false;
-    document.getElementById("err-locRep").style.display = "block";
+    document.getElementById("err-locRep").style.display = "inline-block";
   }
 
   if (!chair) {
     isValid = false;
-    document.getElementById("err-chair").style.display = "block";
+    document.getElementById("err-chair").style.display = "inline-block";
   }
+
+  if(program == "none") {
+    isValid = false;
+    document.getElementById("err-program").style.display = "inline-block";
+  }
+
   return isValid;
 };
 
@@ -43,18 +50,26 @@ document.getElementById("edit-Details").onclick = () => {
   const penInput = document.getElementById("pen");
   const locRepInput = document.getElementById("locRep");
   const chairInput = document.getElementById("chair");
+  const paidInput = document.getElementById("paid");
+  const payeeInput = document.getElementById("payee");
+  const reportInput = document.getElementById("report");
+  const notesInput = document.getElementById("notes");
 
-  const allInputs = [deanInput, penInput, locRepInput, chairInput];
+  const allInputs = [deanInput, penInput, locRepInput, chairInput, payeeInput, reportInput, notesInput];
 
   allInputs.forEach((input) => {
     if (input) {
       input.readOnly = false;
     }
   });
+
+  paidInput.disabled = false;
 };
 
 document.getElementById("cancel-button").onclick = () => {
-  clearErrors();
+  setFormFields();
+
+
   //Make button reappear
   document.getElementById("edit-Details").style.display = "block";
   // console.log("cancel button clicked");
@@ -65,8 +80,13 @@ document.getElementById("cancel-button").onclick = () => {
   const penInput = document.getElementById("pen");
   const locRepInput = document.getElementById("locRep");
   const chairInput = document.getElementById("chair");
+  const paidInput = document.getElementById("paid");
+  const payeeInput = document.getElementById("payee");
+  const reportInput = document.getElementById("report");
+  const notesInput = document.getElementById("notes");
 
-  const allInputs = [deanInput, penInput, locRepInput, chairInput];
+  const allInputs = [deanInput, penInput, locRepInput, chairInput, payeeInput, reportInput, notesInput];
+
 
   allInputs.forEach((input) => {
     // ensure the element was found before trying to modify it
@@ -78,6 +98,8 @@ document.getElementById("cancel-button").onclick = () => {
       input.classList.add("view-only");
     }
   });
+
+  paidInput.disabled = true;
 };
 
 // function that clears all errors initially

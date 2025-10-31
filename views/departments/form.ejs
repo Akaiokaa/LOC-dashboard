@@ -36,6 +36,7 @@
 
           <div class="grid-item2">
             <label for="program">Academic Program:</label>
+            <span class="error" id="err-program">Please select a program!</span>
             <select name="program" id="program">
               <option value="art">Fine Arts</option>
               <option value="humanities">Humanities</option>
@@ -80,14 +81,14 @@
             <label for="payee">Payee(s)</label>
             <input type="text" name="payee" id="payee" />
           </div>
+          <div class="grid-item7">
+            <label for="report">Report Submitted</label>
+            <input type="text" name="report" id="report" />
+          </div>
           <div class="grid-item8">
             <div>
               <input type="checkbox" name="paid" id="paid" />
               <label for="paid">Has Been Paid</label>
-            </div>
-            <div>
-              <input type="checkbox" name="report" id="report" />
-              <label for="report">Report</label>
             </div>
           </div>
 
