@@ -1,35 +1,99 @@
-// Grab the dropdown
-const selectedDivision = document.getElementById("Division");
+// helper function to handle arrays, nulls, and undefined values cleanly
+function formatValue(value) {
+    if (Array.isArray(value)) {
+        return value.join('; ') || 'N/A';
+    }
+    return value === null || value === undefined ? 'N/A' : value;
+}
 
-setFormFields();
+// Grab the dropdown
+const divisionDropdown = document.getElementById("division");
+const programDropdown = document.getElementById('program');
 
 // Update fields whenever dropdown changes
-selectedDivision.addEventListener("change", () => {
-  setFormFields();
-});
+divisionDropdown.addEventListener("change", setFormFields);
+programDropdown.addEventListener("change", updateProgramDetails);
 
+// initialize form fields on load
+setFormFields();
+
+// updates fields and populates program dropdown on Division change
 function setFormFields() {
-  clearErrors();
-  // Get the selected option text
-  const selectedText =
-    selectedDivision.options[selectedDivision.selectedIndex].text;
+    clearErrors();
+    
+    // Get the selected option text
+    const selectedText = divisionDropdown.options[divisionDropdown.selectedIndex].text;
+    
+    // Gets the id of the option
+    const deptKey = optionMap.get(selectedText);
 
-  // Gets the id of the option
-  const deptKey = optionMap.get(selectedText);
+    // assign new object to the object in the map
+    const myObject = departmentMap.get(deptKey);
+    
+    // reset Program Dropdown and clear fields if "Select Division" is chosen
+    programDropdown.innerHTML = '<option value="none">-- Select Program --</option>';
+    if (!myObject) {
+        clearDetailFields();
+        return;
+    }
+    
+    document.getElementById("dean").value = formatValue(myObject.dean);
+    document.getElementById("pen").value = formatValue(myObject.pen);
+    document.getElementById("locRep").value = formatValue(myObject.locRep);
+    document.getElementById("chair").value = formatValue(myObject.chair);
+    document.getElementById("payee").value = formatValue(myObject.payees);
+    if(document.getElementById("paid").value != null) {
+      document.getElementById("paid").checked = true;
+    }
+    document.getElementById("report").value = formatValue(myObject.reportSubmitted);
+    document.getElementById("notes").value = formatValue(myObject.notes);
 
-  // assign new object to the object in the map
-  const myObject = departmentMap.get(deptKey);
+    // populate the Program dropdown
+    const programs = divisionToProgramsMap[selectedText];
+    if (programs) {
+        programs.forEach(program => {
+            const option = document.createElement('option');
+            option.value = program;
+            option.textContent = program;
+            programDropdown.appendChild(option);
+        });
+    }
+}
 
-  // Populate input fields
-  if (myObject) {
-    document.getElementById("Dean").value = myObject.dean;
-    document.getElementById("Pen").value = myObject.pen;
-    document.getElementById("LocRep").value = myObject.locRep;
-    document.getElementById("Chair").value = myObject.chair;
-  } else {
-    document.getElementById("Dean").value = "";
-    document.getElementById("Pen").value = "";
-    document.getElementById("LocRep").value = "";
-    document.getElementById("Chair").value = "";
-  }
+
+// updates fields with program-specific data on program change
+function updateProgramDetails() {
+    const selectedProgramName = programDropdown.value;
+
+    if (selectedProgramName) {
+        // lookup the program-specific data
+        const progObject = programDetailsMap[selectedProgramName];
+        
+        document.getElementById("dean").value = formatValue(progObject.dean);
+        document.getElementById("locRep").value = formatValue(progObject.locRep);
+        document.getElementById("pen").value = formatValue(progObject.pen);
+        document.getElementById("chair").value = formatValue(progObject.chair);
+
+        document.getElementById("payee").value = formatValue(progObject.payees);
+        if(progObject.hasBeenPaid != null) {
+          document.getElementById("paid").checked = true;
+        }
+        document.getElementById("report").value = formatValue(progObject.reportSubmitted);
+        document.getElementById("notes").value = formatValue(progObject.notes);
+    } else {
+        setFormFields(); 
+    }
+}
+
+// helper function to clear all detail fields to "N/A"
+function clearDetailFields() {
+    const NA = 'N/A';
+    document.getElementById("dean").value = NA;
+    document.getElementById("locRep").value = NA;
+    document.getElementById("pen").value = NA;
+    document.getElementById("chair").value = NA;
+    document.getElementById("payee").value = NA;
+    document.getElementById("paid").checked = false;
+    document.getElementById("report").value = NA;
+    document.getElementById("notes").value = NA;
 }

@@ -6,7 +6,11 @@ app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 
+app.use(express.urlencoded({ extended: true }));
+
 const PORT = 3007;
+
+const reports = [];
 
 // define a default "route" ('/')
 // req: contains information about the incoming request
@@ -16,17 +20,32 @@ app.get("/", (req, res) => {
 });
 
 app.get("/summary", (req, res) => {
-  res.render("summary");
+  res.render("summary", { reports });
 });
 
-// --- 2. Route for the Math Department Page ---
-app.get("/departments/math", (req, res) => {
-  res.render("departments/math");
+app.get("/departments/form", (req, res) => {
+  res.render("departments/form");
+});
+
+app.post("/departments/submit_report", (req, res) => {
+  const report = req.body;
+  if (!report.paid) {
+    report.paid = "No";
+  } else {
+    report.paid = "Yes";
+  }
+  // add time stamp of submission
+  report.timestamp = new Date().toISOString();
+
+  reports.push(report);
+  console.log(reports);
+  res.render("confirm");
+  // res.json(report);
 });
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
   console.log(
-    `Access Math Page at: http://localhost:${PORT}/departments/math.html`
+    `Access Form Page at: http://localhost:${PORT}/departments/edit_form.html`
   );
 });

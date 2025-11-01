@@ -3,19 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="icon" href="/images/GRC_logo.svg" />
+    <script src="/js/data.js" defer></script>
+    <script src="/js/formValidation.js" defer></script>
+    <script src="/js/formData.js" defer></script>
+    <title>Divisions Management</title>
   </head>
+
   <body>
-    <h1>Your order has successfully been submitted!</h1>
-    <p>Division: <%= report.division %></p>
-    <p>Academic Program <%= report.program %></p>
-    <p>Division Chair <%= report.chair %></p>
-    <p>Dean <%= report.dean %></p>
-    <p>LOC Rep <%= report.locRep %></p>
-    <p>PEN Contact <%= report.pen %></p>
-    <p>Payee(s) <%= report.payee %></p>
-    <p>Has Been Paid <%= report.paid %></p>
-    <p>Report Submitted <%= report.report %></p>
-    <p>Notes <%= report.notes %></p>
+    <form id="department-form" action="submit_report" method="post">
+      <fieldset>
+        <legend>Division Management</legend>
+        <h3>Changes saved!</h3>
+        <div class="grid-container">
+          <div class="grid-item1">
+
+        <div class="button-container">
+          <a href="/" id="backButton" class="back-button">
+            <svg
+              class="back-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Back to home page
+          </a>
+          <a href="/summary" class="back-button">
+              <svg
+                class="back-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+              View Summary</a>
+        </div>
+      </fieldset>
+    </form>
   </body>
 </html>

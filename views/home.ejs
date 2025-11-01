@@ -15,9 +15,8 @@
       <button id="closeNavBar" onclick="navBar(false)">X</button>
       <nav>
         <ul>
-          <li><a href="#">Divisions</a></li>
-          <li><a href="#">Programs</a></li>
-          <li><a href="#">Personnel</a></li>
+          <li><a href="/departments/form">Edit Divisons</a></li>
+          <li><a href="/summary">Summary</a></li>
           <li><a href="#">Version History</a></li>
           <li><a href="#">Settings</a></li>
         </ul>
@@ -28,8 +27,8 @@
     <div class="main-content">
       <header>
         <button id="openNavBar" onclick="navBar(true)">☰</button>
-        <h1>Welcome, user</h1>
-        <div>
+        <div class="welcomeSearchBar">
+          <h1>Welcome, user</h1>
           <input
             type="text"
             name="search"
@@ -40,7 +39,7 @@
       </header>
       <!-- Different Departments -->
       <main>
-        <a href="/departments/math" class="card">
+        <a href="/departments/form" class="card">
           <div class="space-between">
             <h2>Edit Divisions</h2>
             <div id="pencil">✏️</div>

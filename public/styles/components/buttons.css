@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   gap: 5px;
+  height: 40px;
 }
 
 #openNavBar {
@@ -25,12 +26,14 @@
 #cancel-button {
   background-color: var(--secondary);
   color: var(--primary);
-  border: 1px solid var(--primary);
   border: 2px solid transparent;
 
   padding: 10px 15px;
 
   transition: all 0.2s ease-in-out;
+}
+#cancel-button {
+  border: 1px solid var(--primary);
 }
 
 #cancel-button:hover,
@@ -44,6 +47,10 @@
   border-color: var(--primary);
 
   outline: none;
+}
+
+.back-button:nth-of-type(2){
+  width: 182px;
 }
 
 #cancel-button:focus,
@@ -92,4 +99,10 @@
 }
 .main-buttons #save-button {
   margin-left: 0.5rem;
+}
+.main-buttons-right{
+  display: flex;
+}
+.main-buttons-right a:first-of-type{
+  margin-right: 7px;
 }
