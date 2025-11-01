@@ -49,8 +49,8 @@ main a:hover {
 
 main {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 30%);
+  grid-template-rows: repeat(3, 30%);
   overflow-y: auto;
   flex: 1;
 }
