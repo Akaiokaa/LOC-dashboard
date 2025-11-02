@@ -1,5 +1,5 @@
 import express from "express";
-
+import { academicDivisions } from "./public/js/divisionsData.js";
 const app = express();
 
 app.use(express.static("public"));
@@ -16,7 +16,7 @@ const reports = [];
 // req: contains information about the incoming request
 // res: allows us to send back a response to the client
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("home", { academicDivisions });
 });
 
 app.get("/summary", (req, res) => {
