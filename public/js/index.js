@@ -6,39 +6,41 @@ function navBar(showNavBar) {
   } else {
     document.getElementById("left-column").style.display = "none";
     document.getElementById("openNavBar").style.display = "block";
+    document.getElementById("main-content").style.width = "100%";
   }
 }
 
-
 //get the search and department cards
-const search = document.querySelector('.search');
-const departments = document.querySelectorAll('.card')
+const search = document.querySelector(".search");
+const departments = document.querySelectorAll(".card");
 
 //when the user interacts with the search bar
-search.addEventListener("input", () =>{
+search.addEventListener("input", () => {
   //console.log("banished")
   //store the text from the user in a variable, lowercase for even comparison later.
-  const inputText = (search.value).toLowerCase()
+  const inputText = search.value.toLowerCase();
 
   //While it is not empty run this
-  if(search.value !== ""){
+  if (search.value !== "") {
     //loop though the department in our case its the cards I set
-    departments.forEach(department => {
+    departments.forEach((department) => {
       //store the inner text from the department to compare it with the users text
-      const departmentValues = department.querySelector('h2').innerText.toLowerCase();
+      const departmentValues = department
+        .querySelector("h2")
+        .innerText.toLowerCase();
 
       //if it does include the users text show the relevant card if not hide it
-      if(departmentValues.includes(inputText)){
-        department.style.display = 'block';
-      }else {
-        department.style.display = 'none';
+      if (departmentValues.includes(inputText)) {
+        department.style.display = "block";
+      } else {
+        department.style.display = "none";
       }
-    })
+    });
     //catch after to return to original state.
-  } else{
-    departments.forEach(department =>{
-      department.style.display = 'block'
-    })
+  } else {
+    departments.forEach((department) => {
+      department.style.display = "block";
+    });
   }
 });
 // Seach Bar filtering

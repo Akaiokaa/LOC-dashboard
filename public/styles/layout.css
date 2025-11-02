@@ -39,7 +39,7 @@ main a {
 main a:hover {
   color: var(--primary);
 }
-.main-content {
+#main-content {
   background-color: var(--secondary);
   width: 80%;
   height: 100%;
@@ -84,8 +84,13 @@ footer {
   aside {
     position: relative;
     background-color: var(--primary);
-    width: 50%;
+    width: 70%;
     height: 100%;
     color: white;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 }
