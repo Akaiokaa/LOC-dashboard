@@ -80,6 +80,13 @@ footer {
   flex-direction: column;
 }
 
+@media (max-width: 900px) {
+  main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (max-width: 700px) {
   aside {
     position: relative;
@@ -87,6 +94,11 @@ footer {
     width: 70%;
     height: 100%;
     color: white;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 
   .grid-container {

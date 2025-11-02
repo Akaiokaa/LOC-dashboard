@@ -1,5 +1,5 @@
 import express from "express";
-import { academicDivisions } from "./public/js/divisionsData.js";
+import { academicDivisions } from "./public/data/divisionsData.js";
 const app = express();
 
 app.use(express.static("public"));
