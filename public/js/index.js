@@ -1,12 +1,26 @@
 function navBar(showNavBar) {
-  console.log("Button pressed");
-  if (showNavBar) {
-    document.getElementById("left-column").style.display = "block";
-    document.getElementById("openNavBar").style.display = "none";
+  const body = document.body;
+  
+  if (window.innerWidth <= 700) {
+      // Small Screen Logic
+      if (showNavBar) {
+          body.classList.add("nav-open-mobile");
+      } else {
+          body.classList.remove("nav-open-mobile");
+      }
+      
+      // toggle the open button visibility based on the state
+      document.getElementById("openNavBar").style.display = showNavBar ? "none" : "block";
+      
   } else {
-    document.getElementById("left-column").style.display = "none";
-    document.getElementById("openNavBar").style.display = "block";
-    document.getElementById("main-content").style.width = "100%";
+      // Desktop Logic
+      if (showNavBar) {
+          // open: remove the closing class
+          body.classList.remove("nav-closed");
+      } else {
+          // close: add the closing class
+          body.classList.add("nav-closed");
+      }
   }
 }
 
