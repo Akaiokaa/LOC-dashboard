@@ -22,7 +22,9 @@
 .card-foot {
   display: flex;
   justify-content: space-between;
+  flex-shrink: 0;
   margin-bottom: 0;
+  margin-top: auto;
 }
 
 .card-head img {
