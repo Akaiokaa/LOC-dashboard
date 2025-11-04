@@ -3,6 +3,10 @@
   justify-content: space-between;
   gap: 5px;
 }
+.button-container-confirm {
+  display: flex;
+  gap: 5px;
+}
 
 #openNavBar {
   margin: 1rem;

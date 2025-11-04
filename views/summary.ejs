@@ -38,7 +38,7 @@
       <tbody>
         <% reports.forEach(report => { %>
         <tr>
-          <td><%= report.division%></td>
+          <td><%= report.division.toUpperCase()%></td>
           <td>
             <a href="/departments/form"><%= report.division.toUpperCase()%></a
             >✏️
