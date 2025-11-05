@@ -14,6 +14,31 @@ const programDropdown = document.getElementById('program');
 divisionDropdown.addEventListener("change", setFormFields);
 programDropdown.addEventListener("change", updateProgramDetails);
 
+
+//Returns the value using URLSearchParams
+function getDivisionFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('division'); // would return Humanites etc.
+}
+
+const urlDivision = getDivisionFromUrl(); // Humanites would be stored here.
+
+//If the division exists, then.
+if(urlDivision){
+    //Loop through the divisions dropdown until you find the matching one.
+    for(let i = 0; i < divisionDropdown.options.length; i++){
+        if(divisionDropdown.options[i].text === urlDivision){
+            //Set the drop down to this option.
+            divisionDropdown.selectedIndex = i;
+            break;
+        }
+    }   
+    setFormFields(); 
+} else {
+    setFormFields();
+}
+
+
 // initialize form fields on load
 setFormFields();
 
