@@ -1,43 +1,43 @@
 // runs when department-form is submitted
-document.getElementById("department-form").onsubmit = () => {
-  clearErrors();
+// document.getElementById("department-form").onsubmit = () => {
+//   clearErrors();
 
-  // console.log("form submitted");
-  let isValid = true;
-  let dean = document.getElementById("dean").value.trim();
-  let pen = document.getElementById("pen").value.trim();
-  let locRep = document.getElementById("locRep").value.trim();
-  let chair = document.getElementById("chair").value.trim();
-  let program = document.getElementById("program").value;
+//   // console.log("form submitted");
+//   let isValid = true;
+//   let dean = document.getElementById("dean").value.trim();
+//   let pen = document.getElementById("pen").value.trim();
+//   let locRep = document.getElementById("locRep").value.trim();
+//   let chair = document.getElementById("chair").value.trim();
+//   let program = document.getElementById("program").value;
 
-  //   this checks to see if any inputs are missing
-  if (!dean) {
-    isValid = false;
-    document.getElementById("err-dean").style.display = "inline-block";
-  }
+//   //   this checks to see if any inputs are missing
+//   if (!dean) {
+//     isValid = false;
+//     document.getElementById("err-dean").style.display = "inline-block";
+//   }
 
-  if (!pen) {
-    isValid = false;
-    document.getElementById("err-pen").style.display = "inline-block";
-  }
+//   if (!pen) {
+//     isValid = false;
+//     document.getElementById("err-pen").style.display = "inline-block";
+//   }
 
-  if (!locRep) {
-    isValid = false;
-    document.getElementById("err-locRep").style.display = "inline-block";
-  }
+//   if (!locRep) {
+//     isValid = false;
+//     document.getElementById("err-locRep").style.display = "inline-block";
+//   }
 
-  if (!chair) {
-    isValid = false;
-    document.getElementById("err-chair").style.display = "inline-block";
-  }
+//   if (!chair) {
+//     isValid = false;
+//     document.getElementById("err-chair").style.display = "inline-block";
+//   }
 
-  if(program == "none") {
-    isValid = false;
-    document.getElementById("err-program").style.display = "inline-block";
-  }
+//   if (program == "none") {
+//     isValid = false;
+//     document.getElementById("err-program").style.display = "inline-block";
+//   }
 
-  return isValid;
-};
+//   return isValid;
+// };
 
 //make buttons reappear
 document.getElementById("edit-Details").onclick = () => {
@@ -55,7 +55,15 @@ document.getElementById("edit-Details").onclick = () => {
   const reportInput = document.getElementById("report");
   const notesInput = document.getElementById("notes");
 
-  const allInputs = [deanInput, penInput, locRepInput, chairInput, payeeInput, reportInput, notesInput];
+  const allInputs = [
+    deanInput,
+    penInput,
+    locRepInput,
+    chairInput,
+    payeeInput,
+    reportInput,
+    notesInput,
+  ];
 
   allInputs.forEach((input) => {
     if (input) {
@@ -69,7 +77,6 @@ document.getElementById("edit-Details").onclick = () => {
 document.getElementById("cancel-button").onclick = () => {
   setFormFields();
 
-
   //Make button reappear
   document.getElementById("edit-Details").style.display = "block";
   // console.log("cancel button clicked");
@@ -80,17 +87,15 @@ document.getElementById("cancel-button").onclick = () => {
   const penInput = document.getElementById("pen");
   const locRepInput = document.getElementById("locRep");
   const chairInput = document.getElementById("chair");
-  const paidInput = document.getElementById("paid");
-  const payeeInput = document.getElementById("payee");
-  const reportInput = document.getElementById("report");
-  const notesInput = document.getElementById("notes");
 
-  const allInputs = [deanInput, penInput, locRepInput, chairInput, payeeInput, reportInput, notesInput];
+  const allInputs = [deanInput, penInput, locRepInput, chairInput];
 
-
+  
   allInputs.forEach((input) => {
     // ensure the element was found before trying to modify it
     if (input) {
+
+
       // set the input field to non-editable
       input.readOnly = true;
 

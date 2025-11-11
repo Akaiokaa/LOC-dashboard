@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="styles/nav.css" />
+<header>
+  <nav class="topNavBar">
+    <div class="navItem1">
+      <button id="hamburger-button" onclick="toggleNavBar()">☰</button>
+      <a href="/"
+        ><img src="/images/GRC_logowhite.svg" alt="home" width="100"
+      /></a>
+    </div>
+    <div class="navItem2">
+      <label for="year">Academic Year</label>
+      <select name="year" id="year">
+        <option value="25-26">2025-26</option>
+        <option value="26-27">2026-27</option>
+        <option value="27-28">2027-28</option>
+        <option value="28-29">2028-29</option>
+      </select>
+      <a href="/login" id="login-button">
+        <% if(username){ %> <%= username %> <% } else{%> Login <% } %>
+      </a>
+    </div>
+  </nav>
+</header>

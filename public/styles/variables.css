@@ -1,11 +1,18 @@
 /* variables.css is for storing the primary and secondary variables */
-
 :root {
   --primary: #2f8942;
   --secondary: #f4f6f8;
+  --tertiary: #61c277;
+  --primary-color: #f4f6f8;
 }
 /* Apply fonts to all */
 * {
   font-family: "Calibri", "Gill Sans", "Gill Sans MT", "Trebuchet MS",
     sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--secondary);
 }

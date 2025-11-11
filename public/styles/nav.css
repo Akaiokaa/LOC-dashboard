@@ -1,0 +1,96 @@
+@import url("variables.css");
+
+/* HEADER */
+.topNavBar {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--primary);
+  border-bottom: 1px solid var(--secondary);
+}
+
+.navItem1 {
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+#hamburger-button {
+  background-color: var(--primary);
+  color: var(--primary-color);
+  border: none;
+  font-size: x-large;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+#hamburger-button:hover {
+  background-color: var(--tertiary);
+}
+
+.navItem2 label {
+  color: var(--primary-color);
+  font-size: larger;
+}
+
+.navItem2 select {
+  padding: 0.5rem;
+  font-weight: 600;
+  color: var(--primary);
+  font-size: larger;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.navItem2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 1rem;
+}
+
+#login-button {
+  background-color: var(--primary-color);
+  color: var(--primary);
+  padding: 0.6rem 1.1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: larger;
+}
+
+/* END OF HEADER */
+
+/* left-column | side-bar styling */
+#left-column {
+  position: relative;
+  background-color: var(--primary);
+  color: white;
+  transition: width 0.2s ease-in-out;
+  overflow: hidden; /* hides content when width shrinks */
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding-right: 1;
+}
+
+.left-nav {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+/* END OF HEADER */
+
+/* footer styling */
+footer {
+  color: white;
+  padding: 5px;
+  background-color: var(--primary);
+  text-align: center;
+  border-top: 1px solid var(--secondary);
+}

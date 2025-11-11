@@ -19,7 +19,7 @@ aside {
   height: 100%;
   color: white;
 
-  transition: width 0.2s ease-in-out; 
+  transition: width 0.2s ease-in-out;
   overflow: hidden; /* hides content when width shrinks */
   flex-shrink: 0;
 }
@@ -45,8 +45,8 @@ main a:hover {
   color: var(--primary);
 }
 #main-content {
-  width: 100%; 
-  flex-grow: 1; 
+  width: 100%;
+  flex-grow: 1;
   background-color: var(--secondary);
   height: 100%;
   display: flex;
@@ -88,7 +88,7 @@ footer {
 }
 
 .nav-closed #main-content #openNavBar {
-  display: block; 
+  display: block;
 }
 
 .nav-closed aside {
@@ -103,7 +103,7 @@ footer {
 .search {
   border-radius: 0.7rem;
   border: none;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 1rem;
 }
 
@@ -116,25 +116,25 @@ footer {
 
 @media (max-width: 700px) {
   aside {
-    position: absolute; 
+    position: absolute;
     left: 0;
-    z-index: 100; 
-    width: 0;  
+    z-index: 100;
+    width: 0;
     color: white;
     height: 100%;
     background-color: var(--primary);
   }
-  
+
   .nav-open-mobile aside {
     width: 80%;
   }
 
   #main-content #openNavBar {
-      display: block; 
+    display: block;
   }
-  
+
   .nav-open-mobile #main-content #openNavBar {
-      display: none;
+    display: none;
   }
 
   main {

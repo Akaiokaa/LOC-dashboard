@@ -1,5 +1,6 @@
 import express from "express";
 import { academicDivisions } from "./public/data/divisionsData.js";
+
 const app = express();
 
 app.use(express.static("public"));
@@ -12,19 +13,26 @@ const PORT = 3007;
 
 const reports = [];
 
+let username = "";
+
 // define a default "route" ('/')
 // req: contains information about the incoming request
 // res: allows us to send back a response to the client
 app.get("/", (req, res) => {
-  res.render("home", { academicDivisions });
+  res.render("home", { academicDivisions, username });
 });
 
-app.get("/summary", (req, res) => {
-  res.render("summary", { reports });
+app.get("/login", (req, res) => {
+  res.render("login");
 });
 
-app.get("/departments/form", (req, res) => {
-  res.render("departments/form");
+app.get("/form", (req, res) => {
+  res.render("form", { username });
+});
+
+app.post("/submit_login", (req, res) => {
+  username = req.body.username;
+  res.render("home", { academicDivisions, username });
 });
 
 app.post("/departments/submit_report", (req, res) => {

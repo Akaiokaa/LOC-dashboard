@@ -1,29 +1,32 @@
-function navBar(showNavBar) {
-  const body = document.body;
-  
-  if (window.innerWidth <= 700) {
-      // Small Screen Logic
-      if (showNavBar) {
-          body.classList.add("nav-open-mobile");
-      } else {
-          body.classList.remove("nav-open-mobile");
-      }
-      
-      // toggle the open button visibility based on the state
-      document.getElementById("openNavBar").style.display = showNavBar ? "none" : "block";
-      
+function myNavBar() {
+  let aside = document.getElementById("left-column");
+  if (aside.style.display == "block") {
+    document.getElementById("left-column").style.display = "none";
   } else {
-      // Desktop Logic
-      if (showNavBar) {
-          // open: remove the closing class
-          body.classList.remove("nav-closed");
-      } else {
-          // close: add the closing class
-          body.classList.add("nav-closed");
-      }
+    document.getElementById("left-column").style.display = "block";
   }
 }
 
+function toggleNavBar() {
+  const body = document.body;
+  const isMobile = window.innerWidth <= 700;
+
+  if (isMobile) {
+    // Mobile Logic: Toggle the "nav-open-mobile" class
+    const isNavOpen = body.classList.contains("nav-open-mobile");
+    body.classList.toggle("nav-open-mobile");
+
+    // Toggle the open button visibility based on the new state
+    const openButton = document.getElementById("openNavBar");
+    if (openButton) {
+      // If it was open, it is now closed, so show the button (opposite of previous logic)
+      openButton.style.display = isNavOpen ? "block" : "none";
+    }
+  } else {
+    // Desktop Logic: Toggle the "nav-closed" class
+    body.classList.toggle("nav-closed");
+  }
+}
 //get the search and department cards
 const search = document.querySelector(".search");
 const departments = document.querySelectorAll(".card");
