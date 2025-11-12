@@ -1,6 +1,7 @@
 /* variables.css is for storing the primary and secondary variables */
 :root {
   --primary: #2f8942;
+  --primary-dark: #287b3a;
   --secondary: #f4f6f8;
   --tertiary: #61c277;
   --primary-color: #f4f6f8;

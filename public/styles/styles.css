@@ -10,7 +10,7 @@
 @import url("base.css");
 
 /* Layout (The 2 column structure, grid containers) */
-@import url("layout.css");
+/* @import url("layout.css"); */
 
 /* styling for the form */
 @import url("components/form.css");

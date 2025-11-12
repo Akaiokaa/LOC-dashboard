@@ -87,7 +87,7 @@ footer {
   flex-direction: column;
 }
 
-.nav-closed #main-content #openNavBar {
+.nav-closed #main-content {
   display: block;
 }
 
@@ -115,28 +115,6 @@ footer {
 }
 
 @media (max-width: 700px) {
-  aside {
-    position: absolute;
-    left: 0;
-    z-index: 100;
-    width: 0;
-    color: white;
-    height: 100%;
-    background-color: var(--primary);
-  }
-
-  .nav-open-mobile aside {
-    width: 80%;
-  }
-
-  #main-content #openNavBar {
-    display: block;
-  }
-
-  .nav-open-mobile #main-content #openNavBar {
-    display: none;
-  }
-
   main {
     display: grid;
     grid-template-columns: 1fr;

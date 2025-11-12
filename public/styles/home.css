@@ -6,6 +6,7 @@
 
 main {
   display: flex;
+  padding: 1rem;
 }
 
 .main {

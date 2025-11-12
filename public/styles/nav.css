@@ -1,11 +1,30 @@
 @import url("variables.css");
 
-/* HEADER */
+:root {
+  --header-height: 60px;
+}
+
+body {
+  padding-top: var(--header-height);
+  overflow-x: hidden; /* removes the horizontal scrollbar */
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  z-index: 1001; 
+  background-color: var(--primary); 
+}
+
 .topNavBar {
   display: flex;
   justify-content: space-between;
-  background-color: var(--primary);
-  border-bottom: 1px solid var(--secondary);
+  background-color: var(--primary-dark);
+  height: 100%;
+  align-items: center; 
 }
 
 .navItem1 {
@@ -20,7 +39,7 @@
   border: none;
   font-size: x-large;
   cursor: pointer;
-  border-radius: 50%;
+  border-radius: 0.5rem;
 }
 
 #hamburger-button:hover {
@@ -58,20 +77,25 @@
   font-size: larger;
 }
 
-/* END OF HEADER */
-
 /* left-column | side-bar styling */
 #left-column {
-  position: relative;
-  background-color: var(--primary);
-  color: white;
-  transition: width 0.2s ease-in-out;
-  overflow: hidden; /* hides content when width shrinks */
-  flex-shrink: 0;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  padding-right: 1;
+  width: 250px;
+  position: fixed; 
+  
+  top: var(--header-height); 
+  height: calc(100vh - var(--header-height)); 
+  
+  left: 0;
+  background-color: var(--primary); 
+  color: var(--primary-color);
+  transition: transform 0.3s ease-in-out; 
+  z-index: 1000; 
+  overflow-y: auto; 
+}
+
+#main-aside {
+  width: 250px; 
+  flex-shrink: 0; 
 }
 
 .left-nav {
@@ -79,14 +103,22 @@
   flex-direction: column;
   margin-left: 1rem;
 }
-a {
+
+.left-nav a {
   color: var(--primary-color);
   text-decoration: none;
 }
 
-/* END OF HEADER */
 
-/* footer styling */
+body.nav-closed #left-column {
+  transform: translateX(-100%);
+}
+
+body.nav-closed #main-aside {
+  width: 0;
+  overflow: hidden; 
+}
+
 footer {
   color: white;
   padding: 5px;

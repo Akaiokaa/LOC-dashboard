@@ -6,34 +6,18 @@ function myNavBar() {
     document.getElementById("left-column").style.display = "block";
   }
 }
-
 function toggleNavBar() {
   const body = document.body;
-  const isMobile = window.innerWidth <= 700;
-
-  if (isMobile) {
-    // Mobile Logic: Toggle the "nav-open-mobile" class
-    const isNavOpen = body.classList.contains("nav-open-mobile");
-    body.classList.toggle("nav-open-mobile");
-
-    // Toggle the open button visibility based on the new state
-    const openButton = document.getElementById("openNavBar");
-    if (openButton) {
-      // If it was open, it is now closed, so show the button (opposite of previous logic)
-      openButton.style.display = isNavOpen ? "block" : "none";
-    }
-  } else {
-    // Desktop Logic: Toggle the "nav-closed" class
-    body.classList.toggle("nav-closed");
-  }
+  
+  body.classList.toggle("nav-closed");
 }
+
 //get the search and department cards
 const search = document.querySelector(".search");
 const departments = document.querySelectorAll(".card");
 
 //when the user interacts with the search bar
 search.addEventListener("input", () => {
-  //console.log("banished")
   //store the text from the user in a variable, lowercase for even comparison later.
   const inputText = search.value.toLowerCase();
 
