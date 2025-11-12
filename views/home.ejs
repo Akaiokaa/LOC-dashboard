@@ -1,69 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Loc Dashboard</title>
-    <link rel="stylesheet" href="/styles/home.css" />
-    <link rel="icon" href="/images/GRC_logo.svg" />
-    <script src="js/index.js" defer></script>
-  </head>
-  <body>
-    <%- include('partials/header') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loc Dashboard</title>
+  <link rel="stylesheet" href="/styles/home.css" />
+  
+  <link rel="icon" href="/images/GRC_logo.svg" />
+  <script src="/data/divisionsData.js" type="module"></script> 
+  <script src="js/index.js" type="module"></script>
+</head>
+
+<body>
+  <%- include('partials/header') %>
     <main>
       <div id="main-aside"><%- include('partials/aside') %></div>
       <div class="main">
         <div class="welcomeSearchBar">
           <% if(username){ %>
-          <h1>Welcome, <%= username %></h1>
-          <% } else{%>
-          <h1>Restricted Mode. You must login to make changes.</h1>
-          <% } %>
+            <h1>Welcome, <%= username %>
+            </h1>
+            <% } else{%>
+              <h1>Restricted Mode. You must login to make changes.</h1>
+              <% } %>
 
-          <input
-            type="text"
-            name="search"
-            class="search"
-            placeholder="Search by Division"
-          />
+                <input type="text" name="search" class="search" placeholder="Search by Division" />
         </div>
         <!-- Different Departments -->
         <!-- for each loop to display different academic divisions -->
         <div class="grid-container">
-          <% academicDivisions.forEach(academicDivision => { %>
-          <div class="card">
-            <div class="card-head">
-              <h2><%= academicDivision.divisionName %></h2>
-              <img
-                src="<%= academicDivision.img %>"
-                alt="<%= academicDivision.divisionName %> Logo"
-                style="width: 60px"
-              />
+          <% academicDivisions.forEach(academicDivision=> { %>
+            <div class="card">
+              <div class="card-head">
+                <h2>
+                  <%= academicDivision.divisionName %>
+                </h2>
+                <img src="<%= academicDivision.img %>" alt="<%= academicDivision.divisionName %> Logo"
+                  style="width: 60px" />
+              </div>
+              <div class="card-body">
+                <ul class="program-list">
+                  <% academicDivision.programs.forEach(program=> { %>
+                    <li>
+                      <%= program %>
+                    </li>
+                    <% });%>
+                </ul>
+              </div>
+
+              <div class="remove-dropdown-container">
+              </div>
+
+              <div class="card-foot">
+                <div class="add-remove-programs">
+                  <a href="#" class="back-button other-button add-program-btn">+</a>
+                  <a class="back-button other-button remove-program-btn"
+                    data-division="<%= academicDivision.divisionName %>">
+                    -
+                  </a>
+                </div>
+
+                <a href="/form?division=<%= academicDivision.divisionName %>" class="back-button other-button">
+                  Edit Details✏️
+                </a>
+              </div>
             </div>
-            <div class="card-body">
-              <ul>
-                <% academicDivision.programs.forEach(program => { %>
-                <li><%= program %></li>
-                <% });%>
-              </ul>
-            </div>
-            <div class="card-foot">
-              <a href="/summary" class="back-button other-button">
-                View Summary</a
-              >
-              <a
-                href="/form?division=<%= academicDivision.divisionName %>"
-                class="back-button other-button"
-              >
-                Edit Details✏️
-              </a>
-            </div>
-          </div>
-          <% });%>
+            <% });%>
         </div>
       </div>
     </main>
 
     <%- include('partials/footer') %>
-  </body>
+</body>
+
 </html>
