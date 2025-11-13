@@ -79,10 +79,10 @@ legend {
   display: none;
 }
 
-#edit-Details {
-  color: white;
-  background-color: var(--primary);
+#edit-details {
   display: none;
+  background-color: var(--primary);
+  color: white;
 }
 
 #selectDivision {

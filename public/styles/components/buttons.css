@@ -7,21 +7,10 @@ button {
   justify-content: space-between;
   gap: 5px;
 }
+
 .button-container-confirm {
   display: flex;
   gap: 5px;
-}
-
-#openNavBar {
-  margin: 1rem;
-  display: none;
-}
-
-#closeNavBar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 1rem;
 }
 
 #save-button {
@@ -42,8 +31,8 @@ button {
 
 #cancel-button:hover,
 #cancel-button:focus,
-.back-button:hover,
-.back-button:focus {
+.main-button:hover,
+.main-button:focus {
   box-shadow: 0 0 0 2px var(--primary);
 
   background-color: #e6e8eb;
@@ -54,7 +43,7 @@ button {
 }
 
 #cancel-button:focus,
-.back-button:focus {
+.main-button:focus {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
@@ -66,7 +55,7 @@ button {
   cursor: default;
 }
 
-.back-button {
+.main-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -86,7 +75,7 @@ button {
 }
 
 /* Icon Specific Styling */
-.back-button .back-icon {
+.main-button .back-icon {
   width: 18px;
   height: 18px;
   margin-right: 8px;
@@ -97,10 +86,11 @@ button {
 .main-buttons {
   display: flex;
 }
+
 .main-buttons #save-button {
   margin-left: 0.5rem;
 }
 
-.other-button {
+.button-spacing {
   margin: 1rem;
 }

@@ -53,7 +53,4 @@ app.post("/departments/submit_report", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
-  console.log(
-    `Access Form Page at: http://localhost:${PORT}/departments/edit_form.html`
-  );
 });

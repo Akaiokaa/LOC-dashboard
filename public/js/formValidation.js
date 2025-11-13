@@ -40,9 +40,9 @@
 // };
 
 //make buttons reappear
-document.getElementById("edit-Details").onclick = () => {
+document.getElementById("edit-details").onclick = () => {
   clearErrors();
-  document.getElementById("edit-Details").style.display = "none";
+  document.getElementById("edit-details").style.display = "none";
   document.getElementById("cancel-button").style.display = "block";
   document.getElementById("save-button").style.display = "block";
 
@@ -50,19 +50,13 @@ document.getElementById("edit-Details").onclick = () => {
   const penInput = document.getElementById("pen");
   const locRepInput = document.getElementById("locRep");
   const chairInput = document.getElementById("chair");
-  const paidInput = document.getElementById("paid");
-  const payeeInput = document.getElementById("payee");
-  const reportInput = document.getElementById("report");
-  const notesInput = document.getElementById("notes");
+
 
   const allInputs = [
     deanInput,
     penInput,
     locRepInput,
     chairInput,
-    payeeInput,
-    reportInput,
-    notesInput,
   ];
 
   allInputs.forEach((input) => {
@@ -70,16 +64,13 @@ document.getElementById("edit-Details").onclick = () => {
       input.readOnly = false;
     }
   });
-
-  paidInput.disabled = false;
 };
 
 document.getElementById("cancel-button").onclick = () => {
   setFormFields();
 
   //Make button reappear
-  document.getElementById("edit-Details").style.display = "block";
-  // console.log("cancel button clicked");
+  document.getElementById("edit-details").style.display = "block";
   document.getElementById("cancel-button").style.display = "none";
   document.getElementById("save-button").style.display = "none";
 
@@ -94,8 +85,6 @@ document.getElementById("cancel-button").onclick = () => {
   allInputs.forEach((input) => {
     // ensure the element was found before trying to modify it
     if (input) {
-
-
       // set the input field to non-editable
       input.readOnly = true;
 
@@ -103,8 +92,6 @@ document.getElementById("cancel-button").onclick = () => {
       input.classList.add("view-only");
     }
   });
-
-  paidInput.disabled = true;
 };
 
 // function that clears all errors initially

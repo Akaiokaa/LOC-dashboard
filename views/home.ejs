@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/styles/home.css" />
   
   <link rel="icon" href="/images/GRC_logo.svg" />
+  <script src="js/search.js" defer></script>
   <script src="/data/divisionsData.js" type="module"></script> 
   <script src="js/index.js" type="module"></script>
 </head>
@@ -54,14 +55,17 @@
 
               <div class="card-foot">
                 <div class="add-remove-programs">
-                  <a href="#" class="back-button other-button add-program-btn">+</a>
-                  <a class="back-button other-button remove-program-btn"
+                  <a href="#" class="main-button button-spacing add-program-btn"
+                    data-division="<%= academicDivision.divisionName %>">
+                    +
+                  </a>
+                  <a class="main-button button-spacing remove-program-btn"
                     data-division="<%= academicDivision.divisionName %>">
                     -
                   </a>
                 </div>
 
-                <a href="/form?division=<%= academicDivision.divisionName %>" class="back-button other-button">
+                <a href="/form?division=<%= academicDivision.divisionName %>" class="main-button button-spacing">
                   Edit Details✏️
                 </a>
               </div>
