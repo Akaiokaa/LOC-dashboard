@@ -209,7 +209,10 @@ const toggle = document.getElementById("toggle");
 toggle.addEventListener("click", () =>{
     toggle.classList.toggle("active");
 })
-
+const yearSelect = document.getElementById("year");
+yearSelect.addEventListener("change", () => {
+    alert(yearSelect.value);
+});
 // const burgerToggle = document.getElementById("hamburger-button");
 // const footer = document.querySelector("footer");
 // burgerToggle.addEventListener("click", () =>{
