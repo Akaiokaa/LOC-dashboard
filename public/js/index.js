@@ -204,3 +204,9 @@ function confirmProgramAddition(event) {
         // to save the updated 'academicDivisions' data back to the server.
     }
 }
+//Toggle functionality
+const toggle = document.getElementById("toggle");
+toggle.addEventListener("click", () =>{
+    toggle.classList.toggle("active");
+})
+

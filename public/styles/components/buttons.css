@@ -94,3 +94,31 @@ button {
 .button-spacing {
   margin: 1rem;
 }
+/* Toggle Switch Styling */
+.toggle{
+  width: 50px;
+  height: 25px;
+  background: #ccc;
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.toggle::after{
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2.5px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.toggle.active{
+  background-color: var(--primary);
+}
+.toggle.active::after{
+  transform: translateX(25px);
+}
