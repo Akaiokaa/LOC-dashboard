@@ -210,3 +210,9 @@ toggle.addEventListener("click", () =>{
     toggle.classList.toggle("active");
 })
 
+// const burgerToggle = document.getElementById("hamburger-button");
+// const footer = document.querySelector("footer");
+// burgerToggle.addEventListener("click", () =>{
+//     footer.classList.toggle("active");
+// })
+

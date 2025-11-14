@@ -96,9 +96,10 @@ button {
 }
 /* Toggle Switch Styling */
 .toggle{
+  border: 1px solid gray;
   width: 50px;
   height: 25px;
-  background: #ccc;
+  background: var(--primary-color);
   border-radius: 30px;
   position: relative;
   cursor: pointer;
@@ -114,10 +115,10 @@ button {
   top: 2px;
   left: 2.5px;
   transition: transform 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 .toggle.active{
-  background-color: var(--primary);
+  background-color: rgb(32, 214, 32);
 }
 .toggle.active::after{
   transform: translateX(25px);
