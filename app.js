@@ -1,5 +1,6 @@
 import express from "express";
 import { academicDivisions } from "./public/data/divisionsData.js";
+import { programsUnderReview } from "./public/data/yearData.js";
 
 const app = express();
 
@@ -19,7 +20,7 @@ let username = "";
 // req: contains information about the incoming request
 // res: allows us to send back a response to the client
 app.get("/", (req, res) => {
-  res.render("home", { academicDivisions, username });
+  res.render("home", { academicDivisions, username, programsUnderReview});
 });
 
 app.get("/login", (req, res) => {

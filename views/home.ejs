@@ -33,7 +33,8 @@
         <!-- for each loop to display different academic divisions -->
         <div class="grid-container">
           <% academicDivisions.forEach(academicDivision=> { %>
-            <div class="card">
+         <!-- if(programsUnderReview.year_22_23.includes(academicDivision.divisionName)) -->
+              <div class="card">
               <div class="card-head">
                 <h2>
                   <%= academicDivision.divisionName %>
@@ -44,9 +45,12 @@
               <div class="card-body">
                 <ul class="program-list">
                   <% academicDivision.programs.forEach(program=> { %>
+                    <% if(programsUnderReview.year_22_23.includes(program)) { %>  <!-- delete to revert to normal -->
                     <li>
                       <%= program %>
                     </li>
+                    <% } %>   <!-- delete to revert to normal -->
+                  
                     <% });%>
                 </ul>
               </div>
@@ -71,7 +75,8 @@
                 </a>
               </div>
             </div>
-            <% });%>
+        <!-- } -->
+          <% });%>
         </div>
       </div>
     </main>

@@ -1,4 +1,4 @@
-const programsUnderReview = {
+export const programsUnderReview = {
     year_22_23: [
         "Communication Studies",
         "History",

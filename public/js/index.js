@@ -1,4 +1,7 @@
 import { academicDivisions } from '../data/divisionsData.js';
+import { programsUnderReview } from '../data/yearData.js';
+
+console.log(programsUnderReview);
 
 window.myNavBar = function() {
   let aside = document.getElementById("left-column");
@@ -210,8 +213,12 @@ toggle.addEventListener("click", () =>{
     toggle.classList.toggle("active");
 })
 const yearSelect = document.getElementById("year");
+
+let currentYear = ""; 
 yearSelect.addEventListener("change", () => {
-    alert(yearSelect.value);
+    currentYear = yearSelect.value;
+    console.log(programsUnderReview[currentYear])
+    alert("hi");
 });
 // const burgerToggle = document.getElementById("hamburger-button");
 // const footer = document.querySelector("footer");
