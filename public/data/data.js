@@ -93,6 +93,7 @@ const departmentMap = new Map([
 ]);
 
 // maps division to a list of its academic programs (for populating the Program dropdown)
+// map that conatins all programs under each division
 const divisionToProgramsMap = {
   "Fine Arts": ["Music"],
   Humanities: ["Communication Studies"],
@@ -122,6 +123,8 @@ const divisionToProgramsMap = {
   Trades: ["Automotive Technology", "Manufacturing"],
   "Transitional Studies": ["Health and Physical Education"],
 };
+
+// one more map that has programs only under review
 
 const programDetailsMap = {
   Music: {
