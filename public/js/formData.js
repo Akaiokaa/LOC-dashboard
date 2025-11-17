@@ -21,6 +21,10 @@ divisionDropdown.addEventListener("change", () => {
 
   if (parentContainer) {
     // This replaces any existing content in the parent container.
+    // if(toggle){
+    // render reviewed programs
+    // else
+      // render all programs
     renderForms(divisionToProgramsMap[selectedText], parentContainer);
   }
 });
