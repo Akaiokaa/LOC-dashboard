@@ -45,13 +45,10 @@
               <div class="card-body">
                 <ul class="program-list">
                   <% academicDivision.programs.forEach(program=> { %>
-                    <% if(programsUnderReview.year_22_23.includes(program)) { %>  <!-- delete to revert to normal -->
-                    <li>
+                    <li class="review-list-items">
                       <%= program %>
-                    </li>
-                    <% } %>   <!-- delete to revert to normal -->
-                  
-                    <% });%>
+                    </li>  
+                  <% });%>
                 </ul>
               </div>
 

@@ -209,7 +209,30 @@ function confirmProgramAddition(event) {
 }
 //Toggle functionality
 const toggle = document.getElementById("toggle");
+const listItems = document.querySelectorAll(".review-list-items");
+let toggleState = false;
 toggle.addEventListener("click", () =>{
+   
+    listItems.forEach((item) => {
+        const program = item.textContent.trim();
+        const card = item.closest(".card");
+        if (!toggleState) {
+            if (programsUnderReview.year_22_23.includes(program)) {
+                item.style.display = "list-item";
+            } else {
+                item.style.display = "none";
+                const visibleItems = card.querySelectorAll(".review-list-items:not([style*='display: none'])");
+                if (visibleItems.length === 0) {
+                    card.style.display = "none"; 
+                }
+            }
+        } else {
+            item.style.display = "list-item";
+            card.style.display = "block";   
+        }
+    });
+    toggleState = !toggleState;
+    console.log("Toggle state:", toggleState);
     toggle.classList.toggle("active");
 })
 const yearSelect = document.getElementById("year");
@@ -218,7 +241,6 @@ let currentYear = "";
 yearSelect.addEventListener("change", () => {
     currentYear = yearSelect.value;
     console.log(programsUnderReview[currentYear])
-    alert("hi");
 });
 // const burgerToggle = document.getElementById("hamburger-button");
 // const footer = document.querySelector("footer");
