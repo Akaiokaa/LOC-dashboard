@@ -19,5 +19,15 @@ export const programsUnderReview = {
         "Chemistry",
         "Early Childhood Education",
         "Engineering/Computer Science"
+    ],
+    year_25_26: [
+        "Music",
+        "Communication Studies",
+        "Anthropology",
+        "Political Science",
+        "Chemistry",
+        "Accounting",
+        "Automotive Technology",
+        "Health and Physical Education"
     ]
 };

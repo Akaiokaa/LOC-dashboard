@@ -144,6 +144,25 @@ const divisionToProgramsReviewMap = {
   ],
   Trades: ["Manufacturing"],
 };
+const divisionToProgramsReviewMap2025_2026 = {
+  "Fine Arts": ["Music"],
+  Humanities: ["Communication Studies"],
+  "Social Science": [
+    "Anthropology",
+    "Political Science",
+  ],
+  Science: [
+    "Chemistry",
+  ],
+  "Business, Law, and Education": [
+    "Accounting",
+  ],
+  Technology: [
+    "Aviation",
+  ],
+  Trades: ["Automotive Technology",],
+  "Transitional Studies": ["Health and Physical Education"],
+};
 
 const programDetailsMap = {
   Music: {

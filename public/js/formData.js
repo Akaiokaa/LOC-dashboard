@@ -22,7 +22,7 @@ divisionDropdown.addEventListener("change", () => {
   if (parentContainer) {
 
     if (toggleState) {
-      renderForms(divisionToProgramsReviewMap[selectedText], parentContainer);
+      renderForms(divisionToProgramsReviewMap2025_2026[selectedText], parentContainer);
     } else {
       renderForms(divisionToProgramsMap[selectedText], parentContainer);
     }
