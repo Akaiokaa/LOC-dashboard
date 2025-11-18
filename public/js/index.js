@@ -209,7 +209,7 @@ toggle.addEventListener("click", () =>{
         const program = item.textContent.trim();
         const card = item.closest(".card");
         if (!toggleState) {
-            if (programsUnderReview.year_22_23.includes(program)) {
+            if (programsUnderReview.year_25_26.includes(program)) {
                 item.style.display = "list-item";
             } else {
                 item.style.display = "none";
