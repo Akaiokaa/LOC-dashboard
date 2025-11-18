@@ -7,7 +7,6 @@ function formatValue(value) {
 }
 
 // Grab the dropdown
-
 const divisionDropdown = document.getElementById("division");
 
 // Update fields whenever dropdown changes
@@ -21,17 +20,24 @@ divisionDropdown.addEventListener("change", () => {
 
   if (parentContainer) {
 
-    if (toggleState) {
-      renderForms(divisionToProgramsReviewMap2025_2026[selectedText], parentContainer);
-    } else {
-      renderForms(divisionToProgramsMap[selectedText], parentContainer);
+    // FIX: Use an empty array if the map lookup returns undefined
+    const programsList = toggleState
+      ? divisionToProgramsReviewMap[selectedText]
+      : divisionToProgramsMap[selectedText];
+
+    renderForms(programsList || [], parentContainer);
+
+    // Apply read-only state after re-rendering program forms
+    if (typeof window.setFormEditability === 'function') {
+      // The form should revert to a non-editable state after division change
+      window.setFormEditability(false);
     }
   }
 });
 
-toggle.addEventListener("click", () =>{ 
+toggle.addEventListener("click", () => {
   setFormFields();
-    const selectedText =
+  const selectedText =
     divisionDropdown.options[divisionDropdown.selectedIndex].text;
 
   const parentContainer = document.getElementById("programs");
@@ -43,8 +49,13 @@ toggle.addEventListener("click", () =>{
     } else {
       renderForms(divisionToProgramsMap[selectedText], parentContainer);
     }
+
+    // Apply read-only state
+    if (typeof window.setFormEditability === 'function') {
+      window.setFormEditability(false);
+    }
   }
-})
+});
 
 //Returns the value using URLSearchParams
 function getDivisionFromUrl() {
@@ -75,7 +86,14 @@ const selectedText =
 const parentContainer = document.getElementById("programs");
 // initialize form fields on load
 setFormFields();
-renderForms(divisionToProgramsMap[selectedText], parentContainer);
+// FIX: Use an empty array if the map lookup returns undefined
+renderForms(divisionToProgramsMap[selectedText] || [], parentContainer);
+
+// Apply read-only state after initial form render on page load
+if (typeof window.setFormEditability === 'function') {
+  window.setFormEditability(false);
+}
+
 // updates fields and populates program dropdown on Division change
 function setFormFields() {
   clearErrors();
@@ -123,6 +141,12 @@ function renderForms(programs, targetContainer) {
   targetContainer.innerHTML = "";
 
   console.log(programs);
+
+  // Check if programs is a valid array before iterating
+  if (!Array.isArray(programs) || programs.length === 0) {
+    targetContainer.innerHTML = '<p class="no-programs" style="padding: 10px;">No programs to display for this view.</p>';
+    return;
+  }
 
   programs.forEach((program) => {
     const programDetails = programDetailsMap[program];

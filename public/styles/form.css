@@ -80,7 +80,6 @@ legend {
 }
 
 #edit-details {
-  display: none;
   background-color: var(--primary);
   color: white;
 }
