@@ -9,7 +9,6 @@ function formatValue(value) {
 // Grab the dropdown
 
 const divisionDropdown = document.getElementById("division");
-const programDropdown = document.getElementById("program");
 
 // Update fields whenever dropdown changes
 divisionDropdown.addEventListener("change", () => {
@@ -29,8 +28,6 @@ divisionDropdown.addEventListener("change", () => {
     }
   }
 });
-
-// programDropdown.addEventListener("change", updateProgramDetails);
 
 //Returns the value using URLSearchParams
 function getDivisionFromUrl() {
@@ -104,19 +101,6 @@ function updateProgramDetails() {
   }
 }
 
-// helper function to clear all detail fields to "N/A"
-function clearDetailFields() {
-  const NA = "N/A";
-  document.getElementById("dean").value = NA;
-  document.getElementById("locRep").value = NA;
-  document.getElementById("pen").value = NA;
-  document.getElementById("chair").value = NA;
-  document.getElementById("payee").value = NA;
-  document.getElementById("paid").checked = false;
-  document.getElementById("report").value = NA;
-  document.getElementById("notes").value = NA;
-}
-
 function renderForms(programs, targetContainer) {
   // clears the existing content
   targetContainer.innerHTML = "";
@@ -127,7 +111,7 @@ function renderForms(programs, targetContainer) {
     const programDetails = programDetailsMap[program];
 
     const formWrapper = document.createElement("div");
-    formWrapper.className = "expense-entry";
+    formWrapper.className = "program-block";
     formWrapper.setAttribute("data-entry-id", program.programId);
     const payeeInputsHTML = renderPayeeInputs(programDetails.payees, program);
 
