@@ -1,5 +1,5 @@
 export const programsUnderReview = {
-    year_22_23: [
+    year_23_24: [
         "Communication Studies",
         "History",
         "Psychology",
@@ -10,7 +10,18 @@ export const programsUnderReview = {
         "Natural Resources",
         "Manufacturing"
     ],
-    year_23_24: [
+    year_24_25: [
+        "Communication Studies",
+        "History",
+        "Psychology",
+        "English",
+        "Biology/Environmental Science",
+        "Business Management",
+        "Business Marketing/Entrepreneurship (BAS)",
+        "Natural Resources",
+        "Manufacturing"
+    ],
+    year_25_26: [
         "Drama",
         "Visual Arts (Photography/Art)",
         "Foreign Languages",
@@ -20,7 +31,7 @@ export const programsUnderReview = {
         "Early Childhood Education",
         "Engineering/Computer Science"
     ],
-    year_25_26: [
+    year_26_27: [
         "Music",
         "Communication Studies",
         "Anthropology",
@@ -29,5 +40,15 @@ export const programsUnderReview = {
         "Accounting",
         "Automotive Technology",
         "Health and Physical Education"
+    ],
+    year_27_28: [
+        "Drama",
+        "Visual Arts (Photography/Art)",
+        "Foreign Languages",
+        "Economics",
+        "Geography",
+        "Chemistry",
+        "Early Childhood Education",
+        "Engineering/Computer Science"
     ]
 };
