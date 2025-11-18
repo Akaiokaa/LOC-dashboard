@@ -26,6 +26,48 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
+ * Applies the current global filter (toggleState and currentYear) 
+ * to all program list items across all division cards.
+ */
+function applyFilterToAllPrograms() {
+    // Always get a fresh list of all program list items
+    const listItems = document.querySelectorAll(".review-list-items");
+
+    listItems.forEach((item) => {
+        const program = item.textContent.trim();
+        const card = item.closest(".card");
+
+        // Start by making everything visible
+        item.style.display = "list-item";
+        card.style.display = "flex";
+
+        // If the toggle is ON, we apply the filter
+        if (toggleState) {
+            // Check if year data is available and if the program is under review
+            const reviewList = (currentYear && programsUnderReview[currentYear])
+                ? programsUnderReview[currentYear]
+                : [];
+
+            if (!reviewList.includes(program)) {
+                // Hide programs that are NOT under review
+                item.style.display = "none";
+            }
+        }
+    });
+
+    // After filtering, check if any card is left completely empty and needs to be hidden.
+    // This part is only necessary when the toggle is ON.
+    if (toggleState) {
+        document.querySelectorAll(".card").forEach(card => {
+            const visibleItems = card.querySelectorAll(".review-list-items:not([style*='display: none'])");
+            if (visibleItems.length === 0) {
+                card.style.display = "none";
+            }
+        });
+    }
+}
+
+/**
     Generates the program removal dropdown when the '-' button is clicked.
  */
 function handleRemoveProgramClick(event) {
@@ -124,21 +166,15 @@ function confirmProgramRemoval(event) {
             division.programs.splice(index, 1);
         }
 
-        // Update the UI list
+        // Update the UI list: Always re-render the *full* list from the updated data
         const programListUL = card.querySelector('.program-list');
-        // Decide which programs to show based on the toggle state
-        let programsToDisplay = division.programs;
+        // Re-render the full list with the required class
+        programListUL.innerHTML = division.programs.map(p => `<li class="review-list-items">${p}</li>`).join('');
 
-        if (toggleState) {
-            const reviewList = (currentYear && programsUnderReview[currentYear])
-                ? programsUnderReview[currentYear]
-                : [];
-            programsToDisplay = division.programs.filter(p => reviewList.includes(p));
-        }
+        // Apply the current global filter state (ON/OFF) to ALL programs on the page
+        applyFilterToAllPrograms();
 
-        // Re-render the list (which is now correctly filtered if needed)
-        programListUL.innerHTML = programsToDisplay.map(p => `<li class="review-list-items">${p}</li>`).join('');
-        // Close the dropdown after removal
+        // Close the form after removal
         dropdownContainer.innerHTML = `<p style="color: green; padding: 5px;">'${programToRemove}' removed!</p>`;
         setTimeout(() => dropdownContainer.innerHTML = '', 2000); // Clear message after 2s
 
@@ -233,21 +269,14 @@ function confirmProgramAddition(event) {
         // Add the new program to the array
         division.programs.push(programToAdd);
 
-        // Update the UI list
+        // Update the UI list: Always re-render the *full* list with the new program
         const programListUL = card.querySelector('.program-list');
-        // Decide which programs to show based on the toggle state
-        let programsToDisplay = division.programs;
+        // Re-render the full list with the required class
+        programListUL.innerHTML = division.programs.map(p => `<li class="review-list-items">${p}</li>`).join('');
 
-        if (toggleState) {
-            const reviewList = (currentYear && programsUnderReview[currentYear])
-                ? programsUnderReview[currentYear]
-                : [];
-            // Filter the master list to only show programs under review
-            programsToDisplay = division.programs.filter(p => reviewList.includes(p));
-        }
+        // Apply the current global filter state (ON/OFF) to ALL programs on the page
+        applyFilterToAllPrograms();
 
-        // Re-render the list (which is now correctly filtered if needed)
-        programListUL.innerHTML = programsToDisplay.map(p => `<li class="review-list-items">${p}</li>`).join('');
         // Close the form after addition
         dropdownContainer.innerHTML = `<p style="color: green; padding: 5px;">'${programToAdd}' added!</p>`;
         setTimeout(() => dropdownContainer.innerHTML = '', 2000); // Clear message after 2s
