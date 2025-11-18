@@ -228,7 +228,7 @@ toggle.addEventListener("click", () =>{
             }
         } else {
             item.style.display = "list-item";
-            card.style.display = "block";   
+            card.style.display = "flex";   
         }
     });
     toggleState = !toggleState;
