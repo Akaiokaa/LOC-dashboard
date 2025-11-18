@@ -29,6 +29,23 @@ divisionDropdown.addEventListener("change", () => {
   }
 });
 
+toggle.addEventListener("click", () =>{ 
+  setFormFields();
+    const selectedText =
+    divisionDropdown.options[divisionDropdown.selectedIndex].text;
+
+  const parentContainer = document.getElementById("programs");
+
+  if (parentContainer) {
+
+    if (toggleState) {
+      renderForms(divisionToProgramsReviewMap[selectedText], parentContainer);
+    } else {
+      renderForms(divisionToProgramsMap[selectedText], parentContainer);
+    }
+  }
+})
+
 //Returns the value using URLSearchParams
 function getDivisionFromUrl() {
   const urlParams = new URLSearchParams(window.location.search);
