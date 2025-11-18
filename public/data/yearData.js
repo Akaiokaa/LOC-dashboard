@@ -7,48 +7,53 @@ export const programsUnderReview = {
         "Biology/Environmental Science",
         "Business Management",
         "Business Marketing/Entrepreneurship (BAS)",
+        "Criminal Justice",
         "Natural Resources",
         "Manufacturing"
     ],
     year_24_25: [
-        "Communication Studies",
-        "History",
-        "Psychology",
-        "English",
-        "Biology/Environmental Science",
-        "Business Management",
-        "Business Marketing/Entrepreneurship (BAS)",
-        "Natural Resources",
-        "Manufacturing"
-    ],
-    year_25_26: [
         "Drama",
         "Visual Arts (Photography/Art)",
         "Foreign Languages",
         "Economics",
         "Geography",
         "Chemistry",
-        "Early Childhood Education",
         "Engineering/Computer Science"
+    ],
+    year_25_26: [
+        "Philosophy",
+        "Information Literacy ",
+        "American Ethnic & Minority Studies",
+        "Sociology",
+        "Physics/Astronomy",
+        "Business Technologies & Administrative Careers",
+        "Carpentry",
+        "Welding Technology"
     ],
     year_26_27: [
         "Music",
-        "Communication Studies",
+        "Counseling Services",
         "Anthropology",
         "Political Science",
-        "Chemistry",
+        "Geology/Oceanography",
         "Accounting",
-        "Automotive Technology",
-        "Health and Physical Education"
+        "Aviation (AAS/BAS)",
+        "CAD-Design and Engineering Technology",
+        "Early Childhood Education ",
+        "Health and Physical Education",
+        "Automotive Technology"
     ],
     year_27_28: [
-        "Drama",
-        "Visual Arts (Photography/Art)",
-        "Foreign Languages",
-        "Economics",
-        "Geography",
-        "Chemistry",
-        "Early Childhood Education",
-        "Engineering/Computer Science"
+        "Dance",
+        "Humanities",
+        "Journalism",
+        "Anatomy & Physiology",
+        "Math",
+        "Court Reporting & Captioning",
+        "Criminal Justice",
+        "Information Technology",
+        "Water/Wastewater Technology",
+        "Mechatronics",
+        "CE"
     ]
 };
