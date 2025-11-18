@@ -9,6 +9,14 @@ main {
   padding: 1rem;
 }
 
+/* main {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, auto);
+  overflow-y: auto;
+  flex: 1;
+} */
+
 .main {
   flex-grow: 1;
 }
@@ -38,4 +46,18 @@ main {
   margin-right: -1rem;
   font-size: 1.3rem;
   padding: -1rem;
+}
+
+@media (max-width: 1100px) {
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 }

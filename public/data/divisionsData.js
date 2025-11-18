@@ -113,5 +113,3 @@ export const academicDivisions = [
     programs: ["CE"],
   },
 ];
-
-

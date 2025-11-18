@@ -21,7 +21,3 @@ export const programsUnderReview = {
         "Engineering/Computer Science"
     ]
 };
-
-
-
-

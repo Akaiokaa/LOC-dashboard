@@ -18,7 +18,7 @@ search.addEventListener("input", () => {
 
       //if it does include the users text show the relevant card if not hide it
       if (departmentValues.includes(inputText)) {
-        department.style.display = "block";
+        department.style.display = "flex";
       } else {
         department.style.display = "none";
       }
@@ -26,7 +26,7 @@ search.addEventListener("input", () => {
     //catch after to return to original state.
   } else {
     departments.forEach((department) => {
-      department.style.display = "block";
+      department.style.display = "flex";
     });
   }
 });
