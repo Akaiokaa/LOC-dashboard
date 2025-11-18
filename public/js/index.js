@@ -1,6 +1,9 @@
 import { academicDivisions } from '../data/divisionsData.js';
 import { programsUnderReview } from '../data/yearData.js';
 
+const toggle = document.getElementById("toggle");
+const listItems = document.querySelectorAll(".review-list-items");
+
 console.log(programsUnderReview);
 
 window.myNavBar = function() {
@@ -208,11 +211,8 @@ function confirmProgramAddition(event) {
     }
 }
 //Toggle functionality
-const toggle = document.getElementById("toggle");
-const listItems = document.querySelectorAll(".review-list-items");
-let toggleState = false;
+
 toggle.addEventListener("click", () =>{
-   
     listItems.forEach((item) => {
         const program = item.textContent.trim();
         const card = item.closest(".card");
@@ -234,6 +234,16 @@ toggle.addEventListener("click", () =>{
     toggleState = !toggleState;
     console.log("Toggle state:", toggleState);
     toggle.classList.toggle("active");
+
+    const selectedText = divisionDropdown.options[divisionDropdown.selectedIndex].text;
+    const parentContainer = document.getElementById("programs");
+    if (parentContainer) {
+        if (toggleState) {
+            renderForms(divisionToProgramsReviewMap[selectedText], parentContainer);
+        } else {
+            renderForms(divisionToProgramsMap[selectedText], parentContainer);
+        }
+    }
 })
 const yearSelect = document.getElementById("year");
 

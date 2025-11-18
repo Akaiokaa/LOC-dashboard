@@ -7,6 +7,7 @@ function formatValue(value) {
 }
 
 // Grab the dropdown
+
 const divisionDropdown = document.getElementById("division");
 const programDropdown = document.getElementById("program");
 
@@ -20,14 +21,15 @@ divisionDropdown.addEventListener("change", () => {
   const parentContainer = document.getElementById("programs");
 
   if (parentContainer) {
-    // This replaces any existing content in the parent container.
-    // if(toggle){
-    // render reviewed programs
-    // else
-      // render all programs
-    renderForms(divisionToProgramsMap[selectedText], parentContainer);
+
+    if (toggleState) {
+      renderForms(divisionToProgramsReviewMap[selectedText], parentContainer);
+    } else {
+      renderForms(divisionToProgramsMap[selectedText], parentContainer);
+    }
   }
 });
+
 // programDropdown.addEventListener("change", updateProgramDetails);
 
 //Returns the value using URLSearchParams

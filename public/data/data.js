@@ -125,6 +125,25 @@ const divisionToProgramsMap = {
 };
 
 // one more map that has programs only under review
+const divisionToProgramsReviewMap = {
+  Humanities: ["Communication Studies"],
+  "Social Science": [
+    "History",
+    "Political Science",
+  ],
+  English: ["English"],
+  Science: [
+    "Biology/Environmental Science",
+  ],
+  "Business, Law, and Education": [
+    "Business Management",
+    "Business Marketing/Entrepreneurship",
+  ],
+  Technology: [
+    "Natural Resources",
+  ],
+  Trades: ["Manufacturing"],
+};
 
 const programDetailsMap = {
   Music: {
