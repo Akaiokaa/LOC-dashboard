@@ -120,12 +120,17 @@ body.nav-closed #main-aside {
 }
 
 footer {
+  position: fixed;
+  width: 100%;
   color: white;
   padding: 5px;
   background-color: var(--primary);
   text-align: center;
   border-top: 1px solid var(--secondary);
+  bottom: 0;
+  left: 0;
 }
+
 /* footer.active {
-  
+
 } */

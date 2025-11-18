@@ -3,19 +3,11 @@ import { programsUnderReview } from '../data/yearData.js';
 
 console.log(programsUnderReview);
 
-window.myNavBar = function() {
-  let aside = document.getElementById("left-column");
-  if (aside.style.display == "block") {
-    document.getElementById("left-column").style.display = "none";
-  } else {
-    document.getElementById("left-column").style.display = "block";
-  }
-}
-
 window.toggleNavBar = function() {
   const body = document.body;
   
   body.classList.toggle("nav-closed");
+//   footer.classList.toggle("active");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -242,9 +234,3 @@ yearSelect.addEventListener("change", () => {
     currentYear = yearSelect.value;
     console.log(programsUnderReview[currentYear])
 });
-// const burgerToggle = document.getElementById("hamburger-button");
-// const footer = document.querySelector("footer");
-// burgerToggle.addEventListener("click", () =>{
-//     footer.classList.toggle("active");
-// })
-
