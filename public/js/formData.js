@@ -17,12 +17,12 @@ divisionDropdown.addEventListener("change", () => {
     divisionDropdown.options[divisionDropdown.selectedIndex].text;
 
   const parentContainer = document.getElementById("programs");
-
+  const selectedYear = document.getElementById("year").value;
   if (parentContainer) {
 
     // FIX: Use an empty array if the map lookup returns undefined
     const programsList = toggleState
-      ? divisionToProgramsReviewMap[selectedText]
+      ? programsUnderReviewByYear[selectedYear][selectedText]
       : divisionToProgramsMap[selectedText];
 
     renderForms(programsList || [], parentContainer);
@@ -39,13 +39,15 @@ toggle.addEventListener("click", () => {
   setFormFields();
   const selectedText =
     divisionDropdown.options[divisionDropdown.selectedIndex].text;
-
+  const selectedYear = document.getElementById("year").value;
+  console.log("Selected Year:", selectedYear);
+  console.log("Selected Text:", selectedText);
   const parentContainer = document.getElementById("programs");
 
   if (parentContainer) {
 
     if (toggleState) {
-      renderForms(divisionToProgramsReviewMap[selectedText], parentContainer);
+      renderForms(programsUnderReviewByYear[selectedYear][selectedText], parentContainer);
     } else {
       renderForms(divisionToProgramsMap[selectedText], parentContainer);
     }

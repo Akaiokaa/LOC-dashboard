@@ -144,6 +144,65 @@ const divisionToProgramsReviewMap = {
   ],
   Trades: ["Manufacturing"],
 };
+const programsUnderReviewByYear = {
+  year_23_24: {
+    Humanities: ["Communication Studies"],
+    "Social Science": ["History", "Political Science"],
+    English: ["English"],
+    Science: ["Biology/Environmental Science"],
+    "Business, Law, and Education": [
+      "Business Management",
+      "Business Marketing/Entrepreneurship"
+    ],
+    Technology: ["Natural Resources"],
+    Trades: ["Manufacturing"],
+  },
+
+  year_24_25: {
+    Humanities: [],
+    "Social Science": ["Economics", "Geography"],
+    English: ["Drama", "Visual Arts (Photography/Art)", "Foreign Languages"],
+    Science: ["Chemistry"],
+    "Business, Law, and Education": [],
+    Technology: ["Engineering/Computer Science"],
+    Trades: [],
+  },
+
+  year_25_26: {
+    Humanities: [
+      "Philosophy",
+      "Information Literacy ",
+      "American Ethnic & Minority Studies"
+    ],
+    "Social Science": ["Sociology"],
+    English: [],
+    Science: ["Physics/Astronomy"],
+    "Business, Law, and Education": ["Business Technologies & Administrative Careers"],
+    Technology: ["Carpentry", "Welding Technology"],
+    Trades: [],
+  },
+
+  year_26_27: {
+    Humanities: [],
+    "Social Science": ["Anthropology", "Political Science"],
+    English: [],
+    Science: ["Geology/Oceanography"],
+    "Business, Law, and Education": ["Accounting", "Early Childhood Education"],
+    Technology: ["Aviation (AAS/BAS)", "CAD-Design and Engineering Technology"],
+    Trades: ["Automotive Technology"],
+  },
+
+  year_27_28: {
+    Humanities: ["Humanities", "Journalism"],
+    "Social Science": ["Criminal Justice"],
+    English: [],
+    Science: ["Anatomy & Physiology", "Math"],
+    "Business, Law, and Education": ["Court Reporting & Captioning", "CE"],
+    Technology: ["Information Technology", "Mechatronics"],
+    Trades: ["Water/Wastewater Technology"],
+  }
+};
+
 const divisionToProgramsReviewMap2025_2026 = {
   "Fine Arts": ["Music"],
   Humanities: ["Communication Studies"],
@@ -321,4 +380,75 @@ const programDetailsMap = {
     reportSubmitted: "",
     notes: "Not this time around",
   },
+  Economics: {
+    payees: [],
+    hasBeenPaid: "",
+    reportSubmitted: "",
+    notes: "Not this time around",
+  },
+  Geography:{
+    payees: [],
+    hasBeenPaid: "",
+    reportSubmitted: "",
+    notes: "",
+  },
+  Drama: {
+    payees: [],
+    hasBeenPaid: "",
+    reportSubmitted: "",
+    notes: "",
+  },
+  "Visual Arts (Photography/Art)": {
+    payees: [],
+    hasBeenPaid: "",  
+    reportSubmitted: "",
+    notes: "",
+  },
+  "Foreign Languages": {
+    payees: [],
+    hasBeenPaid: "",  
+    reportSubmitted: "",
+    notes: "",
+  },
+ 
+  "Chemistry": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Economics": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Geography": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Drama": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Visual Arts (Photography/Art)": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Foreign Languages": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Engineering/Computer Science": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+
+
+  "Philosophy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Information Literacy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "American Ethnic & Minority Studies": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Sociology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Physics/Astronomy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Business Technologies & Administrative Careers": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Carpentry": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Welding Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+
+
+  "Anthropology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Political Science": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Geology/Oceanography": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Accounting": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Early Childhood Education": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Aviation (AAS/BAS)": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "CAD-Design and Engineering Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Automotive Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+
+
+  "Humanities": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Journalism": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Criminal Justice": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Anatomy & Physiology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Math": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Court Reporting & Captioning": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "CE": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Information Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Mechatronics": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Water/Wastewater Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+
 };
