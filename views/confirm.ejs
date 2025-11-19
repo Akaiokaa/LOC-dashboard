@@ -1,52 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles/styles.css" />
-    <link rel="icon" href="/images/GRC_logo.svg" />
-    <title>Divisions Management</title>
-  </head>
 
-  <body>
-     <%- include('partials/header') %>
-    <form id="department-form" action="submit_report" method="post">
-      <fieldset>
-        <legend>Division Management</legend>
-        <h3>Changes saved!</h3>
-        <div class="grid-container">
-          <div class="grid-item1">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loc Dashboard</title>
+  <link rel="stylesheet" href="/styles/home.css" />
 
-        <div class="button-container-confirm">
-          <a href="/" id="backButton" class="main-button">
-            <svg
-              class="back-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-            Back to home page
-          </a>
-          <a href="/summary" class="main-button">
-              <svg
-                class="back-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-              View Summary</a>
-        </div>
-      </fieldset>
-    </form>
-  </body>
+  <link rel="icon" href="/images/GRC_logo.svg" />
+</head>
+
+<body>
+  <%- include('partials/header') %>
+    <main>
+      <div id="main-aside"><%- include('partials/aside') %></div>
+      <div>
+      <h1>Changes saved!</h1>
+      <div class="button-container-confirm">
+        <a href="/" id="backButton" class="main-button">
+          <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Back to home page
+        </a>
+        <a href="/summary" class="main-button">
+          <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          View Summary</a>
+      </div>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+
 </html>

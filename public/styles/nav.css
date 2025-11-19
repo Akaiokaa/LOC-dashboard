@@ -109,7 +109,6 @@ header {
   text-decoration: none;
 }
 
-
 body.nav-closed #left-column {
   transform: translateX(-100%);
 }
@@ -130,7 +129,3 @@ footer {
   bottom: 0;
   left: 0;
 }
-
-/* footer.active {
-
-} */

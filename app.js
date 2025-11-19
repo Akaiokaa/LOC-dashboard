@@ -27,6 +27,10 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
+app.get("/confirm", (req, res) => {
+  res.render("confirm", {username});
+});
+
 app.get("/form", (req, res) => {
   res.render("form", { username });
 });
