@@ -37,8 +37,8 @@ function setButtonVisibility(isEditMode) {
     document.getElementById("save-button").style.display = isEditMode ? "block" : "none";
 }
 
-// runs when department-form is submitted
-document.getElementById("department-form").onsubmit = () => {
+// runs when division-form is submitted
+document.getElementById("division-form").onsubmit = () => {
   clearErrors();
 
   let isValid = true;
