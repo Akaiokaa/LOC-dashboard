@@ -95,24 +95,44 @@ const departmentMap = new Map([
 // maps division to a list of its academic programs (for populating the Program dropdown)
 // map that conatins all programs under each division
 const divisionToProgramsMap = {
-  "Fine Arts": ["Music"],
-  Humanities: ["Communication Studies"],
+  "Fine Arts": ["Music",
+  "Dance",
+  "Drama",
+  "Journalism",
+  "Visual Arts(Photography/Art)"
+  ],
+    Humanities: ["Foreign Languages",
+    "Humanities",
+    "Philosophy",
+    "Communication Studies",
+    "Information Literacy",
+    "Counseling Services"
+  ],
   "Social Science": [
+    "American Ethnic & Minority Studies",
     "Anthropology",
     "History",
     "Political Science",
     "Psychology",
+    "Economics",
+    "Geography"
   ],
   English: ["English"],
   Science: [
     "Anatomy and Physiology",
     "Biology/Environmental Science",
     "Geology/Oceanography",
+    "Chemistry",
+    "Physics/Astronomy",
   ],
   "Business, Law, and Education": [
     "Accounting",
+    "Business Technologies & Administrative Careers",
     "Business Management",
-    "Business Marketing/Entrepreneurship",
+    "Business Marketing/Entrepreneurship (BAS)",
+    "Court Reporting & Captioning",
+    "Criminal Justice",
+    "Early Childhood Education"
   ],
   Technology: [
     "Aviation",
@@ -125,40 +145,42 @@ const divisionToProgramsMap = {
 };
 
 // one more map that has programs only under review
-const divisionToProgramsReviewMap = {
-  Humanities: ["Communication Studies"],
-  "Social Science": [
-    "History",
-    "Political Science",
-  ],
-  English: ["English"],
-  Science: [
-    "Biology/Environmental Science",
-  ],
-  "Business, Law, and Education": [
-    "Business Management",
-    "Business Marketing/Entrepreneurship",
-  ],
-  Technology: [
-    "Natural Resources",
-  ],
-  Trades: ["Manufacturing"],
-};
+// const divisionToProgramsReviewMap = {
+//   Humanities: ["Communication Studies"],
+//   "Social Science": [
+//     "History",
+//     "Political Science",
+//   ],
+//   English: ["English"],
+//   Science: [
+//     "Biology/Environmental Science",
+//   ],
+//   "Business, Law, and Education": [
+//     "Business Management",
+//     "Business Marketing/Entrepreneurship",
+//   ],
+//   Technology: [
+//     "Natural Resources",
+//   ],
+//   Trades: ["Manufacturing"],
+// };
 const programsUnderReviewByYear = {
   year_23_24: {
     Humanities: ["Communication Studies"],
-    "Social Science": ["History", "Political Science"],
+    "Social Science": ["History", "Psychology"],
     English: ["English"],
     Science: ["Biology/Environmental Science"],
     "Business, Law, and Education": [
       "Business Management",
-      "Business Marketing/Entrepreneurship"
+      "Business Marketing/Entrepreneurship",
+      "Criminal Justice",
     ],
-    Technology: ["Natural Resources"],
+    Technology: [],
     Trades: ["Manufacturing"],
   },
 
   year_24_25: {
+    "Fine Arts": ["drama", "Visual Arts (Photography/Art)"],
     Humanities: [],
     "Social Science": ["Economics", "Geography"],
     English: ["Drama", "Visual Arts (Photography/Art)", "Foreign Languages"],
@@ -171,15 +193,14 @@ const programsUnderReviewByYear = {
   year_25_26: {
     Humanities: [
       "Philosophy",
-      "Information Literacy ",
-      "American Ethnic & Minority Studies"
+      "Information Literacy"
     ],
-    "Social Science": ["Sociology"],
+    "Social Science": ["Sociology","Economics","American Ethnic & Minority Studies"],
     English: [],
     Science: ["Physics/Astronomy"],
     "Business, Law, and Education": ["Business Technologies & Administrative Careers"],
-    Technology: ["Carpentry", "Welding Technology"],
-    Trades: [],
+    Technology: [],
+    Trades: ["Carpentry", "Welding Technology"],
   },
 
   year_26_27: {
@@ -411,7 +432,12 @@ const programDetailsMap = {
     notes: "",
   },
  
-  "Chemistry": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Chemistry": {
+     payees: [], 
+     hasBeenPaid: "", 
+     reportSubmitted: "", 
+     notes: "" 
+    },
   "Economics": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Geography": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Drama": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
@@ -420,10 +446,10 @@ const programDetailsMap = {
   "Engineering/Computer Science": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
 
 
-  "Philosophy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  Philosophy: { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Information Literacy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "American Ethnic & Minority Studies": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Sociology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  Sociology: { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Physics/Astronomy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Business Technologies & Administrative Careers": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Carpentry": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
@@ -438,7 +464,7 @@ const programDetailsMap = {
   "Aviation (AAS/BAS)": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "CAD-Design and Engineering Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Automotive Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-
+  "American Ethnic & Minority Studies ": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
 
   "Humanities": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Journalism": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },

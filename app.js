@@ -31,6 +31,10 @@ app.get("/confirm", (req, res) => {
   res.render("confirm", {username});
 });
 
+app.get("/summary", (req, res) => {
+  res.render("summary", {username});
+});
+
 app.get("/form", (req, res) => {
   res.render("form", { username });
 });
@@ -40,20 +44,14 @@ app.post("/submit_login", (req, res) => {
   res.render("home", { academicDivisions, username });
 });
 
-app.post("/departments/submit_report", (req, res) => {
+app.post("/submit_edit", (req, res) => {
   const report = req.body;
-  if (!report.paid) {
-    report.paid = "No";
-  } else {
-    report.paid = "Yes";
-  }
   // add time stamp of submission
   report.timestamp = new Date().toISOString();
 
   reports.push(report);
   console.log(reports);
-  res.render("confirm");
-  // res.json(report);
+  res.render("confirm", {username});
 });
 
 app.listen(PORT, () => {
