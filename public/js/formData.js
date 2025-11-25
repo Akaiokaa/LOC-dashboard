@@ -20,9 +20,9 @@ divisionDropdown.addEventListener("change", () => {
   const selectedYear = document.getElementById("year").value;
   if (parentContainer) {
 
-    // FIX: Use an empty array if the map lookup returns undefined
+    // Corrected Logic: Safely check programsUnderReviewByYear[selectedYear] before accessing [selectedText]
     const programsList = toggleState
-      ? programsUnderReviewByYear[selectedYear][selectedText]
+      ? programsUnderReviewByYear[selectedYear] && programsUnderReviewByYear[selectedYear][selectedText]
       : divisionToProgramsMap[selectedText];
 
     renderForms(programsList || [], parentContainer);
@@ -235,4 +235,34 @@ function renderPayeeInputs(payeesArray, programId) {
         `;
     })
     .join(""); // Join the array of HTML strings into one continuous string
+}
+
+// Add a listener for the year dropdown/input
+const yearInput = document.getElementById("year");
+if (yearInput) {
+  yearInput.addEventListener("change", () => {
+    // Replicate the filtering logic from the division and toggle listeners
+    setFormFields();
+
+    const selectedText =
+      divisionDropdown.options[divisionDropdown.selectedIndex].text;
+
+    // selectedYear is now automatically the new value of yearInput
+    const selectedYear = yearInput.value;
+
+    const parentContainer = document.getElementById("programs");
+    if (parentContainer) {
+      // Use the corrected, safer filtering logic
+      const programsList = toggleState
+        ? programsUnderReviewByYear[selectedYear] && programsUnderReviewByYear[selectedYear][selectedText]
+        : divisionToProgramsMap[selectedText];
+
+      renderForms(programsList || [], parentContainer);
+
+      // Apply read-only state after re-rendering program forms
+      if (typeof window.setFormEditability === 'function') {
+        window.setFormEditability(false);
+      }
+    }
+  });
 }

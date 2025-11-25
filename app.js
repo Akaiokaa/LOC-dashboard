@@ -36,7 +36,7 @@ app.get("/summary", (req, res) => {
 });
 
 app.get("/form", (req, res) => {
-  res.render("form", { username });
+  res.render("form", { academicDivisions, username });
 });
 
 app.post("/submit_login", (req, res) => {

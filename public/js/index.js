@@ -327,7 +327,7 @@ const yearSelect = document.getElementById("year");
 currentYear = yearSelect.value;
 
 yearSelect.addEventListener("change", () => {
-   
+
     // This now updates the global currentYear variable
     currentYear = yearSelect.value;
     console.log("Selected Year:", currentYear);
@@ -341,36 +341,38 @@ yearSelect.addEventListener("change", () => {
     // NOTE: You may want to trigger a re-render or list filter here
     // if the user changes the year while the toggle is active.
     const listItems = document.querySelectorAll(".review-list-items");
-    
+
     listItems.forEach((item) => {
         const program = item.textContent.trim();
         const card = item.closest(".card");
- 
+
         card.querySelector('.remove-dropdown-container').innerHTML = '';
 
-      
+
         item.style.display = "list-item";
         card.style.display = "flex";
 
-        if (toggleState) { 
+        if (toggleState) {
             if (!(currentYear && programsUnderReview[currentYear] && programsUnderReview[currentYear].includes(program))) {
                 item.style.display = "none";
             }
         }
 
-     
+
         const visibleItems = card.querySelectorAll(".review-list-items:not([style*='display: none'])");
         if (visibleItems.length === 0) {
             card.style.display = "none";
         }
-       
+
     });
-    
-    if (parentContainer && selectedText) {
-        renderForms(programsUnderReviewByYear[currentYear][selectedText], parentContainer);
-       
+
+    // Corrected logic for index.js:
+    const reviewProgramsForYear = programsUnderReviewByYear[currentYear];
+    if (parentContainer && selectedText && reviewProgramsForYear) {
+        // Only call renderForms if the year data exists
+        renderForms(reviewProgramsForYear[selectedText] || [], parentContainer);
     }
     window.setFormEditability(false);
     // alert(selectedText)
-    
+
 });

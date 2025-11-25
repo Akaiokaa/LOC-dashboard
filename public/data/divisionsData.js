@@ -7,7 +7,7 @@ export const academicDivisions = [
       "Drama",
       "Journalism",
       "Music",
-      "Visual Arts(Photography/Art)",
+      "Visual Arts (Photography/Art)",
     ],
   },
   {
@@ -18,7 +18,7 @@ export const academicDivisions = [
       "Humanities",
       "Philosophy",
       "Communication Studies",
-      "Information Literacy ",
+      "Information Literacy",
       "Counseling Services",
     ],
   },
@@ -50,6 +50,7 @@ export const academicDivisions = [
       "Chemistry",
       "Geology/Oceanography",
       "Physics/Astronomy",
+      "Engineering/Computer Science",
     ],
   },
   {
@@ -76,7 +77,6 @@ export const academicDivisions = [
     programs: [
       "Aviation (AAS/BAS)",
       "Information Technology",
-      "Engineering/Computer Science",
       "CAD-Design and Engineering Technology",
       "Natural Resources",
       "Water/Wastewater Technology",
@@ -89,6 +89,7 @@ export const academicDivisions = [
       "Occupational Therapy Assistant*",
       "Physical Therapist Assistant*",
       "Practical Nursing*",
+      "Emergency Medical Technician/Phlebotomy",
     ],
   },
   {
@@ -98,18 +99,18 @@ export const academicDivisions = [
       "Automotive Technology",
       "Carpentry",
       "Manufacturing",
-      "Mechatroncis",
+      "Mechatronics",
       "Welding Technology",
     ],
   },
   {
     divisionName: "Transitional Studies",
-    img: "/images/icons/ell.svg",
+    img: "/images/icons/humanities.svg",
     programs: ["Health and Physical Education"],
   },
   {
     divisionName: "Continuing Education",
-    img: "/images/icons/ell.svg",
+    img: "/images/icons/trades.svg",
     programs: ["CE"],
   },
 ];
