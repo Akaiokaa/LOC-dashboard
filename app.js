@@ -1,6 +1,10 @@
 import express from "express";
 import { academicDivisions } from "./public/data/divisionsData.js";
 import { programsUnderReview } from "./public/data/yearData.js";
+import mysql from 'mysql2';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
@@ -9,6 +13,14 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
+
+const pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD, 
+    database: process.env.DB_NAME, 
+    port: process.env.DB_PORT
+}).promise();
 
 const PORT = 3007;
 
@@ -52,6 +64,23 @@ app.post("/submit_edit", (req, res) => {
   reports.push(report);
   console.log(reports);
   res.render("confirm", {username});
+});
+
+app.get('/db_test', async (req, res) => { 
+    try {
+        // SQL query to select all records in Programs
+        const sql = "SELECT * FROM Programs";
+        
+        // Execute the query
+        const [records] = await pool.query(sql);
+
+        // Send data retrieved from the database
+        res.send(records);
+
+    } catch (err) {
+        console.error('Database error:', err);
+        res.status(500).send('Database error: ', err.message);
+    }
 });
 
 app.listen(PORT, () => {
