@@ -1,5 +1,4 @@
 import express from "express";
-// import { academicDivisions } from "./public/data/divisionsData.js";
 import { programsUnderReview } from "./public/data/yearData.js";
 import mysql from "mysql2";
 import dotenv from "dotenv";
@@ -61,8 +60,30 @@ app.get("/summary", (req, res) => {
   res.render("summary", { username });
 });
 
-app.get("/form", (req, res) => {
-  res.render("form", { academicDivisions, username });
+app.get("/form", async (req, res) => {
+  const [division_names] = await pool.query(
+    "SELECT division_id, division_name FROM Divisions;"
+  );
+  const [program_names] = await pool.query(
+    "SELECT program_id, program_name, division_id FROM Programs;"
+  );
+  const divisionsToProgramsMap = division_names.map((div) => ({
+    ...div,
+    programs: program_names
+      .filter((p) => Number(p.division_id) === Number(div.division_id))
+      .map((p) => p.program_name),
+  }));
+
+  const [program_assessments] = await pool.query(
+    "SELECT program_id, has_been_paid, report_submitted, notes FROM Program_Assessment pa"
+  );
+
+  
+
+  const [divisions] = await pool.query(
+    "SELECT DISTINCT d.division_id, division_name, dean, pen_contact, loc_rep, chair FROM Divisions AS d JOIN Programs AS p ON p.division_id = d.division_id;"
+  );
+  res.render("form", { divisions, divisionsToProgramsMap, username });
 });
 
 app.post("/submit_login", (req, res) => {
