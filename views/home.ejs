@@ -1,85 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loc Dashboard</title>
+    <link rel="stylesheet" href="/styles/home.css" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loc Dashboard</title>
-  <link rel="stylesheet" href="/styles/home.css" />
-  
-  <link rel="icon" href="/images/GRC_logo.svg" />
-  <script src="js/globals.js"></script>
-  <script src="js/search.js" defer></script>
-  <script src="/data/divisionsData.js" type="module"></script> 
-  <script src="js/index.js" type="module"></script>
-</head>
+    <link rel="icon" href="/images/GRC_logo.svg" />
+    <script src="js/globals.js"></script>
+    <script src="js/search.js" defer></script>
+    <script src="/data/divisionsData.js" type="module"></script>
+    <script src="js/index.js" type="module"></script>
+  </head>
 
-<body>
-  <%- include('partials/header') %>
+  <body>
+    <%- include('partials/header') %>
     <main>
       <div id="main-aside"><%- include('partials/aside') %></div>
       <div class="main">
         <div class="welcomeSearchBar">
           <% if(username){ %>
-            <h1>Welcome, <%= username %>
-            </h1>
-            <% } else{%>
-              <h1>Restricted Mode. You must login to make changes.</h1>
-              <% } %>
+          <h1>Welcome, <%= username %></h1>
+          <% } else{%>
+          <h1>Restricted Mode. You must login to make changes.</h1>
+          <% } %>
 
-                <input type="text" name="search" class="search" placeholder="Search by Division" />
+          <input
+            type="text"
+            name="search"
+            class="search"
+            placeholder="Search by Division"
+          />
         </div>
         <!-- toggle -->
         <!-- Different Departments -->
         <!-- for each loop to display different academic divisions -->
         <div class="grid-container">
           <% academicDivisions.forEach(academicDivision=> { %>
-         <!-- if(programsUnderReview.year_22_23.includes(academicDivision.divisionName)) -->
-              <div class="card">
-              <div class="card-head">
-                <h2>
-                  <%= academicDivision.divisionName %>
-                </h2>
-                <img src="<%= academicDivision.img %>" alt="<%= academicDivision.divisionName %> Logo"
-                  style="width: 60px" />
-              </div>
-              <div class="card-body">
-                <ul class="program-list">
-                  <% academicDivision.programs.forEach(program=> { %>
-                    <li class="review-list-items">
-                      <%= program %>
-                    </li>  
-                  <% });%>
-                </ul>
-              </div>
+          <!-- if(programsUnderReview.year_22_23.includes(academicDivision.division_name)) -->
+          <div class="card">
+            <div class="card-head">
+              <h2><%= academicDivision.division_name %></h2>
+              <img
+                src="<%= academicDivision.img %>"
+                alt="<%= academicDivision.division_name %> Logo"
+                style="width: 60px"
+              />
+            </div>
+            <div class="card-body">
+              <ul class="program-list">
+                <% academicDivision.programs.forEach(program=> { %>
+                <li class="review-list-items"><%= program.program_name %></li>
+                <% });%>
+              </ul>
+            </div>
 
-              <div class="remove-dropdown-container">
-              </div>
+            <div class="remove-dropdown-container"></div>
 
-              <div class="card-foot">
-                <div class="add-remove-programs">
-                  <a href="#" class="main-button button-spacing add-program-btn"
-                    data-division="<%= academicDivision.divisionName %>">
-                    +
-                  </a>
-                  <a class="main-button button-spacing remove-program-btn"
-                    data-division="<%= academicDivision.divisionName %>">
-                    -
-                  </a>
-                </div>
-
-                <a href="/form?division=<%= academicDivision.divisionName %>" class="main-button button-spacing">
-                  Edit Details✏️
+            <div class="card-foot">
+              <div class="add-remove-programs">
+                <a
+                  href="#"
+                  class="main-button button-spacing add-program-btn"
+                  data-division="<%= academicDivision.division_name %>"
+                >
+                  +
+                </a>
+                <a
+                  class="main-button button-spacing remove-program-btn"
+                  data-division="<%= academicDivision.division_name %>"
+                >
+                  -
                 </a>
               </div>
+
+              <a
+                href="/form?division=<%= academicDivision.division_name %>"
+                class="main-button button-spacing"
+              >
+                Edit Details✏️
+              </a>
             </div>
-        <!-- } -->
+          </div>
+          <!-- } -->
           <% });%>
         </div>
       </div>
     </main>
 
     <%- include('partials/footer') %>
-</body>
-
+  </body>
 </html>
