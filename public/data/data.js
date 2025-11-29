@@ -38,45 +38,62 @@ let scienceDepartment = {
   chair: "Katy Shaw and Danny Najera",
 };
 
+let mathDepartment = {
+  division: "Mathematics",
+  dean: "Miebeth Bustillo-Booth",
+  pen: "Heather Lambert",
+  locRep: "Michele Wallace",
+  chair: "Sam Smith",
+};
+
 let technologyDepartment = {
   division: "Technology",
-  dean: "Lea Ann Simpson",
+  dean: "Lea Ann Simpson", // Updated
   pen: "Angie Brenner",
-  locRep: "Josh Archer",
+  locRep: "Josh Archer", // Updated
   chair: "Michael Wood",
 };
 
 let healthDepartment = {
   division: "Health Science",
   dean: "Lionel Candido Flores",
-  pen: null,
+  pen: null, // Updated
   locRep: "Thom Jackson",
-  chair: "Leslie Kessler",
+  chair: "Leslie Kessler", // Updated
 };
 
 let tradesDepartment = {
   division: "Trades",
-  dean: "Lea Ann Simpson",
+  dean: "Lea Ann Simpson", // Updated
   pen: "Mary Singer",
-  locRep: "Ben Orr",
+  locRep: "Ben Orr", // Updated
   chair: "David Lewis",
 };
 
 let businessLawEducationDepartment = {
   division: "Business, Law, and Education",
-  dean: "Lea Ann Simpson",
+  dean: "Lea Ann Simpson", // Updated
   pen: "Mary Singer",
   locRep: "Jane Swenson",
-  chair: "Lea Ann Simpson",
+  chair: "Lea Ann Simpson", // Updated
 };
 
 let transitionalStudiesDepartment = {
   division: "Transitional Studies",
   dean: "Lionel Candido Flores",
-  pen: null,
+  pen: null, // Updated
   locRep: "Thom Jackson",
+  chair: null, // Updated
+};
+
+let ceDepartment = {
+  division: "Continuing Education",
+  dean: "Sidney Weldele-Wallace",
+  pen: null,
+  locRep: null,
   chair: null,
 };
+
 
 // maps shorthand keys to department objects
 const departmentMap = new Map([
@@ -90,23 +107,26 @@ const departmentMap = new Map([
   ["trades", tradesDepartment],
   ["business", businessLawEducationDepartment],
   ["transitional", transitionalStudiesDepartment],
+  ["math", mathDepartment], // Added Math Department
+  ["ce", ceDepartment], // Added CE Department
 ]);
 
 // maps division to a list of its academic programs (for populating the Program dropdown)
-// map that conatins all programs under each division
 const divisionToProgramsMap = {
-  "Fine Arts": ["Music",
-  "Dance",
-  "Drama",
-  "Journalism",
-  "Visual Arts(Photography/Art)"
+  "Fine Arts": [
+    "Music",
+    "Dance",
+    "Drama",
+    "Journalism",
+    "Visual Arts (Photography/Art)", // Corrected name
   ],
-    Humanities: ["Foreign Languages",
+  "Humanities": [
+    "Foreign Languages",
     "Humanities",
     "Philosophy",
     "Communication Studies",
     "Information Literacy",
-    "Counseling Services"
+    "Counseling Services",
   ],
   "Social Science": [
     "American Ethnic & Minority Studies",
@@ -115,141 +135,135 @@ const divisionToProgramsMap = {
     "Political Science",
     "Psychology",
     "Economics",
-    "Geography"
+    "Geography",
+    "Sociology", // Added Sociology
   ],
-  English: ["English"],
-  Science: [
-    "Anatomy and Physiology",
+  "English": ["English"],
+  "Science": [
+    "Anatomy & Physiology", // Corrected name
     "Biology/Environmental Science",
     "Geology/Oceanography",
     "Chemistry",
     "Physics/Astronomy",
+    "Engineering/Computer Science", // Added
   ],
+  "Mathematics": ["Math"], // Added Math Division
   "Business, Law, and Education": [
     "Accounting",
     "Business Technologies & Administrative Careers",
     "Business Management",
-    "Business Marketing/Entrepreneurship (BAS)",
+    "Business Marketing/Entrepreneurship (BAS)", // Corrected name
     "Court Reporting & Captioning",
     "Criminal Justice",
-    "Early Childhood Education"
+    "Early Childhood Education",
   ],
-  Technology: [
-    "Aviation",
-    "CAD Design and Engineering Tech.",
+  "Technology": [
+    "Aviation (AAS/BAS)", // Corrected name
+    "CAD-Design and Engineering Technology", // Corrected name
+    "Information Technology", // Added
     "Natural Resources",
+    "Water/Wastewater Technology", // Added
   ],
-  "Health Science": ["Practical Nursing", "Physical Therapist Assistant"],
-  Trades: ["Automotive Technology", "Manufacturing"],
+  "Health Science": [
+    "Practical Nursing*", // Corrected name (matches master list)
+    "Physical Therapist Assistant*", // Corrected name (matches master list)
+    "Occupational Therapy Assistant*", // Added
+    "Emergency Medical Technician/Phlebotomy", // Added
+  ],
+  "Trades": [
+    "Automotive Technology",
+    "Manufacturing",
+    "Carpentry", // Added
+    "Mechatronics", // Added
+    "Welding Technology", // Added
+  ],
   "Transitional Studies": ["Health and Physical Education"],
+  "Continuing Education": ["CE"], // Added
 };
 
-// one more map that has programs only under review
-// const divisionToProgramsReviewMap = {
-//   Humanities: ["Communication Studies"],
-//   "Social Science": [
-//     "History",
-//     "Political Science",
-//   ],
-//   English: ["English"],
-//   Science: [
-//     "Biology/Environmental Science",
-//   ],
-//   "Business, Law, and Education": [
-//     "Business Management",
-//     "Business Marketing/Entrepreneurship",
-//   ],
-//   Technology: [
-//     "Natural Resources",
-//   ],
-//   Trades: ["Manufacturing"],
-// };
+// Map containing all programs under review, grouped by year and division (Corrected to match PAI Schedule)
 const programsUnderReviewByYear = {
   year_23_24: {
-    Humanities: ["Communication Studies"],
-    "Social Science": ["History", "Psychology"],
-    English: ["English"],
-    Science: ["Biology/Environmental Science"],
-    "Business, Law, and Education": [
-      "Business Management",
-      "Business Marketing/Entrepreneurship",
-      "Criminal Justice",
-    ],
-    Technology: [],
-    Trades: ["Manufacturing"],
+    "Fine Arts": ["Journalism"],
+    "Humanities": ["Communication Studies"],
+    "Social Science": ["Geography", "History", "Psychology"],
+    "English": ["English"],
+    "Science": ["Biology/Environmental Science"],
+    "Mathematics": [],
+    "Business, Law, and Education": ["Business Management", "Business Marketing/Entrepreneurship (BAS)", "Criminal Justice"],
+    "Technology": ["Natural Resources"],
+    "Health Science": [],
+    "Trades": ["Manufacturing"],
+    "Transitional Studies": [],
+    "Continuing Education": [],
   },
-
   year_24_25: {
-    "Fine Arts": ["drama", "Visual Arts (Photography/Art)"],
-    Humanities: [],
-    "Social Science": ["Economics", "Geography"],
-    English: ["Drama", "Visual Arts (Photography/Art)", "Foreign Languages"],
-    Science: ["Chemistry"],
+    "Fine Arts": ["Drama", "Music", "Visual Arts (Photography/Art)"],
+    "Humanities": ["Foreign Languages", "Humanities"],
+    "Social Science": ["History"],
+    "English": [],
+    "Science": ["Chemistry", "Physics/Astronomy"],
+    "Mathematics": [],
     "Business, Law, and Education": [],
-    Technology: ["Engineering/Computer Science"],
-    Trades: [],
+    "Technology": [],
+    "Health Science": ["Physical Therapist Assistant*"],
+    "Trades": [],
+    "Transitional Studies": [],
+    "Continuing Education": [],
   },
-
   year_25_26: {
-    Humanities: [
-      "Philosophy",
-      "Information Literacy"
-    ],
-    "Social Science": ["Sociology","Economics","American Ethnic & Minority Studies"],
-    English: [],
-    Science: ["Physics/Astronomy"],
+    "Fine Arts": [],
+    "Humanities": ["Philosophy", "Information Literacy"],
+    "Social Science": ["American Ethnic & Minority Studies", "Economics", "Sociology"],
+    "English": [],
+    "Science": [],
+    "Mathematics": [],
     "Business, Law, and Education": ["Business Technologies & Administrative Careers"],
-    Technology: [],
-    Trades: ["Carpentry", "Welding Technology"],
+    "Technology": [],
+    "Health Science": ["Occupational Therapy Assistant*"],
+    "Trades": ["Carpentry", "Welding Technology"],
+    "Transitional Studies": [],
+    "Continuing Education": [],
   },
-
   year_26_27: {
-    Humanities: [],
+    "Fine Arts": ["Visual Arts (Photography/Art)"],
+    "Humanities": ["Counseling Services"],
     "Social Science": ["Anthropology", "Political Science"],
-    English: [],
-    Science: ["Geology/Oceanography"],
-    "Business, Law, and Education": ["Accounting", "Early Childhood Education"],
-    Technology: ["Aviation (AAS/BAS)", "CAD-Design and Engineering Technology"],
-    Trades: ["Automotive Technology"],
+    "English": [],
+    "Science": ["Geology/Oceanography"],
+    "Mathematics": [],
+    "Business, Law, and Education": ["Accounting", "Court Reporting & Captioning", "Early Childhood Education"],
+    "Technology": ["Aviation (AAS/BAS)", "CAD-Design and Engineering Technology"],
+    "Health Science": ["Practical Nursing*"],
+    "Trades": ["Automotive Technology"],
+    "Transitional Studies": [],
+    "Continuing Education": [],
   },
-
   year_27_28: {
-    Humanities: ["Humanities", "Journalism"],
+    "Fine Arts": ["Dance", "Music", "Journalism"],
+    "Humanities": ["Foreign Languages", "Humanities"],
     "Social Science": ["Criminal Justice"],
-    English: [],
-    Science: ["Anatomy & Physiology", "Math"],
-    "Business, Law, and Education": ["Court Reporting & Captioning", "CE"],
-    Technology: ["Information Technology", "Mechatronics"],
-    Trades: ["Water/Wastewater Technology"],
+    "English": [],
+    "Science": ["Anatomy & Physiology"],
+    "Mathematics": ["Math"],
+    "Business, Law, and Education": ["Criminal Justice"], // Criminal Justice listed in both 2023-24 and 2027-28
+    "Technology": ["Information Technology", "Water/Wastewater Technology"],
+    "Health Science": [],
+    "Trades": ["Mechatronics"],
+    "Transitional Studies": ["Health and Physical Education"],
+    "Continuing Education": ["CE"],
   }
 };
 
-const divisionToProgramsReviewMap2025_2026 = {
-  "Fine Arts": ["Music"],
-  Humanities: ["Communication Studies"],
-  "Social Science": [
-    "Anthropology",
-    "Political Science",
-  ],
-  Science: [
-    "Chemistry",
-  ],
-  "Business, Law, and Education": [
-    "Accounting",
-  ],
-  Technology: [
-    "Aviation",
-  ],
-  Trades: ["Automotive Technology",],
-  "Transitional Studies": ["Health and Physical Education"],
-};
+// Removed obsolete divisionToProgramsReviewMap2025_2026
 
 const programDetailsMap = {
-  Music: {
+  // 2024-2025 Assessment Data (Cleaned and Corrected)
+  "Music": {
     payees: [
       { name: "Sam", amount: 333.0 },
       { name: "Kelly", amount: 333.0 },
-      { name: "Ruth", amount: 333.0 },
+      { name: "Ruth Mueller", amount: 333.0 }, // Corrected name
     ],
     hasBeenPaid: "Emails sent to Building Admins on 5/2/2025",
     reportSubmitted: "",
@@ -262,7 +276,7 @@ const programDetailsMap = {
     reportSubmitted: "",
     notes: "No",
   },
-  Anthropology: {
+  "Anthropology": {
     payees: [
       { name: "Madeleine", amount: 500.0 },
       { name: "Joy Crawford", amount: 500.0 },
@@ -271,7 +285,7 @@ const programDetailsMap = {
     reportSubmitted: "",
     notes: "Yes! Joy and Madeleine (Madeleine gets paid, Joy is a mentor)",
   },
-  History: {
+  "History": {
     payees: [],
     hasBeenPaid: "Emails sent to Building Admins on 5/2/2025",
     reportSubmitted: "",
@@ -286,16 +300,16 @@ const programDetailsMap = {
     reportSubmitted: "Submitted 6/15",
     notes: "Yes! Lindsey Smith and Yoav will do a project",
   },
-  Psychology: {
+  "Psychology": {
     payees: [
-      { name: "Joy", amount: 500.0 },
+      { name: "Joy Crawford", amount: 500.0 }, // Corrected name
       { name: "Jerry", amount: 500.0 },
     ],
     hasBeenPaid: "Emails sent to Building Admins on 5/2/2025",
     reportSubmitted: "Submitted 6/15",
     notes: "Yes! Joy and Jerry will do a project together",
   },
-  English: {
+  "English": {
     payees: [
       { name: "Aley Martin", amount: 175.0 },
       { name: "Claire Salcedo", amount: 175.0 },
@@ -307,7 +321,7 @@ const programDetailsMap = {
     notes:
       "Yes! See notes on adjuncts to pay. Will submit report next year 2025-2026",
   },
-  "Anatomy and Physiology": {
+  "Anatomy & Physiology": { // Corrected name
     payees: [],
     hasBeenPaid: "Emails sent to Building Admins on 5/2/2025",
     reportSubmitted: "",
@@ -330,7 +344,7 @@ const programDetailsMap = {
     notes:
       "Initial Invite Sent from Julie 9/26/24. Follow up on 10/21 and 11/20",
   },
-  Accounting: {
+  "Accounting": {
     payees: [],
     hasBeenPaid: "Emails sent to Building Admins on 5/2/2025",
     reportSubmitted: "",
@@ -342,19 +356,19 @@ const programDetailsMap = {
     reportSubmitted: "",
     notes: "Initial Invite Sent from Julie 9/26/24. Follow up on 10/21",
   },
-  "Business Marketing/Entrepreneurship": {
+  "Business Marketing/Entrepreneurship (BAS)": { // Corrected name
     payees: [],
     hasBeenPaid: "Emails sent to Building Admins on 5/2/2025",
     reportSubmitted: "",
     notes: "Initial Invite Sent from Julie 9/26/24. Follow up on 10/21",
   },
-  Aviation: {
+  "Aviation (AAS/BAS)": { // Corrected name
     payees: [{ name: "Tad Henry", amount: 1000.0 }],
     hasBeenPaid: "Emails sent to Building Admins on 5/2/2025",
     reportSubmitted: "",
     notes: "Yes! Tad Henry is taking this on",
   },
-  "CAD Design and Engineering Tech.": {
+  "CAD-Design and Engineering Technology": { // Corrected name
     payees: [{ name: "Seunghye Jang", amount: 1000.0 }],
     hasBeenPaid: "Emails sent to Building Admins on 5/2/2025",
     reportSubmitted: "Yes",
@@ -367,13 +381,13 @@ const programDetailsMap = {
     notes:
       "Can't this year due to so many faculty in their department in the tenure process.",
   },
-  "Practical Nursing": {
+  "Practical Nursing*": { // Corrected name
     payees: [],
     hasBeenPaid: "Emails sent to Building Admins on 5/2/2025",
     reportSubmitted: "",
     notes: "Not this time around",
   },
-  "Physical Therapist Assistant": {
+  "Physical Therapist Assistant*": { // Corrected name
     payees: [
       { name: "Pam Kikillus", amount: 500.0 },
       { name: "Anna Neil", amount: 500.0 },
@@ -388,7 +402,7 @@ const programDetailsMap = {
     reportSubmitted: "",
     notes: "Initial Invite Sent from Julie 9/26/24. Follow up on 10/21",
   },
-  Manufacturing: {
+  "Manufacturing": {
     payees: [],
     hasBeenPaid: "Emails sent to Building Admins on 5/2/2025",
     reportSubmitted: "",
@@ -401,80 +415,36 @@ const programDetailsMap = {
     reportSubmitted: "",
     notes: "Not this time around",
   },
-  Economics: {
-    payees: [],
-    hasBeenPaid: "",
-    reportSubmitted: "",
-    notes: "Not this time around",
-  },
-  Geography:{
-    payees: [],
-    hasBeenPaid: "",
-    reportSubmitted: "",
-    notes: "",
-  },
-  Drama: {
-    payees: [],
-    hasBeenPaid: "",
-    reportSubmitted: "",
-    notes: "",
-  },
-  "Visual Arts (Photography/Art)": {
-    payees: [],
-    hasBeenPaid: "",  
-    reportSubmitted: "",
-    notes: "",
-  },
-  "Foreign Languages": {
-    payees: [],
-    hasBeenPaid: "",  
-    reportSubmitted: "",
-    notes: "",
-  },
- 
-  "Chemistry": {
-     payees: [], 
-     hasBeenPaid: "", 
-     reportSubmitted: "", 
-     notes: "" 
-    },
-  "Economics": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Geography": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+
+  // Remaining programs set to default blank values
+  "Dance": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Drama": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Journalism": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Music": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Visual Arts (Photography/Art)": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Foreign Languages": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Engineering/Computer Science": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-
-
-  Philosophy: { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Information Literacy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "American Ethnic & Minority Studies": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  Sociology: { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Physics/Astronomy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Business Technologies & Administrative Careers": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Carpentry": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Welding Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-
-
-  "Anthropology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Political Science": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Geology/Oceanography": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Accounting": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Early Childhood Education": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Aviation (AAS/BAS)": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "CAD-Design and Engineering Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Automotive Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "American Ethnic & Minority Studies ": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-
   "Humanities": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Journalism": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Criminal Justice": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Anatomy & Physiology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Philosophy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Information Literacy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Counseling Services": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "American Ethnic & Minority Studies": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Economics": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Geography": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Sociology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Chemistry": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Physics/Astronomy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Engineering/Computer Science": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Math": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Business Technologies & Administrative Careers": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Court Reporting & Captioning": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "CE": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Criminal Justice": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Early Childhood Education": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Information Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-  "Mechatronics": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
   "Water/Wastewater Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
-
+  "Occupational Therapy Assistant*": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Emergency Medical Technician/Phlebotomy": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Carpentry": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Mechatronics": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "Welding Technology": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
+  "CE": { payees: [], hasBeenPaid: "", reportSubmitted: "", notes: "" },
 };
