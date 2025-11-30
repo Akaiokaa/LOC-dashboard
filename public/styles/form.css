@@ -4,6 +4,7 @@
 
 main {
   display: flex;
+  margin-bottom: 2rem;
 }
 
 h2 {
