@@ -8,81 +8,126 @@
   <link rel="stylesheet" href="/styles/home.css" />
   <script src="js/index.js" type="module"></script>
   <link rel="icon" href="/images/GRC_logo.svg" />
+  <link rel="stylesheet" href="/styles/schedule.css" />
 </head>
-
 <body>
-  <%- include('partials/header') %>
     <main>
-      <div id="main-aside"><%- include('partials/aside') %></div>
-      <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple Table</title>
-  <style>
-    table {
-      width: 50%;
-      border-collapse: collapse;
-      margin: 20px 0;
-    }
-    th, td {
-      border: 1px solid #333;
-      padding: 8px 12px;
-      text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-  </style>
-</head>
-<body>
-     <table>
-    <thead>
-      <tr>
-        <th>2023-24</th>
-        <th>2024-25</th>
-        <th>2025-26</th>
-        <th>2026-27</th>
-        <th>2027-28</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-</body>
-</html>
+        <%- include('partials/header') %>
+        <div id="main-aside"><%- include('partials/aside') %></div>
+        <table>
+        <thead>
+            <tr>
+            <th>Division / Program</th>
+            <th>2023-24</th>
+            <th>2024-25</th>
+            <th>2025-26</th>
+            <th>2026-27</th>
+            <th>2027-28</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Fine Arts -->
+            <tr><td class="division" colspan="6">Fine Arts</td></tr>
+            <tr><td class="left">Dance - TBD</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Drama</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Music</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Visual Arts (Photography/Art)</td><td></td><td></td><td></td><td></td><td></td></tr>
 
+            <!-- Humanities -->
+            <tr><td class="division" colspan="6">Humanities</td></tr>
+            <tr><td class="left">Foreign Languages</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Humanities (TBD)5</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Philosophy</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Communication Studies</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Information Literacy</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Counseling Services3</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Journalism6</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <!-- Social Science -->
+            <tr><td class="division" colspan="6">Social Science</td></tr>
+            <tr><td class="left">American Ethnic & Minority Studies</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Anthropology</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Economics</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Geography</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">History</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Political Science</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Psychology</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Sociology</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <!-- English -->
+            <tr><td class="division" colspan="6">English</td></tr>
+            <tr><td class="left">English</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <!-- Science -->
+            <tr><td class="division" colspan="6">Science</td></tr>
+            <tr><td class="left">Anatomy & Physiology</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Biology/Environmental Science</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Chemistry</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Geology/Oceanography</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Physics/Astronomy</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <!-- Mathematics -->
+            <tr><td class="division" colspan="6">Mathematics</td></tr>
+            <tr><td class="left">Math</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <!-- Business, Law, and Education -->
+            <tr><td class="division" colspan="6">Business, Law, and Education</td></tr>
+            <tr><td class="left">Accounting</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Business Administration (TBD)</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Business Technologies & Administrative Careers</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Business Management</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Business Marketing/Entrepreneurship (BAS)</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Criminal Justice</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <!-- Technology -->
+            <tr><td class="division" colspan="6">Technology</td></tr>
+            <tr><td class="left">Aviation (AAS/BAS)2</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Information Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Engineering/Computer Science</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">CAD-Design and Engineering Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <!-- Natural Resources -->
+            <tr><td class="division" colspan="6">Natural Resources</td></tr>
+            <tr><td class="left">Practical Nursing*</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Water/Wastewater Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <!-- Health Science -->
+            <tr><td class="division" colspan="6">Health Science</td></tr>
+            <tr><td class="left">Occupational Therapy Assistant*</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Physical Therapist Assistant*</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Emergency Medical Technician/Phlebotomy</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Early Childhood Education</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Health and Physical Education</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <!-- Trades -->
+            <tr><td class="division" colspan="6">Trades</td></tr>
+            <tr><td class="left">Automotive Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Carpentry</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Manufacturing</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Mechatronics</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Welding Technology1</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <!-- Transitional Studies -->
+            <tr><td class="division" colspan="6">Transitional Studies</td></tr>
+            <tr><td class="left">Transitional Studies/Adult Basic Education/GED/HS21+</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">English for Speakers of Other Languages</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">High School Completion</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Open Doors (IGrad)</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <!-- Continuing Education -->
+            <tr><td class="division" colspan="6">Continuing Education</td></tr>
+            <tr><td class="left">CE</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+        </tbody>
+        </table>
         <!-- <a href="/" id="backButton" class="main-button">
-          <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-          Back to home page
+            </svg>
+            Back to home page
         </a> -->
     </main>
-    <%- include('partials/footer') %>
+<%- include('partials/footer') %>
 </body>
 
 </html>
