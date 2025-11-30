@@ -9,7 +9,7 @@
     <link rel="icon" href="/images/GRC_logo.svg" />
     <script src="js/globals.js"></script>
     <script src="js/search.js" defer></script>
-    <!-- <script src="/data/divisionsData.js" type="module"></script> -->
+    <script src="/data/divisionsData.js" type="module"></script>
     <script src="js/index.js" type="module"></script>
   </head>
 
@@ -37,20 +37,20 @@
         <!-- for each loop to display different academic divisions -->
         <div class="grid-container">
           <% academicDivisions.forEach(academicDivision=> { %>
-          <!-- if(programsUnderReview.year_22_23.includes(academicDivision.division_name)) -->
+          <!-- if(programsUnderReview.year_22_23.includes(academicDivision.divisionName)) -->
           <div class="card">
             <div class="card-head">
-              <h2><%= academicDivision.division_name %></h2>
+              <h2><%= academicDivision.divisionName %></h2>
               <img
                 src="<%= academicDivision.img %>"
-                alt="<%= academicDivision.division_name %> Logo"
+                alt="<%= academicDivision.divisionName %> Logo"
                 style="width: 60px"
               />
             </div>
             <div class="card-body">
               <ul class="program-list">
                 <% academicDivision.programs.forEach(program=> { %>
-                <li class="review-list-items"><%= program.program_name %></li>
+                <li class="review-list-items"><%= program %></li>
                 <% });%>
               </ul>
             </div>
@@ -62,20 +62,20 @@
                 <a
                   href="#"
                   class="main-button button-spacing add-program-btn"
-                  data-division="<%= academicDivision.division_name %>"
+                  data-division="<%= academicDivision.divisionName %>"
                 >
                   +
                 </a>
                 <a
                   class="main-button button-spacing remove-program-btn"
-                  data-division="<%= academicDivision.division_name %>"
+                  data-division="<%= academicDivision.divisionName %>"
                 >
                   -
                 </a>
               </div>
 
               <a
-                href="/form?division=<%= academicDivision.division_name %>"
+                href="/form?division=<%= academicDivision.divisionName %>"
                 class="main-button button-spacing"
               >
                 Edit Details✏️

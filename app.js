@@ -1,5 +1,6 @@
 import express from "express";
 import { programsUnderReview } from "./public/data/yearData.js";
+import { academicDivisions } from "./public/data/divisionsData.js";
 import mysql from "mysql2";
 import dotenv from "dotenv";
 
@@ -39,7 +40,7 @@ app.get("/", async (req, res) => {
   const [programs] = await pool.query(
     "SELECT program_id, program_name, division_id FROM Programs"
   );
-  const academicDivisions = divisions.map((div) => ({
+  const academicDivisions1 = divisions.map((div) => ({
     ...div,
     programs: programs.filter(
       (p) => Number(p.division_id) === Number(div.division_id)
@@ -61,29 +62,29 @@ app.get("/summary", (req, res) => {
 });
 
 app.get("/form", async (req, res) => {
-  const [division_names] = await pool.query(
-    "SELECT division_id, division_name FROM Divisions;"
+  const [programFields] = await pool.query(
+    "SELECT division_id, p.program_id, program_name, assessment_id, academic_year, is_scheduled, has_been_paid, report_submitted, notes FROM Programs AS p JOIN Program_Assessment AS pa ON p.program_id = pa.program_id"
   );
-  const [program_names] = await pool.query(
-    "SELECT program_id, program_name, division_id FROM Programs;"
-  );
-  const divisionsToProgramsMap = division_names.map((div) => ({
-    ...div,
-    programs: program_names
-      .filter((p) => Number(p.division_id) === Number(div.division_id))
-      .map((p) => p.program_name),
-  }));
-
-  const [program_assessments] = await pool.query(
-    "SELECT program_id, has_been_paid, report_submitted, notes FROM Program_Assessment pa"
-  );
-
-  
-
-  const [divisions] = await pool.query(
+  const [divisionFields] = await pool.query(
     "SELECT DISTINCT d.division_id, division_name, dean, pen_contact, loc_rep, chair FROM Divisions AS d JOIN Programs AS p ON p.division_id = d.division_id;"
   );
-  res.render("form", { divisions, divisionsToProgramsMap, username });
+
+  const [payees] = await pool.query(
+    "SELECT assessment_id, p.payee_id, payee_name, amount  FROM Payees AS p JOIN Assessment_Payments AS ap ON p.payee_id = ap.payee_id"
+  );
+
+  const [reviewYear] = await pool.query(
+    "SELECT p.program_id, review_year FROM PAI_Schedule AS p JOIN Programs AS pr ON p.program_id = pr.program_id"
+  );
+
+  console.log(reviewYear);
+  res.render("form", {
+    divisionFields,
+    programFields,
+    payees,
+    reviewYear,
+    username,
+  });
 });
 
 app.post("/submit_login", (req, res) => {

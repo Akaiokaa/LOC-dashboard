@@ -13,22 +13,30 @@ const divisionDropdown = document.getElementById("division");
 divisionDropdown.addEventListener("change", () => {
   setFormFields();
 
-  const selectedText =
-    divisionDropdown.options[divisionDropdown.selectedIndex].text;
-
+  // const selectedText =
+  //   divisionDropdown.options[divisionDropdown.selectedIndex].text;
   const parentContainer = document.getElementById("programs");
   const selectedYear = document.getElementById("year").value;
   if (parentContainer) {
-
     // Corrected Logic: Safely check programsUnderReviewByYear[selectedYear] before accessing [selectedText]
-    const programsList = toggleState
-      ? programsUnderReviewByYear[selectedYear] && programsUnderReviewByYear[selectedYear][selectedText]
-      : divisionToProgramsMap[selectedText];
-
+    // const programsList = toggleState
+    //   ? programsUnderReviewByYear[selectedYear] &&
+    //     programsUnderReviewByYear[selectedYear][selectedText]
+    //   : divisionToProgramsMap[selectedText];
+    const id = divisionDropdown.selectedIndex + 1;
+    let programsList = programFields.filter(
+      (program) => program.division_id === id
+    );
+    if (toggleState) {
+      programsList = programsList.filter(
+        (program) => program.academic_year == selectedYear
+      );
+    }
+    console.log(programsList);
     renderForms(programsList || [], parentContainer);
 
     // Apply read-only state after re-rendering program forms
-    if (typeof window.setFormEditability === 'function') {
+    if (typeof window.setFormEditability === "function") {
       // The form should revert to a non-editable state after division change
       window.setFormEditability(false);
     }
@@ -37,23 +45,27 @@ divisionDropdown.addEventListener("change", () => {
 
 toggle.addEventListener("click", () => {
   setFormFields();
-  const selectedText =
-    divisionDropdown.options[divisionDropdown.selectedIndex].text;
+  const id = divisionDropdown.selectedIndex + 1;
+  let programsList = programFields.filter(
+    (program) => program.division_id === id
+  );
+
   const selectedYear = document.getElementById("year").value;
-  console.log("Selected Year:", selectedYear);
-  console.log("Selected Text:", selectedText);
+
   const parentContainer = document.getElementById("programs");
 
   if (parentContainer) {
-
     if (toggleState) {
-      renderForms(programsUnderReviewByYear[selectedYear][selectedText], parentContainer);
+      const underReviewprogramsList = programsList.filter(
+        (program) => program.academic_year === selectedYear
+      );
+      renderForms(underReviewprogramsList, parentContainer);
     } else {
-      renderForms(divisionToProgramsMap[selectedText], parentContainer);
+      renderForms(programsList, parentContainer);
     }
 
     // Apply read-only state
-    if (typeof window.setFormEditability === 'function') {
+    if (typeof window.setFormEditability === "function") {
       window.setFormEditability(false);
     }
   }
@@ -82,17 +94,19 @@ if (urlDivision) {
   setFormFields();
 }
 
-const selectedText =
-  divisionDropdown.options[divisionDropdown.selectedIndex].text;
+const id = divisionDropdown.selectedIndex + 1;
+let programsList = programFields.filter(
+  (program) => program.division_id === id
+);
 
 const parentContainer = document.getElementById("programs");
 // initialize form fields on load
 setFormFields();
 // FIX: Use an empty array if the map lookup returns undefined
-renderForms(divisionToProgramsMap[selectedText] || [], parentContainer);
+renderForms(programsList || [], parentContainer);
 
 // Apply read-only state after initial form render on page load
-if (typeof window.setFormEditability === 'function') {
+if (typeof window.setFormEditability === "function") {
   window.setFormEditability(false);
 }
 
@@ -101,15 +115,21 @@ function setFormFields() {
   clearErrors();
 
   // Get the selected option text
-  const selectedText =
-    divisionDropdown.options[divisionDropdown.selectedIndex].value;
+  const index = divisionDropdown.selectedIndex;
   // assign new object to the object in the map
-  const myObject = departmentMap.get(selectedText);
 
-  document.getElementById("dean").value = formatValue(myObject.dean);
-  document.getElementById("pen").value = formatValue(myObject.pen);
-  document.getElementById("locRep").value = formatValue(myObject.locRep);
-  document.getElementById("chair").value = formatValue(myObject.chair);
+  document.getElementById("dean").value = formatValue(
+    divisionFields[index].dean
+  );
+  document.getElementById("pen").value = formatValue(
+    divisionFields[index].pen_contact
+  );
+  document.getElementById("locRep").value = formatValue(
+    divisionFields[index].loc_rep
+  );
+  document.getElementById("chair").value = formatValue(
+    divisionFields[index].chair
+  );
 }
 
 // updates fields with program-specific data on program change
@@ -142,32 +162,33 @@ function renderForms(programs, targetContainer) {
   // clears the existing content
   targetContainer.innerHTML = "";
 
-  console.log(programs);
-
   // Check if programs is a valid array before iterating
   if (!Array.isArray(programs) || programs.length === 0) {
-    targetContainer.innerHTML = '<p class="no-programs" style="padding: 10px;">No programs to display for this view.</p>';
+    targetContainer.innerHTML =
+      '<p class="no-programs" style="padding: 10px;">No programs to display for this view.</p>';
     return;
   }
 
   programs.forEach((program) => {
-    const programDetails = programDetailsMap[program];
-
     const formWrapper = document.createElement("div");
     formWrapper.className = "program-block";
     formWrapper.setAttribute("data-entry-id", program.programId);
-    const payeeInputsHTML = renderPayeeInputs(programDetails.payees, program);
+    const payeesList = payees.filter(
+      (payee) => program.assessment_id === payee.assessment_id
+    );
+    const payeeInputsHTML = renderPayeeInputs(payeesList, program);
+    //
 
     formWrapper.innerHTML = `
     <div class="grid-container">
-      <h3>${program}</h3>
+      <h3>${program.program_name}</h3>
         <div class="grid-item">
             <label for="report-${program}">Report:</label>
             <input 
                         type="text" 
                         name="report" 
                         id="report-${program}"
-                        value="${programDetails.reportSubmitted}"
+                        value="${program.report_submitted || ""}"
                         class="dynamic-field"
                         data-entry-id="${program}" 
                     />
@@ -175,7 +196,7 @@ function renderForms(programs, targetContainer) {
       <div class="grid-item">
                     <label for="payee-${program}">Payee(s)</label>
                    <div class="payee-inputs-container">
-                        ${payeeInputsHTML} 
+                  ${payeeInputsHTML}
                 </div>
                 </div>
        <div class="notes">
@@ -185,7 +206,7 @@ function renderForms(programs, targetContainer) {
                         id="notes-${program}"
                         class="dynamic-field"
                         data-entry-id="${program}" 
-                    >${programDetails.notes}</textarea>
+                    >${program.notes || ""}</textarea>
                 </div>
     </div>
 `;
@@ -217,7 +238,7 @@ function renderPayeeInputs(payeesArray, programId) {
                     type="text" 
                     name="payee-name-${programId}" 
                     id="payee-name-${uniqueSuffix}"
-                    value="${payee.name}"
+                    value="${payee.payee_name || ""}"
                     placeholder="Payee Name"
                     class="dynamic-payee-name dynamic-field"
                     data-entry-id="${programId}"
@@ -244,23 +265,27 @@ if (yearInput) {
     // Replicate the filtering logic from the division and toggle listeners
     setFormFields();
 
-    const selectedText =
-      divisionDropdown.options[divisionDropdown.selectedIndex].text;
-
     // selectedYear is now automatically the new value of yearInput
     const selectedYear = yearInput.value;
 
     const parentContainer = document.getElementById("programs");
     if (parentContainer) {
-      // Use the corrected, safer filtering logic
-      const programsList = toggleState
-        ? programsUnderReviewByYear[selectedYear] && programsUnderReviewByYear[selectedYear][selectedText]
-        : divisionToProgramsMap[selectedText];
+      const id = divisionDropdown.selectedIndex + 1;
+      let programsList = programFields.filter(
+        (program) => program.division_id === id
+      );
 
-      renderForms(programsList || [], parentContainer);
+      if (toggleState) {
+        const underReviewprogramsList = programsList.filter(
+          (program) => program.academic_year === selectedYear
+        );
+        renderForms(underReviewprogramsList, parentContainer);
+      } else {
+        renderForms(programsList, parentContainer);
+      }
 
       // Apply read-only state after re-rendering program forms
-      if (typeof window.setFormEditability === 'function') {
+      if (typeof window.setFormEditability === "function") {
         window.setFormEditability(false);
       }
     }
