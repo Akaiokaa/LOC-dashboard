@@ -27,12 +27,13 @@
         </thead>
         <tbody>
             <!-- Fine Arts -->
-            <tr><td class="division" colspan="6">Fine Arts</td></tr>
-            <tr><td class="left">Dance - TBD</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Drama</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Music</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Visual Arts (Photography/Art)</td><td></td><td></td><td></td><td></td><td></td></tr>
-
+            <div>
+                <tr><td class="division" colspan="6">Fine Arts</td></tr>
+                <tr><td class="left">Dance - TBD</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="left">Drama</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="left">Music</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="left">Visual Arts (Photography/Art)</td><td></td><td></td><td></td><td></td><td></td></tr>
+            </div>
             <!-- Humanities -->
             <tr><td class="division" colspan="6">Humanities</td></tr>
             <tr><td class="left">Foreign Languages</td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -128,6 +129,18 @@
         </a> -->
     </main>
 <%- include('partials/footer') %>
+<script>
+const emptyTds = document.querySelectorAll('td:empty');
+
+emptyTds.forEach(td => {
+  td.classList.add('clickable');
+  td.addEventListener('click', () => {
+    td.innerText = td.innerText === 'X' ? '' : 'X';
+  });
+});
+
+</script>
+
 </body>
 
 </html>
