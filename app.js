@@ -46,6 +46,9 @@ app.get("/confirm", (req, res) => {
 app.get("/summary", (req, res) => {
   res.render("summary", {username});
 });
+app.get("/schedule", (req, res) => {
+  res.render("schedule", {username});
+});
 
 app.get("/form", (req, res) => {
   res.render("form", { academicDivisions, username });
