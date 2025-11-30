@@ -11,8 +11,10 @@
   <link rel="stylesheet" href="/styles/schedule.css" />
 </head>
 <body>
+    <input type="text" name="search" class="table-search-program" placeholder="Search by Division" />
     <main>
         <%- include('partials/header') %>
+        
         <div id="main-aside"><%- include('partials/aside') %></div>
         <table>
         <thead>
@@ -25,16 +27,16 @@
             <th>2027-28</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- Fine Arts -->
-            <div>
-                <tr><td class="division" colspan="6">Fine Arts</td></tr>
-                <tr><td class="left">Dance - TBD</td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td class="left">Drama</td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td class="left">Music</td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td class="left">Visual Arts (Photography/Art)</td><td></td><td></td><td></td><td></td><td></td></tr>
-            </div>
-            <!-- Humanities -->
+        <tbody class="program-table-section">
+             <!-- Fine Arts -->
+            <tr><td class="division" colspan="6">Fine Arts</td></tr>
+            <tr><td class="left">Dance - TBD</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Drama</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Music</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="left">Visual Arts (Photography/Art)</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+        <!-- Humanities -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Humanities</td></tr>
             <tr><td class="left">Foreign Languages</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Humanities (TBD)5</td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -43,8 +45,10 @@
             <tr><td class="left">Information Literacy</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Counseling Services3</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Journalism6</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
 
-            <!-- Social Science -->
+        <!-- Social Science -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Social Science</td></tr>
             <tr><td class="left">American Ethnic & Minority Studies</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Anthropology</td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -54,24 +58,32 @@
             <tr><td class="left">Political Science</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Psychology</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Sociology</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
 
-            <!-- English -->
+        <!-- English -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">English</td></tr>
             <tr><td class="left">English</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
 
-            <!-- Science -->
+        <!-- Science -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Science</td></tr>
             <tr><td class="left">Anatomy & Physiology</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Biology/Environmental Science</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Chemistry</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Geology/Oceanography</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Physics/Astronomy</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
 
-            <!-- Mathematics -->
+        <!-- Mathematics -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Mathematics</td></tr>
             <tr><td class="left">Math</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
 
-            <!-- Business, Law, and Education -->
+        <!-- Business, Law, and Education -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Business, Law, and Education</td></tr>
             <tr><td class="left">Accounting</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Business Administration (TBD)</td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -79,45 +91,57 @@
             <tr><td class="left">Business Management</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Business Marketing/Entrepreneurship (BAS)</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Criminal Justice</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <!-- Technology -->
+        </tbody>
+
+        <!-- Technology -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Technology</td></tr>
             <tr><td class="left">Aviation (AAS/BAS)2</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Information Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Engineering/Computer Science</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">CAD-Design and Engineering Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
 
-            <!-- Natural Resources -->
+        <!-- Natural Resources -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Natural Resources</td></tr>
             <tr><td class="left">Practical Nursing*</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Water/Wastewater Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
 
-            <!-- Health Science -->
+        <!-- Health Science -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Health Science</td></tr>
             <tr><td class="left">Occupational Therapy Assistant*</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Physical Therapist Assistant*</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Emergency Medical Technician/Phlebotomy</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Early Childhood Education</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Health and Physical Education</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
 
-            <!-- Trades -->
+        <!-- Trades -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Trades</td></tr>
             <tr><td class="left">Automotive Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Carpentry</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Manufacturing</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Mechatronics</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Welding Technology1</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
 
-            <!-- Transitional Studies -->
+        <!-- Transitional Studies -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Transitional Studies</td></tr>
             <tr><td class="left">Transitional Studies/Adult Basic Education/GED/HS21+</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">English for Speakers of Other Languages</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">High School Completion</td><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td class="left">Open Doors (IGrad)</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
 
-            <!-- Continuing Education -->
+        <!-- Continuing Education -->
+        <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Continuing Education</td></tr>
             <tr><td class="left">CE</td><td></td><td></td><td></td><td></td><td></td></tr>
-
         </tbody>
         </table>
         <!-- <a href="/" id="backButton" class="main-button">
@@ -130,6 +154,8 @@
     </main>
 <%- include('partials/footer') %>
 <script>
+const programsTables = document.querySelectorAll('.program-table-section');
+
 const emptyTds = document.querySelectorAll('td:empty');
 
 emptyTds.forEach(td => {
@@ -137,6 +163,21 @@ emptyTds.forEach(td => {
   td.addEventListener('click', () => {
     td.innerText = td.innerText === 'X' ? '' : 'X';
   });
+});
+
+const search_program = document.querySelector(".table-search-program");
+
+search_program.addEventListener("input", () => {
+  const inputText = search_program.value.toLowerCase();
+    programsTables.forEach((tableSection) => {
+      const divisionName = tableSection.querySelector(".division").innerText.toLowerCase();
+      if (divisionName.includes(inputText)) {
+        tableSection.style.display = "table-row-group";
+      } else {
+        tableSection.style.display = "none";
+      }
+    });
+
 });
 
 </script>
