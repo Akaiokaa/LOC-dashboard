@@ -49,8 +49,8 @@ document.getElementById("division-form").onsubmit = () => {
 
   let isValid = true;
   let dean = document.getElementById("dean").value.trim();
-  let pen = document.getElementById("pen").value.trim();
-  let locRep = document.getElementById("locRep").value.trim();
+  let pen = document.getElementById("pen_contact").value.trim();
+  let locRep = document.getElementById("loc_rep").value.trim();
   let chair = document.getElementById("chair").value.trim();
 
   //   this checks to see if any inputs are missing (Division Fields)

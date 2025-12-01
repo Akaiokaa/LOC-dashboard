@@ -19,7 +19,7 @@ button {
   padding: 11px 22px;
 }
 
-#cancel-button {
+.cancel-button {
   background-color: var(--secondary);
   color: var(--primary);
   border: 1px solid var(--primary);
@@ -29,8 +29,8 @@ button {
   transition: all 0.2s ease-in-out;
 }
 
-#cancel-button:hover,
-#cancel-button:focus,
+.cancel-button:hover,
+.cancel-button:focus,
 .main-button:hover,
 .main-button:focus {
   box-shadow: 0 0 0 2px var(--primary);
@@ -42,7 +42,7 @@ button {
   outline: none;
 }
 
-#cancel-button:focus,
+.cancel-button:focus,
 .main-button:focus {
   outline: 2px solid var(--primary);
   outline-offset: 2px;

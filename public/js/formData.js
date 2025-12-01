@@ -177,55 +177,57 @@ function renderForms(programs, targetContainer) {
     );
     const payeeInputsHTML = renderPayeeInputs(payeesList, program);
     const academic_year = document.getElementById("year").value;
-    formWrapper.innerHTML = `
-    <form method="POST" action ="/submit_program/${program.program_id}">
-    <div class="grid-container">
-      <h3>${program.program_name}</h3>
-        <div class="grid-item">
-            <label for="report-${program}">Report:</label>
-            <input 
-                        type="text" 
-                        name="report_submitted" 
-                        id="report_submitted"
-                        value="${program.report_submitted || ""}"
-                        class="dynamic-field"
-                    />
-        </div>
-      <div class="grid-item">
-                    <label for="payee-${program}">Payee(s)</label>
-                   <div class="payee-inputs-container">
-                  ${payeeInputsHTML}
+    formWrapper.innerHTML = `<form method="POST" action ="/submit_program/${
+      program.program_id
+    }">
+      <div class="grid-container">
+        <h3>${program.program_name}</h3>
+          <div class="grid-item">
+            <label for="report_submitted">Report:</label>
+              <input 
+                type="text" 
+                name="report_submitted" 
+                id="report_submitted"
+                value="${program.report_submitted || ""}"
+                class="dynamic-field"
+              />
+          </div>
+          <div class="grid-item">
+              <label>Payee(s)</label>
+              <div class="payee-inputs-container">
+                ${payeeInputsHTML}
                 </div>
-                </div>
-       <div class="notes">
-                    <label for="notes-${program}">Notes</label>
-                    <textarea 
-                        name="notes" 
-                        id="notes-${program}"
-                        class="dynamic-field"
-                        data-entry-id="${program}" 
-                    >${program.notes || ""}</textarea>
+              </div>
+          <div class="notes">
+              <label for="notess">Notes</label>
+              <textarea 
+                name="notes" 
+                id="notes"
+                class="dynamic-field"
+                >${program.notes || ""}</textarea>
                 </div>
                 <div> 
                   <input type="text" name="academic_year" id="academic_year" value=${academic_year}
                 </div>
-                <button type="button" id="cancel-button">Cancel</button>
-              <button type="submit" id="save-division" class="save-button">
+                <button type="button" id="edit-details"${
+                  program.program_id
+                } class="main-button">
+                Edit Details
+                </button>
+                <button type="button" id="cancel-button${
+                  program.program_id
+                }" class="cancel-button"">Cancel</button>
+                <button type="submit" id="save-program${
+                  program.program_id
+                }" class="save-button">
                 Save
               </button>
-    </div>
-    </form>
-`;
+      </div>
+    </form>`;
     targetContainer.appendChild(formWrapper);
   });
 }
 
-/**
- * Generates the HTML string for payee inputs (name and amount).
- * @param {Array<Object>} payeesArray - The array of {name, amount} objects.
- * @param {string} programId - The unique ID of the main program (for unique input names).
- * @returns {string} The HTML markup for all payee input pairs.
- */
 function renderPayeeInputs(payeesArray, programId) {
   if (payeesArray.length === 0) {
     // Render a single blank pair if no payees exist
