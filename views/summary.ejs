@@ -1,32 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loc Dashboard</title>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+    <!-- Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/3.0.1/js/dataTables.buttons.min.js"></script>
+    <!-- CSV Export -->
+    <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.html5.min.js"></script>
+    <link rel="stylesheet" href="/styles/home.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css"
+    />
+    <link rel="icon" href="/images/GRC_logo.svg" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loc Dashboard</title>
-  <link rel="stylesheet" href="/styles/home.css" />
-
-  <link rel="icon" href="/images/GRC_logo.svg" />
-</head>
-
-<body>
-  <%- include('partials/header') %>
+  <body>
+    <%- include('partials/header') %>
     <main>
       <div id="main-aside"><%- include('partials/aside') %></div>
       <div>
-      <h1>Summary Table</h1>
-      <h1>Making changes</h1>
-      <div class="button-container-confirm">
-        <a href="/" id="backButton" class="main-button">
-          <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-          Back to home page
-        </a>
+        <table id="summary-table">
+          <thead>
+            <th>Division</th>
+            <th>Division Chair</th>
+            <th>Dean</th>
+            <th>LOC Rep</th>
+            <th>PEN Contact</th>
+            <th>Payee(s)</th>
+            <th>Amount</th>
+            <th>Has been paid</th>
+            <th>Notes</th>
+          </thead>
+          <tbody>
+            <% newRecords.forEach(record => { %>
+            <tr>
+              <td><%= record.division_name %></td>
+              <td><%= record.chair %></td>
+              <td><%= record.dean %></td>
+              <td><%= record.loc_rep %></td>
+              <td><%= record.pen_contact %></td>
+              <td><%= record.payees %></td>
+              <td><%= record.total_amount %></td>
+              <td><%= record.has_been_paid %></td>
+              <td><%= record.notes %></td>
+            </tr>
+            <% });%>
+          </tbody>
+        </table>
+      </div>
     </main>
     <%- include('partials/footer') %>
-</body>
-
+  </body>
+  <script defer>
+    let table = new DataTable("#summary-table", {
+      layout: {
+        topStart: {
+          buttons: ["csv"],
+        },
+      },
+    });
+  </script>
 </html>
