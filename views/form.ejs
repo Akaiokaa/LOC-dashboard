@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles/form.css" />
-    <link rel="icon" href="/images/GRC_logo.svg" />
-    <script src="/data/data.js" defer></script>
-    <script>
-      const divisionFields = <%- JSON.stringify(divisionFields) %>;
-      const programFields =  <%- JSON.stringify(programFields) %>;
-      const payees =  <%- JSON.stringify(payees) %>;
-      const reviewYear =  <%- JSON.stringify(reviewYear) %>;
-    </script>
-    <script src="/js/formValidation.js" defer></script>
-    <script src="js/globals.js"></script>
-    <script src="js/index.js" type="module"></script>
-    <script src="/js/formData.js" defer></script>
-    <script src="/data/divisionsData.js" type="module"></script>
-    <title>Divisions Management</title>
-  </head>
 
-  <body>
-    <%- include('partials/header') %>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/styles/form.css" />
+  <link rel="icon" href="/images/GRC_logo.svg" />
+  <!-- <script src="/data/data.js" defer></script> -->
+  <script>
+    window.divisionFields = <%- JSON.stringify(divisionFields) %>;
+    window.programFields =  <%- JSON.stringify(programFields) %>;
+    window.payees =  <%- JSON.stringify(payees) %>;
+    window.reviewYear =  <%- JSON.stringify(reviewYear) %>;
+  </script>
+  <script src="/js/formValidation.js" defer></script>
+  <script src="js/globals.js"></script>
+  <script src="js/index.js" type="module"></script>
+  <script src="/js/formData.js" defer></script>
+  <!-- <script src="/data/divisionsData.js" type="module"></script> -->
+  <title>Divisions Management</title>
+</head>
+
+<body>
+  <%- include('partials/header') %>
     <main>
       <div id="main-aside"><%- include('partials/aside') %></div>
 
       <div id="main-content">
         <form id="division-form" method="post" action="submit_edit">
-          <span class="error" id="err-division"
-            >Please input a Division Name!</span
-          >
+          <span class="error" id="err-division">Please input a Division Name!</span>
           <div id="selectDivision">
             <select name="division" id="division">
-              <% divisionFields.forEach(div => { %>
-              <option value="<%= div.division_id %>">
-                <%= div.division_name %>
-              </option>
-              <% }) %>
+              <% divisionFields.forEach(div=> { %>
+                <option value="<%= div.division_id %>">
+                  <%= div.division_name %>
+                </option>
+                <% }) %>
             </select>
           </div>
 
@@ -54,16 +53,12 @@
               </div>
               <div class="flex-item">
                 <label for="locRep">LOC Rep</label>
-                <span class="error" id="err-locRep"
-                  >Please input a LOC Rep!</span
-                >
+                <span class="error" id="err-locRep">Please input a LOC Rep!</span>
                 <input type="text" name="locRep" id="locRep" />
               </div>
               <div class="flex-item">
                 <label for="pen">PEN Contact</label>
-                <span class="error" id="err-pen"
-                  >Please input a PEN Contact!</span
-                >
+                <span class="error" id="err-pen">Please input a PEN Contact!</span>
                 <input type="text" name="pen" id="pen" />
               </div>
             </div>
@@ -81,5 +76,6 @@
       </div>
     </main>
     <%- include('partials/footer') %>
-  </body>
+</body>
+
 </html>
