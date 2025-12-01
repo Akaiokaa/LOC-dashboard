@@ -1,6 +1,7 @@
 import express from "express";
 import { programsUnderReview } from "./public/data/yearData.js";
 import { academicDivisions } from "./public/data/divisionsData.js";
+import { mergeRecordsWithPayees } from "./public/js/summary.js";
 import mysql from "mysql2";
 import dotenv from "dotenv";
 
@@ -57,8 +58,15 @@ app.get("/confirm", (req, res) => {
   res.render("confirm", { username });
 });
 
-app.get("/summary", (req, res) => {
-  res.render("summary", { username });
+app.get("/summary", async (req, res) => {
+  const [records] = await pool.query(
+    "SELECT * FROM Divisions AS d JOIN Programs AS p ON d.division_id = p.division_id JOIN Program_Assessment AS a ON p.program_id = a.program_id JOIN Assessment_Payments AS ap ON ap.assessment_id = a.assessment_id"
+  );
+
+  const [payees] = await pool.query(`SELECT * FROM Payees`);
+  const newRecords = mergeRecordsWithPayees(records, payees);
+  console.log(newRecords);
+  res.render("summary", { newRecords, payees, username });
 });
 
 app.get("/form", async (req, res) => {
