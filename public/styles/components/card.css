@@ -6,6 +6,7 @@
   box-shadow: 0px 3px 5px;
   border-radius: 5px;
 }
+
 .card h2 {
   padding: 10px;
 }
@@ -19,6 +20,7 @@
   display: flex;
   flex-grow: 1;
 }
+
 .card-foot {
   display: flex;
   justify-content: space-between;

@@ -94,6 +94,7 @@ button {
 .button-spacing {
   margin: 1rem;
 }
+
 /* Toggle Switch Styling */
 .toggle {
   border: 1px solid gray;
@@ -105,6 +106,7 @@ button {
   cursor: pointer;
   transition: background 0.3s ease;
 }
+
 .toggle::after {
   content: "";
   width: 20px;
@@ -122,4 +124,53 @@ button {
 }
 .toggle.active::after {
   transform: translateX(25px);
+}
+
+.toggle.active {
+  background-color: rgb(32, 214, 32);
+}
+
+.toggle.active::after {
+  transform: translateX(25px);
+}
+
+.buttons-csv {
+  /* Box Model & Layout */
+  padding: 10px 15px;
+  /* Vertical padding: 10px, Horizontal padding: 15px */
+  border: none;
+  border-radius: 5px;
+  /* Rounded corners */
+  cursor: pointer;
+  /* Change cursor to a hand to indicate clickability */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  /* Space between text and icon (if you add one) */
+
+  /* Typography */
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  /* Makes the "CSV" stand out */
+
+  background-color: #4caf50;
+  color: white;
+
+  box-shadow: 0 4px #388e3c;
+  /* Darker bottom shadow for 3D/pressed look */
+  transition: all 0.2s ease;
+}
+
+.buttons-csv:hover {
+  background-color: #66bb6a;
+}
+
+.buttons-csv:active {
+  background-color: #388e3c;
+  box-shadow: 0 2px #388e3c;
+  transform: translateY(2px);
+  /* Move button down 2px */
 }

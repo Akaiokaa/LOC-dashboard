@@ -1,6 +1,5 @@
 import express from "express";
-import { programsUnderReview } from "./public/data/yearData.js";
-import { academicDivisions } from "./public/data/divisionsData.js";
+// import { programsUnderReview } from "./public/data/yearData.js";
 import { mergeRecordsWithPayees } from "./public/js/summary.js";
 import methodOverride from "method-override";
 import mysql from "mysql2";
@@ -28,26 +27,62 @@ const pool = mysql
 
 const PORT = 3007;
 
-const reports = [];
+// const reports = [];
 
 let username = "";
+
+async function fetchProgramsUnderReviewByYear() {
+  const [reviews] = await pool.query(`
+    SELECT 
+      pr.program_name, 
+      sch.review_year
+    FROM PAI_Schedule AS sch
+    JOIN Programs AS pr ON sch.program_id = pr.program_id
+    ORDER BY sch.review_year, pr.program_name
+  `);
+
+  const programsUnderReviewByYear = {};
+  for (const row of reviews) {
+    if (!programsUnderReviewByYear[row.review_year]) {
+      programsUnderReviewByYear[row.review_year] = [];
+    }
+    programsUnderReviewByYear[row.review_year].push(row.program_name);
+  }
+  return programsUnderReviewByYear;
+}
+
+async function fetchHomeDivisionsData() {
+  const [divisions] = await pool.query(
+    "SELECT division_id, division_name, img FROM Divisions ORDER BY division_id"
+  );
+  const [programs] = await pool.query(
+    "SELECT program_name, division_id FROM Programs ORDER BY program_name"
+  );
+
+  // Group programs by division_id
+  const programsByDivision = programs.reduce((acc, program) => {
+    if (!acc[program.division_id]) {
+      acc[program.division_id] = [];
+    }
+    acc[program.division_id].push(program.program_name);
+    return acc;
+  }, {});
+
+  // Combine divisions with their programs
+  return divisions.map(division => ({
+    divisionName: division.division_name,
+    img: division.img,
+    programs: programsByDivision[division.division_id] || [],
+  }));
+}
 
 // define a default "route" ('/')
 // req: contains information about the incoming request
 // res: allows us to send back a response to the client
 app.get("/", async (req, res) => {
-  const [divisions] = await pool.query(
-    "SELECT division_id, division_name, img FROM Divisions"
-  );
-  const [programs] = await pool.query(
-    "SELECT program_id, program_name, division_id FROM Programs"
-  );
-  const academicDivisions1 = divisions.map((div) => ({
-    ...div,
-    programs: programs.filter(
-      (p) => Number(p.division_id) === Number(div.division_id)
-    ),
-  }));
+  const academicDivisions = await fetchHomeDivisionsData();
+  const programsUnderReview = await fetchProgramsUnderReviewByYear();
+
   res.render("home", { academicDivisions, username, programsUnderReview });
 });
 
@@ -86,57 +121,19 @@ app.get("/form", async (req, res) => {
     "SELECT p.program_id, review_year FROM PAI_Schedule AS p JOIN Programs AS pr ON p.program_id = pr.program_id"
   );
 
+  console.log(reviewYear);
   res.render("form", {
     divisionFields,
-    programFields,
+    programFields: programsWithReviewYear,
     payees,
-    reviewYear,
+    reviewYear: reviewYearData,
     username,
   });
 });
 
-// update divisions table
-app.put("/divisions/:id", async (req, res) => {
-  const { dean, pen_contact, loc_rep, chair } = req.body;
-  const division_id = req.params.id;
-  await pool.query(
-    `UPDATE Divisions SET dean = ?, pen_contact = ?, loc_rep = ? WHERE division_id = ?`,
-    [dean, pen_contact, loc_rep, division_id]
-  );
-
-  await pool.query(`UPDATE Programs SET chair = ? WHERE division_id = ?`, [
-    chair,
-    division_id,
-  ]);
-
-  res.redirect("/form");
-});
-
-// update programs table
-app.put("/divisions/:id", async (req, res) => {
-  const { dean, pen_contact, loc_rep, chair } = req.body;
-  const division_id = req.params.id;
-  await pool.query(
-    `UPDATE Divisions SET dean = ?, pen_contact = ?, loc_rep = ? WHERE division_id = ?`,
-    [dean, pen_contact, loc_rep, division_id]
-  );
-
-  await pool.query(`UPDATE Programs SET chair = ? WHERE division_id = ?`, [
-    chair,
-    division_id,
-  ]);
-
-  res.redirect("/form");
-});
-
-app.post("/submit_program/:id", async (req, res) => {
-  const data = req.body;
-  res.json(data);
-});
-
 app.post("/submit_login", (req, res) => {
   username = req.body.username;
-  res.render("home", { academicDivisions, username });
+  res.redirect("/");
 });
 
 app.post("/submit_edit", (req, res) => {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  <<<<<<< HEAD
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,6 +20,27 @@
     <script src="js/editDivision.js" defer></script>
     <title>Divisions Management</title>
   </head>
+  ======= >>>>>>> dev
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/form.css" />
+    <link rel="icon" href="/images/GRC_logo.svg" />
+    <!-- <script src="/data/data.js" defer></script> -->
+    <script>
+      window.divisionFields = <%- JSON.stringify(divisionFields) %>;
+      window.programFields =  <%- JSON.stringify(programFields) %>;
+      window.payees =  <%- JSON.stringify(payees) %>;
+      window.reviewYear =  <%- JSON.stringify(reviewYear) %>;
+    </script>
+    <script src="/js/formValidation.js" defer></script>
+    <script src="js/globals.js"></script>
+    <script src="js/index.js" type="module"></script>
+    <script src="/js/formData.js" defer></script>
+    <!-- <script src="/data/divisionsData.js" type="module"></script> -->
+    <title>Divisions Management</title>
+  </head>
 
   <body>
     <%- include('partials/header') %>
@@ -32,7 +54,7 @@
           >
           <div id="selectDivision">
             <select name="division" id="division">
-              <% divisionFields.forEach(div => { %>
+              <% divisionFields.forEach(div=> { %>
               <option value="<%= div.division_id %>">
                 <%= div.division_name %>
               </option>
@@ -53,6 +75,7 @@
                 <input type="text" name="dean" id="dean" />
               </div>
               <div class="flex-item">
+                <<<<<<< HEAD
                 <label for="loc_rep">LOC Rep</label>
                 <span class="error" id="err-locRep"
                   >Please input a LOC Rep!</span
@@ -65,6 +88,20 @@
                   >Please input a PEN Contact!</span
                 >
                 <input type="text" name="pen_contact" id="pen_contact" />
+                =======
+                <label for="locRep">LOC Rep</label>
+                <span class="error" id="err-locRep"
+                  >Please input a LOC Rep!</span
+                >
+                <input type="text" name="locRep" id="locRep" />
+              </div>
+              <div class="flex-item">
+                <label for="pen">PEN Contact</label>
+                <span class="error" id="err-pen"
+                  >Please input a PEN Contact!</span
+                >
+                <input type="text" name="pen" id="pen" />
+                >>>>>>> dev
               </div>
             </div>
             <div class="main-buttons">

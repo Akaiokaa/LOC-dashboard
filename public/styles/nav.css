@@ -6,7 +6,8 @@
 
 body {
   padding-top: var(--header-height);
-  overflow-x: hidden; /* removes the horizontal scrollbar */
+  overflow-x: hidden;
+  /* removes the horizontal scrollbar */
 }
 
 header {
@@ -15,8 +16,8 @@ header {
   left: 0;
   width: 100%;
   height: var(--header-height);
-  z-index: 1001; 
-  background-color: var(--primary); 
+  z-index: 1001;
+  background-color: var(--primary);
 }
 
 .topNavBar {
@@ -24,7 +25,7 @@ header {
   justify-content: space-between;
   background-color: var(--primary-dark);
   height: 100%;
-  align-items: center; 
+  align-items: center;
 }
 
 .navItem1 {
@@ -80,22 +81,22 @@ header {
 /* left-column | side-bar styling */
 #left-column {
   width: 250px;
-  position: fixed; 
-  
-  top: var(--header-height); 
-  height: calc(100vh - var(--header-height)); 
-  
+  position: fixed;
+
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+
   left: 0;
-  background-color: var(--primary); 
+  background-color: var(--primary);
   color: var(--primary-color);
-  transition: transform 0.3s ease-in-out; 
-  z-index: 1000; 
-  overflow-y: auto; 
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+  overflow-y: auto;
 }
 
 #main-aside {
-  width: 250px; 
-  flex-shrink: 0; 
+  width: 250px;
+  flex-shrink: 0;
 }
 
 .left-nav {
@@ -115,7 +116,7 @@ body.nav-closed #left-column {
 
 body.nav-closed #main-aside {
   width: 0;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 footer {
