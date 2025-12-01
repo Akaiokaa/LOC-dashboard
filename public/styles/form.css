@@ -18,9 +18,11 @@ h2 {
   gap: 2rem;
   margin: 1rem;
 }
+
 #main-content {
   flex-grow: 1;
 }
+
 .division {
   flex-grow: 1;
 }
@@ -107,8 +109,10 @@ input[type="number"] {
 /* Style for each individual Name/Amount row */
 .payee-pair {
   display: flex;
-  gap: 10px; /* Space between the name input and the amount input */
-  align-items: center; /* Vertically center the inputs */
+  gap: 10px;
+  /* Space between the name input and the amount input */
+  align-items: center;
+  /* Vertically center the inputs */
 }
 
 /* Styling the inputs within the payee pair */
@@ -123,8 +127,10 @@ input[type="number"] {
 
 /* Ensure the number input is styled consistently but sized appropriately */
 .payee-pair input[type="number"] {
-  max-width: 120px; /* Optional: Sets a maximum width for the amount field */
-  text-align: right; /* Helps align numbers neatly */
+  max-width: 120px;
+  /* Optional: Sets a maximum width for the amount field */
+  text-align: right;
+  /* Helps align numbers neatly */
 }
 
 /* Optional: Add a subtle focus style */
@@ -135,9 +141,11 @@ input:focus {
 }
 
 .payee-inputs-container {
-  display: flex; /* Use flex to align the inputs and future "Add" button vertically */
+  display: flex;
+  /* Use flex to align the inputs and future "Add" button vertically */
   flex-direction: column;
-  gap: 10px; /* Space between each payee pair */
+  gap: 10px;
+  /* Space between each payee pair */
   margin-top: 5px;
   margin-left: 1rem;
 }

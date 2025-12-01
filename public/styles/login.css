@@ -41,7 +41,8 @@ h2 {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+  box-sizing: border-box;
+  /* Includes padding and border in the element's total width and height */
 }
 
 .login-button {
