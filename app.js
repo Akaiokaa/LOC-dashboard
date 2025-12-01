@@ -2,6 +2,7 @@ import express from "express";
 import { programsUnderReview } from "./public/data/yearData.js";
 import { academicDivisions } from "./public/data/divisionsData.js";
 import { mergeRecordsWithPayees } from "./public/js/summary.js";
+import methodOverride from "method-override";
 import mysql from "mysql2";
 import dotenv from "dotenv";
 
@@ -14,7 +15,7 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
-
+app.use(methodOverride("_method"));
 const pool = mysql
   .createPool({
     host: process.env.DB_HOST,
@@ -85,7 +86,6 @@ app.get("/form", async (req, res) => {
     "SELECT p.program_id, review_year FROM PAI_Schedule AS p JOIN Programs AS pr ON p.program_id = pr.program_id"
   );
 
-  console.log(reviewYear);
   res.render("form", {
     divisionFields,
     programFields,
@@ -93,6 +93,45 @@ app.get("/form", async (req, res) => {
     reviewYear,
     username,
   });
+});
+
+// update divisions table
+app.put("/divisions/:id", async (req, res) => {
+  const { dean, pen_contact, loc_rep, chair } = req.body;
+  const division_id = req.params.id;
+  await pool.query(
+    `UPDATE Divisions SET dean = ?, pen_contact = ?, loc_rep = ? WHERE division_id = ?`,
+    [dean, pen_contact, loc_rep, division_id]
+  );
+
+  await pool.query(`UPDATE Programs SET chair = ? WHERE division_id = ?`, [
+    chair,
+    division_id,
+  ]);
+
+  res.redirect("/form");
+});
+
+// update programs table
+app.put("/divisions/:id", async (req, res) => {
+  const { dean, pen_contact, loc_rep, chair } = req.body;
+  const division_id = req.params.id;
+  await pool.query(
+    `UPDATE Divisions SET dean = ?, pen_contact = ?, loc_rep = ? WHERE division_id = ?`,
+    [dean, pen_contact, loc_rep, division_id]
+  );
+
+  await pool.query(`UPDATE Programs SET chair = ? WHERE division_id = ?`, [
+    chair,
+    division_id,
+  ]);
+
+  res.redirect("/form");
+});
+
+app.post("/submit_program/:id", async (req, res) => {
+  const data = req.body;
+  res.json(data);
 });
 
 app.post("/submit_login", (req, res) => {

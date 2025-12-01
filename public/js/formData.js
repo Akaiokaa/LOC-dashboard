@@ -112,7 +112,7 @@ if (typeof window.setFormEditability === "function") {
 
 // updates fields and populates program dropdown on Division change
 function setFormFields() {
-  clearErrors();
+  // clearErrors();
 
   // Get the selected option text
   const index = divisionDropdown.selectedIndex;
@@ -121,10 +121,10 @@ function setFormFields() {
   document.getElementById("dean").value = formatValue(
     divisionFields[index].dean
   );
-  document.getElementById("pen").value = formatValue(
+  document.getElementById("pen_contact").value = formatValue(
     divisionFields[index].pen_contact
   );
-  document.getElementById("locRep").value = formatValue(
+  document.getElementById("loc_rep").value = formatValue(
     divisionFields[index].loc_rep
   );
   document.getElementById("chair").value = formatValue(
@@ -141,8 +141,8 @@ function updateProgramDetails() {
     const progObject = programDetailsMap[selectedProgramName];
 
     document.getElementById("dean").value = formatValue(progObject.dean);
-    document.getElementById("locRep").value = formatValue(progObject.locRep);
-    document.getElementById("pen").value = formatValue(progObject.pen);
+    document.getElementById("loc_rep").value = formatValue(progObject.locRep);
+    document.getElementById("pen_contact").value = formatValue(progObject.pen);
     document.getElementById("chair").value = formatValue(progObject.chair);
 
     document.getElementById("payee").value = formatValue(progObject.payees);
@@ -172,25 +172,23 @@ function renderForms(programs, targetContainer) {
   programs.forEach((program) => {
     const formWrapper = document.createElement("div");
     formWrapper.className = "program-block";
-    formWrapper.setAttribute("data-entry-id", program.programId);
     const payeesList = payees.filter(
       (payee) => program.assessment_id === payee.assessment_id
     );
     const payeeInputsHTML = renderPayeeInputs(payeesList, program);
-    //
-
+    const academic_year = document.getElementById("year").value;
     formWrapper.innerHTML = `
+    <form method="POST" action ="/submit_program/${program.program_id}">
     <div class="grid-container">
       <h3>${program.program_name}</h3>
         <div class="grid-item">
             <label for="report-${program}">Report:</label>
             <input 
                         type="text" 
-                        name="report" 
-                        id="report-${program}"
+                        name="report_submitted" 
+                        id="report_submitted"
                         value="${program.report_submitted || ""}"
                         class="dynamic-field"
-                        data-entry-id="${program}" 
                     />
         </div>
       <div class="grid-item">
@@ -208,7 +206,15 @@ function renderForms(programs, targetContainer) {
                         data-entry-id="${program}" 
                     >${program.notes || ""}</textarea>
                 </div>
+                <div> 
+                  <input type="text" name="academic_year" id="academic_year" value=${academic_year}
+                </div>
+                <button type="button" id="cancel-button">Cancel</button>
+              <button type="submit" id="save-division" class="save-button">
+                Save
+              </button>
     </div>
+    </form>
 `;
     targetContainer.appendChild(formWrapper);
   });
@@ -230,27 +236,24 @@ function renderPayeeInputs(payeesArray, programId) {
   return payeesArray
     .map((payee, index) => {
       // Use a unique index in the name/id for identification during saving
-      const uniqueSuffix = `${programId}-${index}`;
 
       return `
-            <div class="payee-pair" data-payee-index="${index}">
+            <div class="payee-pair">
                 <input 
                     type="text" 
-                    name="payee-name-${programId}" 
-                    id="payee-name-${uniqueSuffix}"
+                    name="payee_name" 
+                    id="payee_name"
                     value="${payee.payee_name || ""}"
                     placeholder="Payee Name"
                     class="dynamic-payee-name dynamic-field"
-                    data-entry-id="${programId}"
                 />
                 <input 
                     type="number" 
-                    name="payee-amount-${programId}" 
-                    id="payee-amount-${uniqueSuffix}"
+                    name="amount" 
+                    id="amount"
                     value="${payee.amount || ""}"
                     placeholder="Amount"
                     class="dynamic-payee-amount dynamic-field"
-                    data-entry-id="${programId}"
                 />
             </div>
         `;

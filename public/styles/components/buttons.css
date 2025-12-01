@@ -13,7 +13,7 @@ button {
   gap: 5px;
 }
 
-#save-button {
+.save-button {
   background-color: var(--primary);
   color: var(--secondary);
   padding: 11px 22px;
@@ -95,7 +95,7 @@ button {
   margin: 1rem;
 }
 /* Toggle Switch Styling */
-.toggle{
+.toggle {
   border: 1px solid gray;
   width: 50px;
   height: 25px;
@@ -105,7 +105,7 @@ button {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-.toggle::after{
+.toggle::after {
   content: "";
   width: 20px;
   height: 20px;
@@ -115,11 +115,11 @@ button {
   top: 2px;
   left: 2.5px;
   transition: transform 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
-.toggle.active{
+.toggle.active {
   background-color: rgb(32, 214, 32);
 }
-.toggle.active::after{
+.toggle.active::after {
   transform: translateX(25px);
 }

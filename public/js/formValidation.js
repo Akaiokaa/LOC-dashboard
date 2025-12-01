@@ -3,8 +3,8 @@ window.setFormEditability = function (isEditable) {
   // 1. Division Fields (Dean, PEN, etc.)
   const divisionInputs = [
     document.getElementById("dean"),
-    document.getElementById("pen"),
-    document.getElementById("locRep"),
+    document.getElementById("pen_contact"),
+    document.getElementById("loc_rep"),
     document.getElementById("chair"),
   ];
 
@@ -17,13 +17,13 @@ window.setFormEditability = function (isEditable) {
   });
 
   // 2. Program Fields (Report, Notes, Payees - .dynamic-field)
-  const dynamicFields = document.querySelectorAll(".dynamic-field");
+  // const dynamicFields = document.querySelectorAll(".dynamic-field");
 
-  dynamicFields.forEach((field) => {
-    field.readOnly = !isEditable;
-    // The class is added when NOT editable (view-only)
-    field.classList.toggle("view-only", !isEditable);
-  });
+  // dynamicFields.forEach((field) => {
+  //   field.readOnly = !isEditable;
+  //   // The class is added when NOT editable (view-only)
+  //   field.classList.toggle("view-only", !isEditable);
+  // });
 
   setButtonVisibility(false);
 };
@@ -38,7 +38,7 @@ function setButtonVisibility(isEditMode) {
   document.getElementById("cancel-button").style.display = isEditMode
     ? "block"
     : "none";
-  document.getElementById("save-button").style.display = isEditMode
+  document.getElementById("save-division").style.display = isEditMode
     ? "block"
     : "none";
 }
