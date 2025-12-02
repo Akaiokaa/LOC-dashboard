@@ -3,8 +3,8 @@ window.setFormEditability = function (isEditable) {
   // 1. Division Fields (Dean, PEN, etc.)
   const divisionInputs = [
     document.getElementById("dean"),
-    document.getElementById("pen"),
-    document.getElementById("locRep"),
+    document.getElementById("pen_contact"),
+    document.getElementById("loc_rep"),
     document.getElementById("chair"),
   ];
 
@@ -15,16 +15,6 @@ window.setFormEditability = function (isEditable) {
       input.classList.toggle("view-only", !isEditable);
     }
   });
-
-  // 2. Program Fields (Report, Notes, Payees - .dynamic-field)
-  const dynamicFields = document.querySelectorAll(".dynamic-field");
-
-  dynamicFields.forEach((field) => {
-    field.readOnly = !isEditable;
-    // The class is added when NOT editable (view-only)
-    field.classList.toggle("view-only", !isEditable);
-  });
-
   setButtonVisibility(false);
 };
 
@@ -38,7 +28,7 @@ function setButtonVisibility(isEditMode) {
   document.getElementById("cancel-button").style.display = isEditMode
     ? "block"
     : "none";
-  document.getElementById("save-button").style.display = isEditMode
+  document.getElementById("save-division").style.display = isEditMode
     ? "block"
     : "none";
 }
@@ -49,8 +39,8 @@ document.getElementById("division-form").onsubmit = () => {
 
   let isValid = true;
   let dean = document.getElementById("dean").value.trim();
-  let pen = document.getElementById("pen").value.trim();
-  let locRep = document.getElementById("locRep").value.trim();
+  let pen = document.getElementById("pen_contact").value.trim();
+  let locRep = document.getElementById("loc_rep").value.trim();
   let chair = document.getElementById("chair").value.trim();
 
   //   this checks to see if any inputs are missing (Division Fields)

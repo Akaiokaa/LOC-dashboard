@@ -13,13 +13,15 @@ button {
   gap: 5px;
 }
 
-#save-button {
+.save-button {
   background-color: var(--primary);
   color: var(--secondary);
   padding: 11px 22px;
+  border: none;
+  cursor: pointer;
 }
 
-#cancel-button {
+.cancel-button {
   background-color: var(--secondary);
   color: var(--primary);
   border: 1px solid var(--primary);
@@ -29,8 +31,8 @@ button {
   transition: all 0.2s ease-in-out;
 }
 
-#cancel-button:hover,
-#cancel-button:focus,
+.cancel-button:hover,
+.cancel-button:focus,
 .main-button:hover,
 .main-button:focus {
   box-shadow: 0 0 0 2px var(--primary);
@@ -42,8 +44,9 @@ button {
   outline: none;
 }
 
-#cancel-button:focus,
-.main-button:focus {
+.cancel-button:focus,
+.main-button:focus,
+.save-button:focus {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
@@ -119,15 +122,34 @@ button {
   transition: transform 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
-
 .toggle.active {
   background-color: rgb(32, 214, 32);
 }
-
 .toggle.active::after {
   transform: translateX(25px);
 }
 
+.payeeButtonContainer {
+  display: flex;
+  justify-content: end;
+}
+.addPayeeButton {
+  width: 34px;
+  height: 34px;
+  font-size: x-large;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+
+.transparent-button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: #000;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+}
 .buttons-csv {
   /* Box Model & Layout */
   padding: 10px 15px;

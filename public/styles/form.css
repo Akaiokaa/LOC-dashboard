@@ -149,3 +149,17 @@ input:focus {
   margin-top: 5px;
   margin-left: 1rem;
 }
+#academic_year {
+  display: none;
+}
+
+.save-cancelButtons {
+  display: flex;
+}
+
+.readonly-input {
+  background-color: #f0f0f0;
+  color: #666;
+  border: 1px solid gray;
+}
+}
