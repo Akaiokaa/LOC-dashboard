@@ -149,6 +149,7 @@ input:focus {
   margin-top: 5px;
   margin-left: 1rem;
 }
+
 #academic_year {
   display: none;
 }
@@ -161,5 +162,4 @@ input:focus {
   background-color: #f0f0f0;
   color: #666;
   border: 1px solid gray;
-}
 }
