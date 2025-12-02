@@ -46,9 +46,25 @@ app.get("/confirm", (req, res) => {
 app.get("/summary", (req, res) => {
   res.render("summary", {username});
 });
-app.get("/schedule", (req, res) => {
-  res.render("schedule", {username});
+
+app.get("/schedule", async (req, res) => {
+  try {
+    const [assessments] = await pool.query(`
+      Select division_name, Programs.program_id, program_name, academic_year from Program_Assessment
+      JOIN Programs ON Program_Assessment.program_id = Programs.program_id
+      JOIN Divisions ON Programs.division_id = Divisions.division_id;
+    `);
+
+    // Render EJS and pass the data
+    res.render("schedule", { username, assessments });
+    console.log(assessments);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Database error");
+  }
 });
+
 
 app.get("/form", (req, res) => {
   res.render("form", { academicDivisions, username });

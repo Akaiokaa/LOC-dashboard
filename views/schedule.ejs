@@ -20,129 +20,249 @@
         <thead>
             <tr>
             <th>Division / Program</th>
+            <th>2022-23</th>
             <th>2023-24</th>
             <th>2024-25</th>
             <th>2025-26</th>
             <th>2026-27</th>
-            <th>2027-28</th>
             </tr>
         </thead>
         <tbody class="program-table-section">
              <!-- Fine Arts -->
             <tr><td class="division" colspan="6">Fine Arts</td></tr>
-            <tr><td class="left">Dance - TBD</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Drama</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Music</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Visual Arts (Photography/Art)</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr>
+                <td class="left">Dance</td>
+                <% ["2022-23","2023-24","2024-25","2025-26","2026-27"].forEach(year => { %>
+                    <% 
+                        const match = assessments.find(a => a.program_name === "Dance" && a.academic_year === year);
+                    %>
+                    <% if (match) { %>
+                        <td value="<%= year %>">X</td>
+                    <% } else { %>
+                        <td value="<%= year %>"></td>
+                    <% } %>
+                <% }) %>
+            </tr>
+            <tr>
+                <td class="left">Drama</td>
+                <% ["2022-23","2023-24","2024-25","2025-26","2026-27"].forEach(year => { %>
+                    <% 
+                        const match = assessments.find(a => a.program_name === "Drama" && a.academic_year === year);
+                    %>
+                    <% if (match) { %>
+                        <td value="<%= year %>">X</td>
+                    <% } else { %>
+                        <td value="<%= year %>"></td>
+                    <% } %>
+                <% }) %>
+            </tr>
+            <tr>
+                <td class="left">Music</td>
+                <% ["2022-23","2023-24","2024-25","2025-26","2026-27"].forEach(year => { %>
+                    <% 
+                        const match = assessments.find(a => a.program_name === "Music" && a.academic_year === year);
+                    %>
+                    <% if (match) { %>
+                        <td value="<%= year %>">X</td>
+                    <% } else { %>
+                        <td value="<%= year %>"></td>
+                    <% } %>
+                <% }) %>
+            </tr>
+            <tr>
+                <td class="left">Visual Arts (Photography/Art)</td>
+                <% ["2022-23","2023-24","2024-25","2025-26","2026-27"].forEach(year => { %>
+                    <% 
+                        const match = assessments.find(a => a.program_name === "Visual Arts (Photography/Art)" && a.academic_year === year);
+                    %>
+                    <% if (match) { %>
+                        <td value="<%= year %>">X</td>
+                    <% } else { %>
+                        <td value="<%= year %>"></td>
+                    <% } %>
+                <% }) %>
+            </tr>
         </tbody>
         <!-- Humanities -->
         <tbody class="program-table-section">
+            <% const years = ["2022-23","2023-24","2024-25","2025-26","2026-27"]; %>
+
+            <% const humanitiesPrograms = [
+                "Foreign Languages",
+                "Humanities",
+                "Philosophy",
+                "Communication Studies",
+                "Information Literacy",
+                "Counseling Services",
+                "Journalism"
+            ]; %>
+
             <tr><td class="division" colspan="6">Humanities</td></tr>
-            <tr><td class="left">Foreign Languages</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Humanities (TBD)5</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Philosophy</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Communication Studies</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Information Literacy</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Counseling Services3</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Journalism6</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+            <% humanitiesPrograms.forEach(programName => { %>
+            <tr>
+                <td class="left"><%= programName %></td>
+                <% years.forEach(year => { %>
+                <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                <td value="<%= year %>"><%= match ? "X" : "" %></td>
+                <% }) %>
+            </tr>
+            <% }) %>
+
         </tbody>
 
         <!-- Social Science -->
         <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Social Science</td></tr>
-            <tr><td class="left">American Ethnic & Minority Studies</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Anthropology</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Economics</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Geography</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">History</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Political Science</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Psychology</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Sociology</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <% ["American Ethnic & Minority Studies","Anthropology","Economics","Geography","History","Political Science","Psychology","Sociology"].forEach(programName => { %>
+            <tr>
+                <td class="left"><%= programName %></td>
+                <% years.forEach(year => { %>
+                    <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                    <td value="<%= year %>"><%= match ? "X" : "" %></td>
+                <% }) %>
+            </tr>
+            <% }) %>
+
         </tbody>
 
         <!-- English -->
         <tbody class="program-table-section">
             <tr><td class="division" colspan="6">English</td></tr>
-            <tr><td class="left">English</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <% ["English"].forEach(programName => { %>
+            <tr>
+                <td class="left"><%= programName %></td>
+                <% years.forEach(year => { %>
+                    <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                    <td value="<%= year %>"><%= match ? "X" : "" %></td>
+                <% }) %>
+            </tr>
+            <% }) %>
+
         </tbody>
 
         <!-- Science -->
         <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Science</td></tr>
-            <tr><td class="left">Anatomy & Physiology</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Biology/Environmental Science</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Chemistry</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Geology/Oceanography</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Physics/Astronomy</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <% ["Anatomy & Physiology","Biology/Environmental Science","Chemistry","Geology/Oceanography","Physics/Astronomy"].forEach(programName => { %>
+            <tr>
+                <td class="left"><%= programName %></td>
+                <% years.forEach(year => { %>
+                    <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                    <td value="<%= year %>"><%= match ? "X" : "" %></td>
+                <% }) %>
+            </tr>
+            <% }) %>
+
         </tbody>
 
         <!-- Mathematics -->
         <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Mathematics</td></tr>
-            <tr><td class="left">Math</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <% ["Math"].forEach(programName => { %>
+            <tr>
+                <td class="left"><%= programName %></td>
+                <% years.forEach(year => { %>
+                    <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                    <td value="<%= year %>"><%= match ? "X" : "" %></td>
+                <% }) %>
+            </tr>
+            <% }) %>
+                
         </tbody>
 
         <!-- Business, Law, and Education -->
         <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Business, Law, and Education</td></tr>
-            <tr><td class="left">Accounting</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Business Administration (TBD)</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Business Technologies & Administrative Careers</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Business Management</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Business Marketing/Entrepreneurship (BAS)</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Criminal Justice</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <% ["Accounting","Business Administration (TBD)","Business Technologies & Administrative Careers","Business Management","Business Marketing/Entrepreneurship (BAS)","Criminal Justice"].forEach(programName => { %>
+            <tr>
+                <td class="left"><%= programName %></td>
+                <% years.forEach(year => { %>
+                    <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                    <td value="<%= year %>"><%= match ? "X" : "" %></td>
+                <% }) %>
+            </tr>
+            <% }) %>
         </tbody>
 
         <!-- Technology -->
         <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Technology</td></tr>
-            <tr><td class="left">Aviation (AAS/BAS)2</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Information Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Engineering/Computer Science</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">CAD-Design and Engineering Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
-        </tbody>
+            <% ["Aviation (AAS/BAS)2","Information Technology","Engineering/Computer Science","CAD-Design and Engineering Technology"].forEach(programName => { %>
+            <tr>
+            <td class="left"><%= programName %></td>
+            <% years.forEach(year => { %>
+                <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                <td value="<%= year %>"><%= match ? "X" : "" %></td>
+            <% }) %>
+        </tr>
+        <% }) %>
 
         <!-- Natural Resources -->
         <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Natural Resources</td></tr>
-            <tr><td class="left">Practical Nursing*</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Water/Wastewater Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
-        </tbody>
+            <% ["Practical Nursing*","Water/Wastewater Technology"].forEach(programName => { %>
+            <tr>
+                <td class="left"><%= programName %></td>
+                <% years.forEach(year => { %>
+                <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                <td value="<%= year %>"><%= match ? "X" : "" %></td>
+            <% }) %>
+        </tr>
+        <% }) %>
 
         <!-- Health Science -->
         <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Health Science</td></tr>
-            <tr><td class="left">Occupational Therapy Assistant*</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Physical Therapist Assistant*</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Emergency Medical Technician/Phlebotomy</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Early Childhood Education</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Health and Physical Education</td><td></td><td></td><td></td><td></td><td></td></tr>
-        </tbody>
+            <% ["Occupational Therapy Assistant*","Physical Therapist Assistant*","Emergency Medical Technician/Phlebotomy","Early Childhood Education","Health and Physical Education"].forEach(programName => { %>
+            <tr>
+                <td class="left"><%= programName %></td>
+                <% years.forEach(year => { %>
+                    <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                <td value="<%= year %>"><%= match ? "X" : "" %></td>
+            <% }) %>
+        </tr>
+        <% }) %>
 
         <!-- Trades -->
         <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Trades</td></tr>
-            <tr><td class="left">Automotive Technology</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Carpentry</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Manufacturing</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Mechatronics</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Welding Technology1</td><td></td><td></td><td></td><td></td><td></td></tr>
-        </tbody>
+            <% ["Automotive Technology","Carpentry","Manufacturing","Mechatronics","Welding Technology1"].forEach(programName => { %>
+            <tr>
+                <td class="left"><%= programName %></td>
+                <% years.forEach(year => { %>
+                    <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                <td value="<%= year %>"><%= match ? "X" : "" %></td>
+            <% }) %>
+        </tr>
+        <% }) %>
 
         <!-- Transitional Studies -->
         <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Transitional Studies</td></tr>
-            <tr><td class="left">Transitional Studies/Adult Basic Education/GED/HS21+</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">English for Speakers of Other Languages</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">High School Completion</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td class="left">Open Doors (IGrad)</td><td></td><td></td><td></td><td></td><td></td></tr>
-        </tbody>
+            <% ["Transitional Studies","English for Speakers of Other Languages","High School Completion","Open Doors (IGrad)"].forEach(programName => { %>
+            <tr>
+                <td class="left"><%= programName %></td>
+                <% years.forEach(year => { %>
+                <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                <td value="<%= year %>"><%= match ? "X" : "" %></td>
+            <% }) %>
+        </tr>
+        <% }) %>
 
         <!-- Continuing Education -->
         <tbody class="program-table-section">
             <tr><td class="division" colspan="6">Continuing Education</td></tr>
-            <tr><td class="left">CE</td><td></td><td></td><td></td><td></td><td></td></tr>
-        </tbody>
+            <% ["CE"].forEach(programName => { %>
+            <tr>
+                <td class="left"><%= programName %></td>
+                <% years.forEach(year => { %>
+                    <% const match = assessments.find(a => a.program_name === programName && a.academic_year === year); %>
+                <td value="<%= year %>"><%= match ? "X" : "" %></td>
+            <% }) %>
+        </tr>
+        <% }) %>
+
         </table>
         <!-- <a href="/" id="backButton" class="main-button">
             <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
