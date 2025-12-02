@@ -112,26 +112,47 @@ app.put("/divisions/:id", async (req, res) => {
   res.redirect("/form");
 });
 
-// update programs table
-app.put("/divisions/:id", async (req, res) => {
-  const { dean, pen_contact, loc_rep, chair } = req.body;
-  const division_id = req.params.id;
+app.post("/submit_program/:id", async (req, res) => {
+  const { report_submitted, notes, academic_year, payee_name, amount } =
+    req.body;
+  const assessment_id = req.params.id;
+
   await pool.query(
-    `UPDATE Divisions SET dean = ?, pen_contact = ?, loc_rep = ? WHERE division_id = ?`,
-    [dean, pen_contact, loc_rep, division_id]
+    `UPDATE Program_Assessment 
+     SET report_submitted = ?, notes = ?, academic_year = ? 
+     WHERE assessment_id = ?`,
+    [report_submitted, notes, academic_year, assessment_id]
   );
 
-  await pool.query(`UPDATE Programs SET chair = ? WHERE division_id = ?`, [
-    chair,
-    division_id,
-  ]);
+  for (let i = 0; i < payee_name.length; i++) {
+    const name = payee_name[i];
+    const currentAmount = amount[i];
+
+    // Insert-or-get payee_id
+    const insertPayeeSQL = `
+      INSERT INTO Payees (payee_name)
+      VALUES (?) 
+      ON DUPLICATE KEY UPDATE payee_id = LAST_INSERT_ID(payee_id);
+    `;
+
+    const [result] = await pool.query(insertPayeeSQL, [name]);
+    const payee_id = result.insertId; // ALWAYS correct
+
+    // Insert or update payment record
+    const insertPaymentSQL = `
+      INSERT INTO Assessment_Payments (assessment_id, payee_id, amount)
+      VALUES (?, ?, ?)
+      ON DUPLICATE KEY UPDATE amount = VALUES(amount);
+    `;
+
+    await pool.query(insertPaymentSQL, [
+      assessment_id,
+      payee_id,
+      currentAmount,
+    ]);
+  }
 
   res.redirect("/form");
-});
-
-app.post("/submit_program/:id", async (req, res) => {
-  const data = req.body;
-  res.json(data);
 });
 
 app.post("/submit_login", (req, res) => {

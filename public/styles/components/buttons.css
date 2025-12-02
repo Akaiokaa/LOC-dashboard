@@ -17,6 +17,8 @@ button {
   background-color: var(--primary);
   color: var(--secondary);
   padding: 11px 22px;
+  border: none;
+  cursor: pointer;
 }
 
 .cancel-button {
@@ -43,7 +45,8 @@ button {
 }
 
 .cancel-button:focus,
-.main-button:focus {
+.main-button:focus,
+.save-button:focus {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
@@ -122,4 +125,26 @@ button {
 }
 .toggle.active::after {
   transform: translateX(25px);
+}
+
+.payeeButtonContainer {
+  display: flex;
+  justify-content: end;
+}
+.addPayeeButton {
+  width: 34px;
+  height: 34px;
+  font-size: x-large;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+
+.transparent-button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: #000;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
 }

@@ -175,7 +175,10 @@ function renderForms(programs, targetContainer) {
     const payeesList = payees.filter(
       (payee) => program.assessment_id === payee.assessment_id
     );
-    const payeeInputsHTML = renderPayeeInputs(payeesList, program);
+    const payeeInputsHTML = renderPayeeInputs(
+      payeesList,
+      program.assessment_id
+    );
     const academic_year = document.getElementById("year").value;
     formWrapper.innerHTML = `<form method="POST" action ="/submit_program/${
       program.program_id
@@ -189,43 +192,99 @@ function renderForms(programs, targetContainer) {
                 name="report_submitted" 
                 id="report_submitted"
                 value="${program.report_submitted || ""}"
-                class="dynamic-field"
+                class="programInput${program.program_id} readonly-input"
+                readonly
               />
           </div>
           <div class="grid-item">
               <label>Payee(s)</label>
-              <div class="payee-inputs-container">
+              <div class="payee-inputs-container" id="payee-inputs-container${
+                program.program_id
+              }">
                 ${payeeInputsHTML}
                 </div>
+
               </div>
+              <div class="payeeButtonContainer"> 
+            <button type="button" onclick="addPayee(${
+              program.program_id
+            })" class="addPayeeButton">+</button>
+              </div>
+
           <div class="notes">
               <label for="notess">Notes</label>
               <textarea 
                 name="notes" 
                 id="notes"
-                class="dynamic-field"
+                class="programInput${program.program_id} readonly-input"
+                readonly
                 >${program.notes || ""}</textarea>
                 </div>
                 <div> 
                   <input type="text" name="academic_year" id="academic_year" value=${academic_year}
                 </div>
-                <button type="button" id="edit-details"${
+
+                <button type="button" id="edit-details${
                   program.program_id
-                } class="main-button">
+                }" class="save-button" onclick="isEditable(${
+      program.program_id
+    }, true)">
                 Edit Details
                 </button>
-                <button type="button" id="cancel-button${
-                  program.program_id
-                }" class="cancel-button"">Cancel</button>
-                <button type="submit" id="save-program${
+
+                <div class="save-cancelButtons"> 
+
+    <button style="display: none" type="button" id="cancel-button${
+      program.program_id
+    }" class="cancel-button" onclick="isEditable(${program.program_id}, false)"
+    })">Cancel</button>
+                <button style="display: none" type="submit" id="save-program${
                   program.program_id
                 }" class="save-button">
                 Save
               </button>
+                </div>
       </div>
     </form>`;
     targetContainer.appendChild(formWrapper);
   });
+}
+
+function isEditable(index, isEditable) {
+  const programInputs = document.querySelectorAll(`.programInput${index}`);
+  console.log(programInputs);
+  if (isEditable) {
+    programInputs.forEach((input) => {
+      input.removeAttribute("readonly");
+      input.classList.remove("readonly-input");
+    });
+  } else {
+    programInputs.forEach((input) => {
+      input.setAttribute("readonly", "");
+      input.classList.add("readonly-input");
+    });
+  }
+
+  document.getElementById(`edit-details${index}`).style.display = isEditable
+    ? "none"
+    : "block";
+  document.getElementById(`cancel-button${index}`).style.display = isEditable
+    ? "block"
+    : "none";
+  document.getElementById(`save-program${index}`).style.display = isEditable
+    ? "block"
+    : "none";
+}
+
+function deletePayee(programId, index) {
+  const payeeElements = document.querySelectorAll(
+    `#programs .payee-pair[id^="payee-pair-${programId}-"]`
+  );
+  if (payeeElements.length <= 1) {
+    alert("At least one payee must exist.");
+    return; // Stop the function, don’t delete
+  }
+  document.getElementById(`payee-pair-${programId}-${index}`).remove();
 }
 
 function renderPayeeInputs(payeesArray, programId) {
@@ -233,21 +292,19 @@ function renderPayeeInputs(payeesArray, programId) {
     // Render a single blank pair if no payees exist
     payeesArray = [{ name: "", amount: 0 }];
   }
-
   // Use .map() to create an HTML string for each payee object
   return payeesArray
     .map((payee, index) => {
       // Use a unique index in the name/id for identification during saving
-
       return `
-            <div class="payee-pair">
+            <div class="payee-pair" id="payee-pair-${programId}-${index}">
                 <input 
                     type="text" 
                     name="payee_name" 
                     id="payee_name"
                     value="${payee.payee_name || ""}"
                     placeholder="Payee Name"
-                    class="dynamic-payee-name dynamic-field"
+                    class="programInput${programId} readonly-input"
                 />
                 <input 
                     type="number" 
@@ -255,12 +312,48 @@ function renderPayeeInputs(payeesArray, programId) {
                     id="amount"
                     value="${payee.amount || ""}"
                     placeholder="Amount"
-                    class="dynamic-payee-amount dynamic-field"
+                    class="programInput${programId} readonly-input"
                 />
+                <button type="button" onclick="deletePayee(${programId}, ${index})" class="transparent-button"><i class="fa fa-trash-o" style="font-size:34px;color:red"></i></button>
             </div>
         `;
     })
     .join(""); // Join the array of HTML strings into one continuous string
+}
+
+function addPayee(programId) {
+  const container = document.getElementById(
+    `payee-inputs-container${programId}`
+  );
+
+  // Get current number of payee pairs to create unique index
+  const currentPayees = container.querySelectorAll(".payee-pair").length - 1;
+
+  const newPayeeHTML = `
+    <div class="payee-pair" id="payee-pair-${programId}-${currentPayees}">
+        <input 
+            type="text" 
+            name="payee_name" 
+            id="payee_name"
+            value=""
+            placeholder="Payee Name"
+            class="programInput${programId} readonly-input"
+        />
+        <input 
+            type="number" 
+            name="amount" 
+            id="amount"
+            value=""
+            placeholder="Amount"
+            class="programInput${programId} readonly-input"
+        />
+        <button type="button" onclick="deletePayee(${programId}, ${currentPayees})" class="transparent-button">
+            <i class="fa fa-trash-o" style="font-size:34px;color:red"></i>
+        </button>
+    </div>
+  `;
+
+  container.innerHTML += newPayeeHTML;
 }
 
 // Add a listener for the year dropdown/input

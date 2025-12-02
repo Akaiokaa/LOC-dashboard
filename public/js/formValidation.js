@@ -15,16 +15,6 @@ window.setFormEditability = function (isEditable) {
       input.classList.toggle("view-only", !isEditable);
     }
   });
-
-  // 2. Program Fields (Report, Notes, Payees - .dynamic-field)
-  // const dynamicFields = document.querySelectorAll(".dynamic-field");
-
-  // dynamicFields.forEach((field) => {
-  //   field.readOnly = !isEditable;
-  //   // The class is added when NOT editable (view-only)
-  //   field.classList.toggle("view-only", !isEditable);
-  // });
-
   setButtonVisibility(false);
 };
 
