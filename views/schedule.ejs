@@ -276,14 +276,15 @@
 <script>
 const programsTables = document.querySelectorAll('.program-table-section');
 
-const emptyTds = document.querySelectorAll('td:empty');
+const clickableTds = document.querySelectorAll('td:not(.division):not(.left)');
 
-emptyTds.forEach(td => {
-  td.classList.add('clickable');
-  td.addEventListener('click', () => {
-    td.innerText = td.innerText === 'X' ? '' : 'X';
-  });
+clickableTds.forEach(td => {
+    td.classList.add('clickable');
+    td.addEventListener('click', () => {
+        td.innerText = td.innerText === 'X' ? '' : 'X';
+    });
 });
+
 
 const search_program = document.querySelector(".table-search-program");
 

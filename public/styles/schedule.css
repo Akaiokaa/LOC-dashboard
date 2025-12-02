@@ -61,3 +61,8 @@ td.clickable:hover {
   background-color: #f0f0f0;
   cursor: pointer;        
 }
+
+td.checked {
+  pointer-events: none;
+  opacity: 0.5;
+}
