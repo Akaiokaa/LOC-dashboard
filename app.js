@@ -407,6 +407,24 @@ app.get("/db_test", async (req, res) => {
   }
 });
 
+app.get("/schedule", async (req, res) => {
+  try {
+    const [assessments] = await pool.query(`
+      Select division_name, Programs.program_id, program_name, academic_year from Program_Assessment
+      JOIN Programs ON Program_Assessment.program_id = Programs.program_id
+      JOIN Divisions ON Programs.division_id = Divisions.division_id;
+    `);
+
+    // Render EJS and pass the data
+    res.render("schedule", { username, assessments });
+    console.log(assessments);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Database error");
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
