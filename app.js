@@ -10,6 +10,8 @@ dotenv.config();
 const app = express();
 
 app.use(express.static("public"));
+app.use(express.json());
+
 
 app.set("view engine", "ejs");
 
@@ -69,12 +71,51 @@ async function fetchHomeDivisionsData() {
   }, {});
 
   // Combine divisions with their programs
-  return divisions.map(division => ({
+  return divisions.map((division) => ({
+    division_id: division.division_id,
     divisionName: division.division_name,
     img: division.img,
     programs: programsByDivision[division.division_id] || [],
   }));
 }
+
+// ROUTE TO ADD A PROGRAM
+app.post("/add-program", async (req, res) => {
+  try {
+    const { programName, divisionId } = req.body;
+
+    if (!programName || !divisionId) {
+      return res.status(400).json({ success: false, message: "Missing data." });
+    }
+
+    const sql = "INSERT INTO Programs (program_name, division_id) VALUES (?, ?)";
+    await pool.query(sql, [programName, divisionId]);
+
+    res.json({ success: true, message: "Program added!" });
+  } catch (err) {
+    console.error("Database error adding program:", err);
+    res.status(500).json({ success: false, message: "Database error." });
+  }
+});
+
+// ROUTE TO REMOVE A PROGRAM
+app.post("/remove-program", async (req, res) => {
+  try {
+    const { programName, divisionId } = req.body;
+
+    if (!programName || !divisionId) {
+      return res.status(400).json({ success: false, message: "Missing data." });
+    }
+
+    const sql = "DELETE FROM Programs WHERE program_name = ? AND division_id = ?";
+    await pool.query(sql, [programName, divisionId]);
+
+    res.json({ success: true, message: "Program removed!" });
+  } catch (err) {
+    console.error("Database error removing program:", err);
+    res.status(500).json({ success: false, message: "Database error." });
+  }
+});
 
 // define a default "route" ('/')
 // req: contains information about the incoming request

@@ -70,21 +70,26 @@ function applyFilterToAllPrograms() {
 
 /**
     Generates the program removal dropdown when the '-' button is clicked.
+    This version reads the program list directly from the UI.
  */
 function handleRemoveProgramClick(event) {
   event.preventDefault();
   const button = event.currentTarget;
+  console.log("Remove '-' button clicked.", button);
+
   const divisionName = button.getAttribute("data-division");
+  const divisionId = button.getAttribute("data-division-id");
   const card = button.closest(".card");
   const dropdownContainer = card.querySelector(".remove-dropdown-container");
 
-  // Find the division data
-  const division = academicDivisions.find(
-    (d) => d.divisionName === divisionName
-  );
+  console.log(`Division: ${divisionName}, ID: ${divisionId}`); 
+
+  // Get the list of programs *currently in the UI* for this card
+  const allProgramItems = card.querySelectorAll(".review-list-items");
 
   // Handle divisions with no programs to remove
-  if (!division || division.programs.length === 0) {
+  if (allProgramItems.length === 0) {
+    console.warn("No programs found in UI to remove."); 
     dropdownContainer.innerHTML =
       '<p style="margin: 0; padding: 5px; color: #ff0000; font-size: 0.9em;">No programs to remove.</p>';
     return;
@@ -92,31 +97,31 @@ function handleRemoveProgramClick(event) {
 
   // Toggle the dropdown: Check if the dropdown is already open (close it if it is)
   if (dropdownContainer.children.length > 0) {
+    console.log("Closing remove dropdown.");
     dropdownContainer.innerHTML = "";
     return;
   }
 
   // Determine which programs to list based on the toggle state
-  let programsToShow = division.programs;
-
-  // Check if toggle is on AND the year data is valid
-  if (toggleState && currentYear && programsUnderReview[currentYear]) {
-    const reviewList = programsUnderReview[currentYear];
-    programsToShow = division.programs.filter((program) =>
-      reviewList.includes(program)
-    );
-  }
+  let programsToShow = [];
+  allProgramItems.forEach((item) => {
+    // Check if the item is currently visible (style.display is not 'none')
+    if (item.style.display !== "none") {
+      programsToShow.push(item.textContent.trim());
+    }
+  });
 
   // Handle cases where the *filtered* list is empty
+  // (e.g., toggle is on and no programs are under review)
   if (programsToShow.length === 0) {
     const message = toggleState
-      ? "No programs under review for this division."
-      : "No programs to remove."; // This case was already handled, but good to keep
+      ? "No programs under review to remove."
+      : "No programs to remove.";
     dropdownContainer.innerHTML = `<p style="margin: 0; padding: 5px; color: #ff0000; font-size: 0.9em;">${message}</p>`;
     return;
   }
 
-  // Generate the dropdown HTML from the (potentially) filtered list
+  // Generate the dropdown HTML from the (now filtered) list
   let optionsHTML = programsToShow
     .map((program) => `<option value="${program}">${program}</option>`)
     .join("");
@@ -129,7 +134,7 @@ function handleRemoveProgramClick(event) {
             </select>
             <div style="display: flex; gap: 10px;">
                 <button type="button" class="apply-remove-btn" 
-                        data-division="${divisionName}" 
+                        data-division-id="${divisionId}" 
                         style="flex-grow: 1; padding: 8px; background-color: #d9534f; color: white; border: none; border-radius: 3px; cursor: pointer;">
                     Apply Remove
                 </button>
@@ -140,7 +145,6 @@ function handleRemoveProgramClick(event) {
             </div>
         </div>
     `;
-
   // Attach event listener to the 'Apply Remove' button
   card
     .querySelector(".apply-remove-btn")
@@ -154,45 +158,64 @@ function handleRemoveProgramClick(event) {
 }
 
 /**
-    Removes the selected program from the data and updates the UI.
+    Removes the selected program by sending a request to the server.
  */
-function confirmProgramRemoval(event) {
+async function confirmProgramRemoval(event) {
   const button = event.currentTarget;
-  const divisionName = button.getAttribute("data-division");
+  const divisionId = button.getAttribute("data-division-id"); // Get the ID
   const card = button.closest(".card");
   const dropdownContainer = card.querySelector(".remove-dropdown-container");
   const selectElement = card.querySelector(".program-select-to-remove");
   const programToRemove = selectElement ? selectElement.value : null;
 
-  if (!programToRemove) return;
-
-  // Remove from the 'academicDivisions' data structure
-  const division = academicDivisions.find(
-    (d) => d.divisionName === divisionName
+  console.log(
+    `Attempting to remove: '${programToRemove}' from division ID: ${divisionId}`
   );
-  if (division) {
-    const index = division.programs.indexOf(programToRemove);
-    if (index > -1) {
-      division.programs.splice(index, 1);
-    }
 
-    // Update the UI list: Always re-render the *full* list from the updated data
-    const programListUL = card.querySelector(".program-list");
-    // Re-render the full list with the required class
-    programListUL.innerHTML = division.programs
-      .map((p) => `<li class="review-list-items">${p}</li>`)
-      .join("");
-
-    // Apply the current global filter state (ON/OFF) to ALL programs on the page
-    applyFilterToAllPrograms();
-
-    // Close the form after removal
-    dropdownContainer.innerHTML = `<p style="color: green; padding: 5px;">'${programToRemove}' removed!</p>`;
-    setTimeout(() => (dropdownContainer.innerHTML = ""), 2000); // Clear message after 2s
-
-    // NOTE: In a real application, you would send an AJAX request here
-    // to save the updated 'academicDivisions' data back to the server.
+  if (!programToRemove || !divisionId) {
+    console.error("Missing program name or division ID."); 
+    return;
   }
+
+  try {
+    const response = await fetch("/remove-program", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        programName: programToRemove,
+        divisionId: divisionId,
+      }),
+    });
+
+    const result = await response.json();
+    console.log("Server response:", result); 
+
+    if (result.success) {
+      console.log("Program removed successfully from UI.");
+      // SUCCESS: Remove the program from the UI
+      const programListUL = card.querySelector(".program-list");
+      const itemToRemove = Array.from(programListUL.children).find(
+        (li) => li.textContent.trim() === programToRemove
+      );
+      if (itemToRemove) {
+        itemToRemove.remove();
+      }
+
+      dropdownContainer.innerHTML = `<p style="color: green; padding: 5px;">'${programToRemove}' removed!</p>`;
+    } else {
+      // FAIL: Show an error
+      console.error("Server returned an error:", result.message);
+      dropdownContainer.innerHTML = `<p style="color: red; padding: 5px;">Error: ${result.message}</p>`;
+    }
+  } catch (err) {
+    console.error("Fetch network error:", err);
+    dropdownContainer.innerHTML = `<p style="color: red; padding: 5px;">Network error.</p>`;
+  }
+
+  // Clear message after 2s
+  setTimeout(() => (dropdownContainer.innerHTML = ""), 2000);
 }
 
 /**
@@ -200,13 +223,20 @@ function confirmProgramRemoval(event) {
  */
 function handleAddProgramClick(event) {
   event.preventDefault();
-  const button = event.currentTarget;
+  const button = event.currentTarget; // This is the '+' button
+  console.log("Add '+' button clicked.", button);
+
   const divisionName = button.getAttribute("data-division");
+  const divisionId = button.getAttribute("data-division-id");
+
+  console.log(`Division: ${divisionName}, ID: ${divisionId}`);
+
   const card = button.closest(".card");
   const dropdownContainer = card.querySelector(".remove-dropdown-container");
 
   // Toggle the form: Check if the form is already open (close it if it is)
   if (dropdownContainer.children.length > 0) {
+    console.log("Closing add form.");
     dropdownContainer.innerHTML = "";
     return;
   }
@@ -219,7 +249,7 @@ function handleAddProgramClick(event) {
                    style="width: 100%; padding: 5px; margin-bottom: 5px; border-radius: 3px; box-sizing: border-box;" />
             <div style="display: flex; gap: 10px;">
                 <button type="button" class="apply-add-btn" 
-                        data-division="${divisionName}" 
+                        data-division-id="${divisionId}" 
                         style="flex-grow: 1; padding: 8px; background-color: #5cb85c; color: white; border: none; border-radius: 3px; cursor: pointer;">
                     Apply Add
                 </button>
@@ -243,70 +273,82 @@ function handleAddProgramClick(event) {
 }
 
 /**
-    Adds the new program from the input to the data and updates the UI.
+    Adds the new program by sending a request to the server.
  */
-function confirmProgramAddition(event) {
+async function confirmProgramAddition(event) {
   const button = event.currentTarget;
-  const divisionName = button.getAttribute("data-division");
+  const divisionId = button.getAttribute("data-division-id"); // Get the ID
   const card = button.closest(".card");
   const dropdownContainer = card.querySelector(".remove-dropdown-container");
   const inputElement = card.querySelector(".program-input-to-add");
   const programToAdd = inputElement ? inputElement.value.trim() : null;
 
-  // Reset input style from previous errors
-  inputElement.style.borderColor = "#ccc";
+  console.log(
+    `Attempting to add: '${programToAdd}' to division ID: ${divisionId}`
+  ); 
 
-  // Validate the input
+  inputElement.style.borderColor = "#ccc";
   if (!programToAdd) {
-    // Show an error message briefly if the input is empty
+    console.warn("No program name entered.");
     inputElement.style.borderColor = "red";
     inputElement.placeholder = "Please enter a name";
     return;
   }
 
-  // Add to the 'academicDivisions' data structure
-  const division = academicDivisions.find(
-    (d) => d.divisionName === divisionName
-  );
-  if (division) {
-    // Case-insensitive check for existing program
-    const programExists = division.programs.some(
-      (existingProgram) =>
-        existingProgram.toLowerCase() === programToAdd.toLowerCase()
-    );
+  if (!divisionId) {
+    console.error("Could not find division ID on 'Apply Add' button.");
+    dropdownContainer.innerHTML = `<p style="color: red; padding: 5px;">Error: Could not find division ID.</p>`;
+    setTimeout(() => (dropdownContainer.innerHTML = ""), 2000);
+    return;
+  }
 
-    if (programExists) {
-      // Show an error message
+  try {
+    const response = await fetch("/add-program", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        programName: programToAdd,
+        divisionId: divisionId,
+      }),
+    });
+
+    const result = await response.json();
+    console.log("Server response:", result);
+
+    if (result.success) {
+      console.log("Program added successfully to UI.");
+      // SUCCESS: Add the new program to the UI
+      const programListUL = card.querySelector(".program-list");
+      const newLi = document.createElement("li");
+      newLi.className = "review-list-items";
+      newLi.textContent = programToAdd;
+      programListUL.appendChild(newLi);
+
+      // Apply filter state to the new item
+      applyFilterToAllPrograms();
+
+      dropdownContainer.innerHTML = `<p style="color: green; padding: 5px;">'${programToAdd}' added!</p>`;
+    } else {
+      // FAIL: Show an error (e.g., duplicate program)
+      console.error("Server returned an error:", result.message); 
       inputElement.style.borderColor = "red";
-      inputElement.value = ""; // Clear the invalid input
-      inputElement.placeholder = `'${programToAdd}' already exists.`;
-      return;
+      inputElement.value = "";
+      inputElement.placeholder = result.message || "Error saving program.";
     }
+  } catch (err) {
+    console.error("Fetch network error:", err);
+    dropdownContainer.innerHTML = `<p style="color: red; padding: 5px;">Network error.</p>`;
+  }
 
-    // Add the new program to the array
-    division.programs.push(programToAdd);
-
-    // Update the UI list: Always re-render the *full* list with the new program
-    const programListUL = card.querySelector(".program-list");
-    // Re-render the full list with the required class
-    programListUL.innerHTML = division.programs
-      .map((p) => `<li class="review-list-items">${p}</li>`)
-      .join("");
-
-    // Apply the current global filter state (ON/OFF) to ALL programs on the page
-    applyFilterToAllPrograms();
-
-    // Close the form after addition
-    dropdownContainer.innerHTML = `<p style="color: green; padding: 5px;">'${programToAdd}' added!</p>`;
-    setTimeout(() => (dropdownContainer.innerHTML = ""), 2000); // Clear message after 2s
-
-    // NOTE: In a real application, you would send an AJAX (fetch) request here
-    // to save the updated 'academicDivisions' data back to the server.
+  // Clear message after 2s, unless there was an error
+  if (!inputElement.style.borderColor.includes("red")) {
+    setTimeout(() => (dropdownContainer.innerHTML = ""), 2000);
   }
 }
 
 //Toggle functionality
-
 toggle.addEventListener("click", () => {
   // This now flips the global toggleState
   toggleState = !toggleState;
@@ -401,5 +443,5 @@ yearSelect.addEventListener("change", () => {
   }
   if (typeof window.setFormEditability === "function") {
     window.setFormEditability(false);
-  } 
+  }
 });
