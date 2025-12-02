@@ -79,41 +79,172 @@ async function fetchHomeDivisionsData() {
   }));
 }
 
-// ROUTE TO ADD A PROGRAM
+// ROUTE TO ADD A PROGRAM, ASSESSMENT, AND SCHEDULE ENTRY
 app.post("/add-program", async (req, res) => {
+  const { programName, divisionId } = req.body;
+  let connection; 
+
+  console.log(`[ADD] Received request to add program: ${programName} (Division ID: ${divisionId})`);
+
+  if (!programName || !divisionId) {
+    console.error("[ADD] Missing program name or division ID.");
+    return res.status(400).json({ success: false, message: "Missing data." });
+  }
+
   try {
-    const { programName, divisionId } = req.body;
+    // 1. Get a connection and start a transaction for atomic operation
+    connection = await pool.getConnection();
+    await connection.beginTransaction();
+    console.log("[ADD] Transaction started.");
 
-    if (!programName || !divisionId) {
-      return res.status(400).json({ success: false, message: "Missing data." });
-    }
+    // --- STEP 1: INSERT into Programs table ---
+    const programSql = "INSERT INTO Programs (program_name, division_id) VALUES (?, ?)";
+    const [programResult] = await connection.query(programSql, [programName, divisionId]);
+    const newProgramId = programResult.insertId;
+    console.log(`[ADD] Program inserted. New Program ID: ${newProgramId}`);
 
-    const sql = "INSERT INTO Programs (program_name, division_id) VALUES (?, ?)";
-    await pool.query(sql, [programName, divisionId]);
+    // --- STEP 2: INSERT into Program_Assessment table ---
+    // Use default values for a brand new program
+    // NOTE: adjust academic_year (e.g., '2024', or use a variable)
+    const assessmentSql = `
+        INSERT INTO Program_Assessment 
+        (program_id, academic_year, report_submitted, notes) 
+        VALUES (?, ?, ?, ?)
+    `;
+    // Placeholder values: '2024' as the current year, 'No' for report submitted, empty notes
+    const [assessmentResult] = await connection.query(assessmentSql, [
+      newProgramId,
+      '2024', 
+      'No', 
+      ''
+    ]);
+    console.log(`[ADD] Program_Assessment inserted. New Assessment ID: ${assessmentResult.insertId}`);
 
-    res.json({ success: true, message: "Program added!" });
+    // --- STEP 3: INSERT into PAI_Schedule table ---
+    // Set the first review year (e.g., 5 years from now)
+    // You may need to adjust the review_year (e.g., '2028', or use a calculation)
+    const scheduleSql = `
+        INSERT INTO PAI_Schedule 
+        (program_id, review_year) 
+        VALUES (?, ?)
+    `;
+    // Placeholder value: '2024-25' as the next scheduled review year
+    await connection.query(scheduleSql, [
+      newProgramId,
+      '2024-25'
+    ]);
+    console.log("[ADD] PAI_Schedule inserted.");
+
+
+    // 4. Commit the transaction if all INSERTS succeeded
+    await connection.commit();
+    console.log("[ADD] Transaction committed successfully.");
+
+    res.json({ success: true, message: "Program, assessment, and schedule created!" });
+    
   } catch (err) {
-    console.error("Database error adding program:", err);
-    res.status(500).json({ success: false, message: "Database error." });
+    // If any error occurred, rollback the transaction
+    if (connection) {
+      await connection.rollback();
+      console.log("[ADD] Transaction rolled back due to error.");
+    }
+    
+    console.error("[ADD] Database error adding program:", err);
+    // Note: The `ER_DUP_ENTRY` error (1062) means a program with that name already exists.
+    if (err.code === 'ER_DUP_ENTRY') {
+         return res.status(409).json({ success: false, message: `Program '${programName}' already exists.` });
+    }
+    
+    res.status(500).json({ success: false, message: "Database error during program creation." });
+    
+  } finally {
+    // Always release the connection
+    if (connection) {
+      connection.release();
+      console.log("[ADD] Database connection released.");
+    }
   }
 });
 
-// ROUTE TO REMOVE A PROGRAM
+// ROUTE TO REMOVE A PROGRAM, ASSESSMENT, AND SCHEDULE ENTRY
 app.post("/remove-program", async (req, res) => {
+  const { programName, divisionId } = req.body;
+  let connection; 
+
+  console.log(`[REMOVE] Request to remove program: ${programName} (Division ID: ${divisionId})`);
+
+  if (!programName || !divisionId) {
+    console.error("[REMOVE] Missing program name or division ID.");
+    return res.status(400).json({ success: false, message: "Missing data." });
+  }
+
   try {
-    const { programName, divisionId } = req.body;
+    // 1. Get a connection and start a transaction for atomic operation
+    connection = await pool.getConnection();
+    await connection.beginTransaction();
+    console.log("[REMOVE] Transaction started.");
 
-    if (!programName || !divisionId) {
-      return res.status(400).json({ success: false, message: "Missing data." });
+    // 2. Find the program_id (We need the ID to delete related records)
+    const [programRows] = await connection.query(
+      "SELECT program_id FROM Programs WHERE program_name = ? AND division_id = ?",
+      [programName, divisionId]
+    );
+    
+    if (programRows.length === 0) {
+      // Program not found, likely already deleted. Commit and exit.
+      await connection.commit();
+      console.log("[REMOVE] Program not found, committing empty transaction.");
+      return res.json({ success: true, message: "Program not found (already removed)." });
     }
+    
+    const programId = programRows[0].program_id;
+    console.log(`[REMOVE] Program ID found: ${programId}`);
 
-    const sql = "DELETE FROM Programs WHERE program_name = ? AND division_id = ?";
-    await pool.query(sql, [programName, divisionId]);
+    // --- STEP 3: DELETE from Program_Assessment table ---
+    // Must be done BEFORE deleting from Programs due to Foreign Key Constraint
+    await connection.query(
+      "DELETE FROM Program_Assessment WHERE program_id = ?",
+      [programId]
+    );
+    console.log("[REMOVE] Deleted related records from Program_Assessment.");
 
-    res.json({ success: true, message: "Program removed!" });
+    // --- STEP 4: DELETE from PAI_Schedule table ---
+    // Must also be done BEFORE deleting from Programs
+    await connection.query(
+      "DELETE FROM PAI_Schedule WHERE program_id = ?",
+      [programId]
+    );
+    console.log("[REMOVE] Deleted related records from PAI_Schedule.");
+    
+    // --- STEP 5: DELETE from Programs table (the parent record) ---
+    await connection.query(
+      "DELETE FROM Programs WHERE program_id = ?",
+      [programId]
+    );
+    console.log(`[REMOVE] Deleted program '${programName}' from Programs.`);
+
+    // 6. Commit the transaction if all DELETES succeeded
+    await connection.commit();
+    console.log("[REMOVE] Transaction committed successfully.");
+
+    res.json({ success: true, message: "Program and all related records removed!" });
+
   } catch (err) {
-    console.error("Database error removing program:", err);
+    // If any error occurred, rollback the transaction
+    if (connection) {
+      await connection.rollback();
+      console.log("[REMOVE] Transaction rolled back due to error.");
+    }
+    
+    console.error("[REMOVE] Database error removing program:", err);
     res.status(500).json({ success: false, message: "Database error." });
+    
+  } finally {
+    // Always release the connection
+    if (connection) {
+      connection.release();
+      console.log("[REMOVE] Database connection released.");
+    }
   }
 });
 
