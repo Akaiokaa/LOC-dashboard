@@ -1,16 +1,14 @@
-import { academicDivisions } from "../data/divisionsData.js";
-import { programsUnderReview } from "../data/yearData.js";
+// import { academicDivisions } from "../data/divisionsData.js";
+// import { programsUnderReview } from "../data/yearData.js";
+const programsUnderReview = window.programsUnderReview || {};
 
 const toggle = document.getElementById("toggle");
 const listItems = document.querySelectorAll(".review-list-items");
-
-console.log(programsUnderReview);
 
 window.toggleNavBar = function () {
   const body = document.body;
 
   body.classList.toggle("nav-closed");
-  //   footer.classList.toggle("active");
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -320,7 +318,6 @@ toggle.addEventListener("click", () => {
     const card = item.closest(".card");
     card.querySelector(".remove-dropdown-container").innerHTML = "";
 
-    // Logic is now based on the *new* state
     if (toggleState) {
       // If toggle is ON (show review only)
       // Use currentYear, and check that the year data exists
@@ -355,10 +352,8 @@ const yearSelect = document.getElementById("year");
 currentYear = yearSelect.value;
 
 yearSelect.addEventListener("change", () => {
-  // This now updates the global currentYear variable
   currentYear = yearSelect.value;
-  console.log("Selected Year:", currentYear);
-  console.log(programsUnderReview[currentYear]);
+
   const parentContainer = document.getElementById("programs");
   const divisionDropdown = document.getElementById("division");
   let selectedText = null;
@@ -399,12 +394,12 @@ yearSelect.addEventListener("change", () => {
     }
   });
 
-  // Corrected logic for index.js:
-  const reviewProgramsForYear = programsUnderReviewByYear[currentYear];
+  const reviewProgramsForYear = programsUnderReview[currentYear];
   if (parentContainer && selectedText && reviewProgramsForYear) {
     // Only call renderForms if the year data exists
     renderForms(reviewProgramsForYear[selectedText] || [], parentContainer);
   }
-  window.setFormEditability(false);
-  // alert(selectedText)
+  if (typeof window.setFormEditability === "function") {
+    window.setFormEditability(false);
+  } 
 });

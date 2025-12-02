@@ -1,3 +1,8 @@
+const divisionFields = window.divisionFields || [];
+const programFields = window.programFields || [];
+const payees = window.payees || [];
+const reviewYear = window.reviewYear || [];
+
 // helper function to handle arrays, nulls, and undefined values cleanly
 function formatValue(value) {
   if (Array.isArray(value)) {
@@ -13,26 +18,24 @@ const divisionDropdown = document.getElementById("division");
 divisionDropdown.addEventListener("change", () => {
   setFormFields();
 
-  // const selectedText =
-  //   divisionDropdown.options[divisionDropdown.selectedIndex].text;
   const parentContainer = document.getElementById("programs");
   const selectedYear = document.getElementById("year").value;
   if (parentContainer) {
-    // Corrected Logic: Safely check programsUnderReviewByYear[selectedYear] before accessing [selectedText]
-    // const programsList = toggleState
-    //   ? programsUnderReviewByYear[selectedYear] &&
-    //     programsUnderReviewByYear[selectedYear][selectedText]
-    //   : divisionToProgramsMap[selectedText];
     const id = divisionDropdown.selectedIndex + 1;
+
+    // 1. Filter by Division (Always happens)
     let programsList = programFields.filter(
       (program) => program.division_id === id
     );
+
+    // 2. Filter by Year/Toggle (Conditional)
     if (toggleState) {
       programsList = programsList.filter(
-        (program) => program.academic_year == selectedYear
+        // Ensures the filter uses the academic_year property we merged in app.js
+        (program) => program.academic_year === selectedYear
       );
     }
-    console.log(programsList);
+
     renderForms(programsList || [], parentContainer);
 
     // Apply read-only state after re-rendering program forms
@@ -102,7 +105,6 @@ let programsList = programFields.filter(
 const parentContainer = document.getElementById("programs");
 // initialize form fields on load
 setFormFields();
-// FIX: Use an empty array if the map lookup returns undefined
 renderForms(programsList || [], parentContainer);
 
 // Apply read-only state after initial form render on page load
@@ -363,24 +365,31 @@ if (yearInput) {
     // Replicate the filtering logic from the division and toggle listeners
     setFormFields();
 
-    // selectedYear is now automatically the new value of yearInput
     const selectedYear = yearInput.value;
 
     const parentContainer = document.getElementById("programs");
     if (parentContainer) {
       const id = divisionDropdown.selectedIndex + 1;
+
+      // 1. Start with the list filtered by Division
       let programsList = programFields.filter(
         (program) => program.division_id === id
       );
 
+      // 2. UNIFIED FILTERING: If toggle is ON, overwrite programsList 
+      //    with the list filtered by academic_year.
       if (toggleState) {
-        const underReviewprogramsList = programsList.filter(
+        programsList = programsList.filter(
           (program) => program.academic_year === selectedYear
         );
-        renderForms(underReviewprogramsList, parentContainer);
-      } else {
-        renderForms(programsList, parentContainer);
       }
+
+      // 3. Render and Log the Final List
+      console.log("Selected Year:", selectedYear);
+      console.log("Final Programs List:", programsList);
+
+      // Pass the fully filtered list to the renderer
+      renderForms(programsList, parentContainer);
 
       // Apply read-only state after re-rendering program forms
       if (typeof window.setFormEditability === "function") {
