@@ -410,9 +410,10 @@ app.get("/db_test", async (req, res) => {
 app.get("/schedule", async (req, res) => {
   try {
     const [assessments] = await pool.query(`
-      Select division_name, Programs.program_id, program_name, academic_year from Program_Assessment
-      JOIN Programs ON Program_Assessment.program_id = Programs.program_id
-      JOIN Divisions ON Programs.division_id = Divisions.division_id;
+      SELECT 
+      Programs.program_name, review_year
+      FROM PAI_Schedule
+      JOIN Programs ON PAI_Schedule.program_id = Programs.program_id
     `);
 
     // Render EJS and pass the data
