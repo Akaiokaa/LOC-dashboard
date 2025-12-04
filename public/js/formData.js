@@ -302,16 +302,28 @@ function isEditable(index, isEditing) {
   const form = document.querySelector(
     `.program-block form:nth-of-type(${index})`
   );
+  const payeeContainer = document.getElementById(
+    `payee-inputs-container${index}`
+  );
+
+  const deleteButtons = document.querySelectorAll(`#trash${index}`);
+  deleteButtons.forEach((btn) => {
+    btn.style.display = isEditing ? "none" : "block";
+  });
+
+  if (!isEditing && payeeContainer) {
+    payeeContainer
+      .querySelectorAll('[data-new="true"]')
+      .forEach((p) => p.remove());
+  }
 
   if (isEditing) {
-    // Store original values in a data attribute on each input
     programInputs.forEach((input) => {
       input.dataset.originalValue = input.value;
       input.removeAttribute("readonly");
       input.classList.remove("readonly-input");
     });
   } else {
-    // Cancel: revert to original values
     programInputs.forEach((input) => {
       if (input.dataset.originalValue !== undefined) {
         input.value = input.dataset.originalValue;
@@ -320,13 +332,11 @@ function isEditable(index, isEditing) {
 
       input.setAttribute("readonly", "true");
       input.classList.add("readonly-input");
-      // Remove red borders
       input.style.borderColor = "";
       input.style.borderWidth = "";
     });
   }
 
-  // Toggle buttons
   const editBtn = document.getElementById(`edit-details${index}`);
   const cancelBtn = document.getElementById(`cancel-button${index}`);
   const saveBtn = document.getElementById(`save-program${index}`);
@@ -335,16 +345,13 @@ function isEditable(index, isEditing) {
   if (cancelBtn) cancelBtn.style.display = isEditing ? "block" : "none";
   if (saveBtn) saveBtn.style.display = isEditing ? "block" : "none";
 
-  // Toggle payee buttons
   const addPayeeBtn = document.getElementById(`add-payee-btn-${index}`);
   if (addPayeeBtn) addPayeeBtn.style.display = isEditing ? "block" : "none";
 
-  const deleteButtons = document.querySelectorAll(`.delete-btn-${index}`);
   deleteButtons.forEach((btn) => {
-    btn.style.display = isEditing ? "block" : "none";
+    btn.style.display = isEditing ? "none" : "block";
   });
 
-  // Optional: clear any other validation messages
   if (!isEditing && typeof clearErrors === "function") {
     clearErrors();
   }
@@ -413,7 +420,7 @@ function renderPayeeInputs(payeesArray, programId) {
                 />
                 <button type="button" onclick="deletePayee(${payee.payee_id},${
         payeesArray.length
-      })" class="transparent-button"><i class="fa fa-trash-o" style="font-size:34px;color:red"></i></button>
+      })" class="transparent-button" id="trash${programId}"><i class="fa fa-trash-o" style="font-size:34px;color:red"></i></button>
             </div>
         `;
     })
@@ -424,12 +431,10 @@ function addPayee(programId) {
   const container = document.getElementById(
     `payee-inputs-container${programId}`
   );
-  const currentPayees = container.querySelectorAll(".payee-pair").length; // Removed -1 logic to just count total
+  const currentPayees = container.querySelectorAll(".payee-pair").length;
 
-  // NOTE: Removed 'readonly' attribute and 'readonly-input' class
-  // NOTE: Delete button is visible (display: block or inline)
   const newPayeeHTML = `
-    <div class="payee-pair" id="payee-pair-${programId}-${currentPayees}">
+    <div class="payee-pair" data-new="true" id="payee-pair-${programId}-${currentPayees}">
         <input 
             type="text" 
             name="payee_name" 
@@ -444,9 +449,8 @@ function addPayee(programId) {
             placeholder="Amount"
             class="programInput${programId}" 
         />
-            <button 
+        <button 
             type="button" 
-
             onclick="deleteBlankPayee(${programId},${currentPayees})" 
             class="removePayeeButton"> -
         </button>
