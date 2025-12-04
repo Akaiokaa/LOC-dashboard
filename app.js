@@ -279,10 +279,10 @@ app.get("/summary", async (req, res) => {
 
 app.get("/form", async (req, res) => {
   const [programFields] = await pool.query(
-    "SELECT division_id, p.program_id, program_name, assessment_id, academic_year, is_scheduled, has_been_paid, report_submitted, notes FROM Programs AS p JOIN Program_Assessment AS pa ON p.program_id = pa.program_id"
+    "SELECT division_id, p.program_id, program_name, assessment_id, academic_year, is_scheduled, has_been_paid, report_submitted, notes FROM Programs AS p LEFT JOIN Program_Assessment AS pa ON p.program_id = pa.program_id"
   );
   const [divisionFields] = await pool.query(
-    "SELECT DISTINCT d.division_id, division_name, dean, pen_contact, loc_rep, chair FROM Divisions AS d JOIN Programs AS p ON p.division_id = d.division_id;"
+    "SELECT DISTINCT d.division_id, division_name, dean, pen_contact, loc_rep, chair FROM Divisions AS d LEFT JOIN Programs AS p ON p.division_id = d.division_id;"
   );
 
   const [payees] = await pool.query(
