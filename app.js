@@ -362,6 +362,8 @@ app.get("/form", async (req, res) => {
 app.put("/divisions/:id", async (req, res) => {
   const { dean, pen_contact, loc_rep, chair } = req.body;
   const division_id = req.params.id;
+
+  
   await pool.query(
     `UPDATE Divisions SET dean = ?, pen_contact = ?, loc_rep = ? WHERE division_id = ?`,
     [dean, pen_contact, loc_rep, division_id]
@@ -418,8 +420,8 @@ app.post("/submit_program/:id", async (req, res) => {
   try {
     // 1. Update Assessment Metadata
     await connection.query(
-      `UPDATE Program_Assessment 
-         SET report_submitted = ?, notes = ?, academic_year = ? 
+      `UPDATE Program_Assessment
+         SET report_submitted = ?, notes = ?, academic_year = ?
          WHERE assessment_id = ?`,
       [report_submitted, notes, academic_year, assessment_id]
     );
@@ -442,7 +444,7 @@ app.post("/submit_program/:id", async (req, res) => {
 
       // Find or Create Payee (Requires payee_name to have a UNIQUE index)
       const [payeeResult] = await connection.query(
-        `INSERT INTO Payees (payee_name) VALUES (?) 
+        `INSERT INTO Payees (payee_name) VALUES (?)
              ON DUPLICATE KEY UPDATE payee_id = LAST_INSERT_ID(payee_id)`,
         [name]
       );
@@ -476,7 +478,7 @@ app.post("/submit_program/:id", async (req, res) => {
   } catch (err) {
     await connection.rollback();
     console.error(err);
-    res.status(500).send("Error saving program");
+    res.status(500).send("Error saving program", err);
   } finally {
     connection.release();
   }

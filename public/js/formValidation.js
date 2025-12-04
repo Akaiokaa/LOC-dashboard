@@ -34,7 +34,7 @@ function setButtonVisibility(isEditMode) {
 }
 
 // runs when division-form is submitted
-document.getElementById("division-form").onsubmit = () => {
+document.getElementById("division-form").onsubmit = (event) => {
   clearErrors();
 
   let isValid = true;
@@ -72,13 +72,14 @@ document.getElementById("division-form").onsubmit = () => {
     // Check if the field is empty
     if (!value) {
       isValid = false;
-      // Visually indicate an error by changing the input's border
       field.style.borderColor = "red";
       field.style.borderWidth = "2px";
     }
   });
 
-  return isValid;
+  if (!isValid) {
+    event.preventDefault(); // stops the form from submitting
+  }
 };
 
 //makes form editable and shows Cancel/Save buttons

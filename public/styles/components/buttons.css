@@ -140,7 +140,13 @@ button {
   border: 2px solid var(--primary);
   color: var(--primary);
 }
-
+.removePayeeButton {
+  width: 34px;
+  height: 34px;
+  font-size: x-large;
+  border: 2px solid red;
+  color: red;
+}
 .transparent-button {
   background: transparent;
   border: none;
@@ -172,21 +178,21 @@ button {
   text-transform: uppercase;
   /* Makes the "CSV" stand out */
 
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 
-  box-shadow: 0 4px #388E3C;
+  box-shadow: 0 4px #388e3c;
   /* Darker bottom shadow for 3D/pressed look */
   transition: all 0.2s ease;
 }
 
 .buttons-csv:hover {
-  background-color: #66BB6A;
+  background-color: #66bb6a;
 }
 
 .buttons-csv:active {
-  background-color: #388E3C;
-  box-shadow: 0 2px #388E3C;
+  background-color: #388e3c;
+  box-shadow: 0 2px #388e3c;
   transform: translateY(2px);
   /* Move button down 2px */
 }
