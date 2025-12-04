@@ -175,7 +175,8 @@ app.post("/remove-program", async (req, res) => {
     await connection.beginTransaction();
     console.log("[REMOVE] Transaction started.");
 
-    // 2. Find the program_id (We need the ID to delete related records)
+    // --- STEP 2: Find the program_id ---
+    // This MUST be the first step after transaction start
     const [programRows] = await connection.query(
       "SELECT program_id FROM Programs WHERE program_name = ? AND division_id = ?",
       [programName, divisionId]
@@ -187,55 +188,60 @@ app.post("/remove-program", async (req, res) => {
       console.log("[REMOVE] Program not found, committing empty transaction.");
       return res.json({ success: true, message: "Program not found (already removed)." });
     }
+    
+    // Assign programId here, BEFORE it's used
+    const programId = programRows[0].program_id; 
+    console.log(`[REMOVE] Program ID found: ${programId}`);
 
-    // STEP 2.5: DELETE FROM Assessment_Payments
+
+    // --- STEP 3: DELETE FROM Assessment_Payments (Child of Program_Assessment) ---
     // We need to find the assessment_ids associated with this program first
     const [assessments] = await connection.query(
       "SELECT assessment_id FROM Program_Assessment WHERE program_id = ?",
-      [programId]
+      [programId] // <--- programId is now defined
     );
 
     if (assessments.length > 0) {
       const assessmentIds = assessments.map(a => a.assessment_id);
       // Delete payments for these assessments
-      await connection.query(
+      const [deletePaymentsResult] = await connection.query(
         `DELETE FROM Assessment_Payments WHERE assessment_id IN (?)`,
         [assessmentIds]
       );
+      console.log(`[REMOVE] Deleted ${deletePaymentsResult.affectedRows} records from Assessment_Payments.`);
     }
 
-    const programId = programRows[0].program_id;
-    console.log(`[REMOVE] Program ID found: ${programId}`);
 
-    // --- STEP 3: DELETE from Program_Assessment table ---
+    // --- STEP 4: DELETE from Program_Assessment table (Child of Programs) ---
     // Must be done BEFORE deleting from Programs due to Foreign Key Constraint
-    await connection.query(
+    const [deleteAssessmentResult] = await connection.query(
       "DELETE FROM Program_Assessment WHERE program_id = ?",
       [programId]
     );
-    console.log("[REMOVE] Deleted related records from Program_Assessment.");
+    console.log(`[REMOVE] Deleted ${deleteAssessmentResult.affectedRows} related records from Program_Assessment.`);
 
-    // --- STEP 4: DELETE from PAI_Schedule table ---
+
+    // --- STEP 5: DELETE from PAI_Schedule table (Child of Programs) ---
     // Must also be done BEFORE deleting from Programs
-    await connection.query(
+    const [deleteScheduleResult] = await connection.query(
       "DELETE FROM PAI_Schedule WHERE program_id = ?",
       [programId]
     );
-    console.log("[REMOVE] Deleted related records from PAI_Schedule.");
+    console.log(`[REMOVE] Deleted ${deleteScheduleResult.affectedRows} related records from PAI_Schedule.`);
 
-    // --- STEP 5: DELETE from Programs table (the parent record) ---
-    await connection.query(
+    // --- STEP 6: DELETE from Programs table (the parent record) ---
+    const [deleteProgramResult] = await connection.query(
       "DELETE FROM Programs WHERE program_id = ?",
       [programId]
     );
-    console.log(`[REMOVE] Deleted program '${programName}' from Programs.`);
+    console.log(`[REMOVE] Deleted ${deleteProgramResult.affectedRows} program '${programName}' from Programs.`);
 
-    // 6. Commit the transaction if all DELETES succeeded
+
+    // 7. Commit the transaction if all DELETES succeeded
     await connection.commit();
     console.log("[REMOVE] Transaction committed successfully.");
 
     res.json({ success: true, message: "Program and all related records removed!" });
-
   } catch (err) {
     // If any error occurred, rollback the transaction
     if (connection) {
@@ -357,7 +363,7 @@ app.post("/submit_program/:id", async (req, res) => {
       [report_submitted, notes, academic_year, assessment_id]
     );
 
-    // 2. CLEAR existing payments for this assessment (The "Reset")
+    // 2. CLEAR existing payments for this assessment
     await connection.query(
       `DELETE FROM Assessment_Payments WHERE assessment_id = ?`,
       [assessment_id]
@@ -371,13 +377,31 @@ app.post("/submit_program/:id", async (req, res) => {
       const name = names[i];
       const currentAmount = amounts[i];
 
-      // Find or Create Payee
+      if (!name || !currentAmount) continue; // Skip if name or amount is missing
+
+      // Find or Create Payee (Requires payee_name to have a UNIQUE index)
       const [payeeResult] = await connection.query(
         `INSERT INTO Payees (payee_name) VALUES (?) 
              ON DUPLICATE KEY UPDATE payee_id = LAST_INSERT_ID(payee_id)`,
         [name]
       );
-      const payee_id = payeeResult.insertId;
+      
+      let payee_id = payeeResult.insertId;
+
+      // FIX: If the payee already exists, insertId will be 0. 
+      // We need to manually SELECT the ID in that case.
+      if (payee_id === 0) {
+        const [existingPayee] = await connection.query(
+          `SELECT payee_id FROM Payees WHERE payee_name = ?`,
+          [name]
+        );
+        if (existingPayee.length > 0) {
+            payee_id = existingPayee[0].payee_id;
+        } else {
+            // Should not happen, but as a safeguard
+            throw new Error(`Could not find or create payee: ${name}`);
+        }
+      }
 
       // Insert Link
       await connection.query(
