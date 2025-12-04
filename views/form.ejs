@@ -9,12 +9,12 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <link rel="icon" href="/images/GRC_logo.svg" />
-   <script>
-    window.divisionFields = <%- JSON.stringify(divisionFields) %>;
-    window.programFields =  <%- JSON.stringify(programFields) %>;
-    window.payees =  <%- JSON.stringify(payees) %>;
-    window.reviewYear =  <%- JSON.stringify(reviewYear) %>;
-  </script>
+    <script>
+      window.divisionFields = <%- JSON.stringify(divisionFields) %>;
+      window.programFields =  <%- JSON.stringify(programFields) %>;
+      window.payees =  <%- JSON.stringify(payees) %>;
+      window.reviewYear =  <%- JSON.stringify(reviewYear) %>;
+    </script>
     <script src="/js/formValidation.js" defer></script>
     <script src="js/globals.js"></script>
     <script src="js/index.js" type="module"></script>
@@ -24,8 +24,8 @@
     <title>Divisions Management</title>
   </head>
 
-<body>
-  <%- include('partials/header') %>
+  <body>
+    <%- include('partials/header') %>
     <main>
       <div id="main-aside"><%- include('partials/aside') %></div>
 
@@ -36,11 +36,18 @@
           >
           <div id="selectDivision">
             <select name="division" id="division">
-              <% divisionFields.forEach(div=> { %>
-                <option value="<%= div.division_id %>">
-                  <%= div.division_name %>
-                </option>
-                <% }) %>
+              <option>Fine Arts</option>
+              <option>Humanities</option>
+              <option>Social Science</option>
+              <option>English</option>
+              <option>Science</option>
+              <option>Mathematics</option>
+              <option>Business, Law, and Education</option>
+              <option>Technology</option>
+              <option>Health Science</option>
+              <option>Trades</option>
+              <option>Transitional Studies</option>
+              <option>Continuing Education</option>
             </select>
           </div>
 
@@ -90,6 +97,5 @@
       </div>
     </main>
     <%- include('partials/footer') %>
-</body>
-
+  </body>
 </html>

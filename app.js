@@ -116,8 +116,15 @@ app.post("/add-program", async (req, res) => {
         (program_id, academic_year, report_submitted, notes) 
         VALUES (?, ?, ?, ?)
     `;
-    const [assessmentResult] = await connection.query(assessmentSql, [newProgramId, selectedYear, 'No', '']);
-    console.log(`[ADD] Program_Assessment inserted. New Assessment ID: ${assessmentResult.insertId}`);
+    const [assessmentResult] = await connection.query(assessmentSql, [
+      newProgramId,
+      selectedYear,
+      "No",
+      "",
+    ]);
+    console.log(
+      `[ADD] Program_Assessment inserted. New Assessment ID: ${assessmentResult.insertId}`
+    );
 
     // --- STEP 3: INSERT into PAI_Schedule table ---
     // Set the first review year (e.g., 5 years from now)
@@ -135,8 +142,10 @@ app.post("/add-program", async (req, res) => {
     await connection.commit();
     console.log("[ADD] Transaction committed successfully.");
 
-    res.json({ success: true, message: "Program, assessment, and schedule created!" });
-
+    res.json({
+      success: true,
+      message: "Program, assessment, and schedule created!",
+    });
   } catch (err) {
     // If any error occurred, rollback the transaction
     if (connection) {
@@ -146,12 +155,17 @@ app.post("/add-program", async (req, res) => {
 
     console.error("[ADD] Database error adding program:", err);
     // Note: The `ER_DUP_ENTRY` error (1062) means a program with that name already exists.
-    if (err.code === 'ER_DUP_ENTRY') {
-      return res.status(409).json({ success: false, message: `Program '${programName}' already exists.` });
+    if (err.code === "ER_DUP_ENTRY") {
+      return res.status(409).json({
+        success: false,
+        message: `Program '${programName}' already exists.`,
+      });
     }
 
-    res.status(500).json({ success: false, message: "Database error during program creation." });
-
+    res.status(500).json({
+      success: false,
+      message: "Database error during program creation.",
+    });
   } finally {
     // Always release the connection
     if (connection) {
@@ -197,11 +211,10 @@ app.post("/remove-program", async (req, res) => {
         message: "Program not found (already removed).",
       });
     }
-    
-    // Assign programId here, BEFORE it's used
-    const programId = programRows[0].program_id; 
-    console.log(`[REMOVE] Program ID found: ${programId}`);
 
+    // Assign programId here, BEFORE it's used
+    const programId = programRows[0].program_id;
+    console.log(`[REMOVE] Program ID found: ${programId}`);
 
     // --- STEP 3: DELETE FROM Assessment_Payments (Child of Program_Assessment) ---
     // We need to find the assessment_ids associated with this program first
@@ -211,15 +224,16 @@ app.post("/remove-program", async (req, res) => {
     );
 
     if (assessments.length > 0) {
-      const assessmentIds = assessments.map(a => a.assessment_id);
+      const assessmentIds = assessments.map((a) => a.assessment_id);
       // Delete payments for these assessments
       const [deletePaymentsResult] = await connection.query(
         `DELETE FROM Assessment_Payments WHERE assessment_id IN (?)`,
         [assessmentIds]
       );
-      console.log(`[REMOVE] Deleted ${deletePaymentsResult.affectedRows} records from Assessment_Payments.`);
+      console.log(
+        `[REMOVE] Deleted ${deletePaymentsResult.affectedRows} records from Assessment_Payments.`
+      );
     }
-
 
     // --- STEP 4: DELETE from Program_Assessment table (Child of Programs) ---
     // Must be done BEFORE deleting from Programs due to Foreign Key Constraint
@@ -227,8 +241,9 @@ app.post("/remove-program", async (req, res) => {
       "DELETE FROM Program_Assessment WHERE program_id = ?",
       [programId]
     );
-    console.log(`[REMOVE] Deleted ${deleteAssessmentResult.affectedRows} related records from Program_Assessment.`);
-
+    console.log(
+      `[REMOVE] Deleted ${deleteAssessmentResult.affectedRows} related records from Program_Assessment.`
+    );
 
     // --- STEP 5: DELETE from PAI_Schedule table (Child of Programs) ---
     // Must also be done BEFORE deleting from Programs
@@ -236,21 +251,27 @@ app.post("/remove-program", async (req, res) => {
       "DELETE FROM PAI_Schedule WHERE program_id = ?",
       [programId]
     );
-    console.log(`[REMOVE] Deleted ${deleteScheduleResult.affectedRows} related records from PAI_Schedule.`);
+    console.log(
+      `[REMOVE] Deleted ${deleteScheduleResult.affectedRows} related records from PAI_Schedule.`
+    );
 
     // --- STEP 6: DELETE from Programs table (the parent record) ---
     const [deleteProgramResult] = await connection.query(
       "DELETE FROM Programs WHERE program_id = ?",
       [programId]
     );
-    console.log(`[REMOVE] Deleted ${deleteProgramResult.affectedRows} program '${programName}' from Programs.`);
-
+    console.log(
+      `[REMOVE] Deleted ${deleteProgramResult.affectedRows} program '${programName}' from Programs.`
+    );
 
     // 7. Commit the transaction if all DELETES succeeded
     await connection.commit();
     console.log("[REMOVE] Transaction committed successfully.");
 
-    res.json({ success: true, message: "Program and all related records removed!" });
+    res.json({
+      success: true,
+      message: "Program and all related records removed!",
+    });
   } catch (err) {
     // If any error occurred, rollback the transaction
     if (connection) {
@@ -260,7 +281,6 @@ app.post("/remove-program", async (req, res) => {
 
     console.error("[REMOVE] Database error removing program:", err);
     res.status(500).json({ success: false, message: "Database error." });
-
   } finally {
     // Always release the connection
     if (connection) {
@@ -426,10 +446,10 @@ app.post("/submit_program/:id", async (req, res) => {
              ON DUPLICATE KEY UPDATE payee_id = LAST_INSERT_ID(payee_id)`,
         [name]
       );
-      
+
       let payee_id = payeeResult.insertId;
 
-      // FIX: If the payee already exists, insertId will be 0. 
+      // FIX: If the payee already exists, insertId will be 0.
       // We need to manually SELECT the ID in that case.
       if (payee_id === 0) {
         const [existingPayee] = await connection.query(
@@ -437,10 +457,10 @@ app.post("/submit_program/:id", async (req, res) => {
           [name]
         );
         if (existingPayee.length > 0) {
-            payee_id = existingPayee[0].payee_id;
+          payee_id = existingPayee[0].payee_id;
         } else {
-            // Should not happen, but as a safeguard
-            throw new Error(`Could not find or create payee: ${name}`);
+          // Should not happen, but as a safeguard
+          throw new Error(`Could not find or create payee: ${name}`);
         }
       }
 
@@ -453,7 +473,6 @@ app.post("/submit_program/:id", async (req, res) => {
 
     await connection.commit();
     res.redirect("/form");
-
   } catch (err) {
     await connection.rollback();
     console.error(err);
