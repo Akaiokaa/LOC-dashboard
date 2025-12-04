@@ -82,14 +82,14 @@ function handleRemoveProgramClick(event) {
   const card = button.closest(".card");
   const dropdownContainer = card.querySelector(".remove-dropdown-container");
 
-  console.log(`Division: ${divisionName}, ID: ${divisionId}`); 
+  console.log(`Division: ${divisionName}, ID: ${divisionId}`);
 
   // Get the list of programs *currently in the UI* for this card
   const allProgramItems = card.querySelectorAll(".review-list-items");
 
   // Handle divisions with no programs to remove
   if (allProgramItems.length === 0) {
-    console.warn("No programs found in UI to remove."); 
+    console.warn("No programs found in UI to remove.");
     dropdownContainer.innerHTML =
       '<p style="margin: 0; padding: 5px; color: #ff0000; font-size: 0.9em;">No programs to remove.</p>';
     return;
@@ -173,7 +173,7 @@ async function confirmProgramRemoval(event) {
   );
 
   if (!programToRemove || !divisionId) {
-    console.error("Missing program name or division ID."); 
+    console.error("Missing program name or division ID.");
     return;
   }
 
@@ -190,7 +190,7 @@ async function confirmProgramRemoval(event) {
     });
 
     const result = await response.json();
-    console.log("Server response:", result); 
+    console.log("Server response:", result);
 
     if (result.success) {
       console.log("Program removed successfully from UI.");
@@ -277,6 +277,8 @@ function handleAddProgramClick(event) {
  */
 async function confirmProgramAddition(event) {
   const button = event.currentTarget;
+  // Get the current value of the year dropdown
+  const currentYear = document.getElementById("year").value;
   const divisionId = button.getAttribute("data-division-id"); // Get the ID
   const card = button.closest(".card");
   const dropdownContainer = card.querySelector(".remove-dropdown-container");
@@ -285,7 +287,7 @@ async function confirmProgramAddition(event) {
 
   console.log(
     `Attempting to add: '${programToAdd}' to division ID: ${divisionId}`
-  ); 
+  );
 
   inputElement.style.borderColor = "#ccc";
   if (!programToAdd) {
@@ -311,6 +313,7 @@ async function confirmProgramAddition(event) {
       body: JSON.stringify({
         programName: programToAdd,
         divisionId: divisionId,
+        selectedYear: currentYear
       }),
     });
 
@@ -332,7 +335,7 @@ async function confirmProgramAddition(event) {
       dropdownContainer.innerHTML = `<p style="color: green; padding: 5px;">'${programToAdd}' added!</p>`;
     } else {
       // FAIL: Show an error (e.g., duplicate program)
-      console.error("Server returned an error:", result.message); 
+      console.error("Server returned an error:", result.message);
       inputElement.style.borderColor = "red";
       inputElement.value = "";
       inputElement.placeholder = result.message || "Error saving program.";

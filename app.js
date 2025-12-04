@@ -81,8 +81,8 @@ async function fetchHomeDivisionsData() {
 
 // ROUTE TO ADD A PROGRAM, ASSESSMENT, AND SCHEDULE ENTRY
 app.post("/add-program", async (req, res) => {
-  const { programName, divisionId } = req.body;
-  let connection; 
+  const { programName, divisionId, selectedYear } = req.body;
+  let connection;
 
   console.log(`[ADD] Received request to add program: ${programName} (Division ID: ${divisionId})`);
 
@@ -111,13 +111,7 @@ app.post("/add-program", async (req, res) => {
         (program_id, academic_year, report_submitted, notes) 
         VALUES (?, ?, ?, ?)
     `;
-    // Placeholder values: '2024' as the current year, 'No' for report submitted, empty notes
-    const [assessmentResult] = await connection.query(assessmentSql, [
-      newProgramId,
-      '2024', 
-      'No', 
-      ''
-    ]);
+    const [assessmentResult] = await connection.query(assessmentSql, [newProgramId, selectedYear, 'No', '']);
     console.log(`[ADD] Program_Assessment inserted. New Assessment ID: ${assessmentResult.insertId}`);
 
     // --- STEP 3: INSERT into PAI_Schedule table ---
@@ -128,11 +122,8 @@ app.post("/add-program", async (req, res) => {
         (program_id, review_year) 
         VALUES (?, ?)
     `;
-    // Placeholder value: '2024-25' as the next scheduled review year
-    await connection.query(scheduleSql, [
-      newProgramId,
-      '2024-25'
-    ]);
+    // Use selectedYear for PAI_Schedule
+    await connection.query(scheduleSql, [newProgramId, selectedYear]);
     console.log("[ADD] PAI_Schedule inserted.");
 
 
@@ -141,22 +132,22 @@ app.post("/add-program", async (req, res) => {
     console.log("[ADD] Transaction committed successfully.");
 
     res.json({ success: true, message: "Program, assessment, and schedule created!" });
-    
+
   } catch (err) {
     // If any error occurred, rollback the transaction
     if (connection) {
       await connection.rollback();
       console.log("[ADD] Transaction rolled back due to error.");
     }
-    
+
     console.error("[ADD] Database error adding program:", err);
     // Note: The `ER_DUP_ENTRY` error (1062) means a program with that name already exists.
     if (err.code === 'ER_DUP_ENTRY') {
-         return res.status(409).json({ success: false, message: `Program '${programName}' already exists.` });
+      return res.status(409).json({ success: false, message: `Program '${programName}' already exists.` });
     }
-    
+
     res.status(500).json({ success: false, message: "Database error during program creation." });
-    
+
   } finally {
     // Always release the connection
     if (connection) {
@@ -169,7 +160,7 @@ app.post("/add-program", async (req, res) => {
 // ROUTE TO REMOVE A PROGRAM, ASSESSMENT, AND SCHEDULE ENTRY
 app.post("/remove-program", async (req, res) => {
   const { programName, divisionId } = req.body;
-  let connection; 
+  let connection;
 
   console.log(`[REMOVE] Request to remove program: ${programName} (Division ID: ${divisionId})`);
 
@@ -189,14 +180,30 @@ app.post("/remove-program", async (req, res) => {
       "SELECT program_id FROM Programs WHERE program_name = ? AND division_id = ?",
       [programName, divisionId]
     );
-    
+
     if (programRows.length === 0) {
       // Program not found, likely already deleted. Commit and exit.
       await connection.commit();
       console.log("[REMOVE] Program not found, committing empty transaction.");
       return res.json({ success: true, message: "Program not found (already removed)." });
     }
-    
+
+    // STEP 2.5: DELETE FROM Assessment_Payments
+    // We need to find the assessment_ids associated with this program first
+    const [assessments] = await connection.query(
+      "SELECT assessment_id FROM Program_Assessment WHERE program_id = ?",
+      [programId]
+    );
+
+    if (assessments.length > 0) {
+      const assessmentIds = assessments.map(a => a.assessment_id);
+      // Delete payments for these assessments
+      await connection.query(
+        `DELETE FROM Assessment_Payments WHERE assessment_id IN (?)`,
+        [assessmentIds]
+      );
+    }
+
     const programId = programRows[0].program_id;
     console.log(`[REMOVE] Program ID found: ${programId}`);
 
@@ -215,7 +222,7 @@ app.post("/remove-program", async (req, res) => {
       [programId]
     );
     console.log("[REMOVE] Deleted related records from PAI_Schedule.");
-    
+
     // --- STEP 5: DELETE from Programs table (the parent record) ---
     await connection.query(
       "DELETE FROM Programs WHERE program_id = ?",
@@ -235,10 +242,10 @@ app.post("/remove-program", async (req, res) => {
       await connection.rollback();
       console.log("[REMOVE] Transaction rolled back due to error.");
     }
-    
+
     console.error("[REMOVE] Database error removing program:", err);
     res.status(500).json({ success: false, message: "Database error." });
-    
+
   } finally {
     // Always release the connection
     if (connection) {
@@ -334,46 +341,61 @@ app.put("/divisions/:id", async (req, res) => {
 });
 
 app.post("/submit_program/:id", async (req, res) => {
+  const connection = await pool.getConnection();
+  await connection.beginTransaction();
+
   const { report_submitted, notes, academic_year, payee_name, amount } =
     req.body;
   const assessment_id = req.params.id;
 
-  await pool.query(
-    `UPDATE Program_Assessment 
-     SET report_submitted = ?, notes = ?, academic_year = ? 
-     WHERE assessment_id = ?`,
-    [report_submitted, notes, academic_year, assessment_id]
-  );
+  try {
+    // 1. Update Assessment Metadata
+    await connection.query(
+      `UPDATE Program_Assessment 
+         SET report_submitted = ?, notes = ?, academic_year = ? 
+         WHERE assessment_id = ?`,
+      [report_submitted, notes, academic_year, assessment_id]
+    );
 
-  for (let i = 0; i < payee_name.length; i++) {
-    const name = payee_name[i];
-    const currentAmount = amount[i];
+    // 2. CLEAR existing payments for this assessment (The "Reset")
+    await connection.query(
+      `DELETE FROM Assessment_Payments WHERE assessment_id = ?`,
+      [assessment_id]
+    );
 
-    // Insert-or-get payee_id
-    const insertPayeeSQL = `
-      INSERT INTO Payees (payee_name)
-      VALUES (?) 
-      ON DUPLICATE KEY UPDATE payee_id = LAST_INSERT_ID(payee_id);
-    `;
+    // 3. Re-insert the Payees
+    const names = [].concat(payee_name || []);
+    const amounts = [].concat(amount || []);
 
-    const [result] = await pool.query(insertPayeeSQL, [name]);
-    const payee_id = result.insertId; // ALWAYS correct
+    for (let i = 0; i < names.length; i++) {
+      const name = names[i];
+      const currentAmount = amounts[i];
 
-    // Insert or update payment record
-    const insertPaymentSQL = `
-      INSERT INTO Assessment_Payments (assessment_id, payee_id, amount)
-      VALUES (?, ?, ?)
-      ON DUPLICATE KEY UPDATE amount = VALUES(amount);
-    `;
+      // Find or Create Payee
+      const [payeeResult] = await connection.query(
+        `INSERT INTO Payees (payee_name) VALUES (?) 
+             ON DUPLICATE KEY UPDATE payee_id = LAST_INSERT_ID(payee_id)`,
+        [name]
+      );
+      const payee_id = payeeResult.insertId;
 
-    await pool.query(insertPaymentSQL, [
-      assessment_id,
-      payee_id,
-      currentAmount,
-    ]);
+      // Insert Link
+      await connection.query(
+        `INSERT INTO Assessment_Payments (assessment_id, payee_id, amount) VALUES (?, ?, ?)`,
+        [assessment_id, payee_id, currentAmount]
+      );
+    }
+
+    await connection.commit();
+    res.redirect("/form");
+
+  } catch (err) {
+    await connection.rollback();
+    console.error(err);
+    res.status(500).send("Error saving program");
+  } finally {
+    connection.release();
   }
-
-  res.redirect("/form");
 });
 
 app.post("/submit_login", (req, res) => {
