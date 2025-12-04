@@ -8,14 +8,17 @@ h2 {
   list-style-type: none;
   margin: 0px;
 }
+
 h1 {
   padding: 1rem;
 }
+
 ul {
   padding: 0px;
   display: flex;
   flex-direction: column;
 }
+
 ul li {
   padding-left: 1rem;
   margin-bottom: 10px;

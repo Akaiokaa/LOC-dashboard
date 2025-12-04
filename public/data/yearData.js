@@ -1,5 +1,5 @@
 export const programsUnderReview = {
-  year_23_24: [
+  "2023-24": [
     "Communication Studies",
     "History",
     "Psychology",
@@ -10,7 +10,7 @@ export const programsUnderReview = {
     "Criminal Justice",
     "Manufacturing",
   ],
-  year_24_25: [
+  "2024-25": [
     "Drama",
     "Visual Arts (Photography/Art)",
     "Foreign Languages",
@@ -18,7 +18,7 @@ export const programsUnderReview = {
     "Chemistry",
     "Engineering/Computer Science",
   ],
-  year_25_26: [
+  "2025-2026": [
     "Philosophy",
     "Information Literacy",
     "American Ethnic & Minority Studies",
@@ -29,7 +29,7 @@ export const programsUnderReview = {
     "Carpentry",
     "Welding Technology",
   ],
-  year_26_27: [
+  "2026-2027": [
     "Music",
     "Counseling Services",
     "Anthropology",
@@ -42,7 +42,7 @@ export const programsUnderReview = {
     "Health and Physical Education",
     "Automotive Technology",
   ],
-  year_27_28: [
+  "2027-2028": [
     "Dance",
     "Humanities",
     "Journalism",

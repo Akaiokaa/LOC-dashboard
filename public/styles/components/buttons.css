@@ -13,13 +13,15 @@ button {
   gap: 5px;
 }
 
-#save-button {
+.save-button {
   background-color: var(--primary);
   color: var(--secondary);
   padding: 11px 22px;
+  border: none;
+  cursor: pointer;
 }
 
-#cancel-button {
+.cancel-button {
   background-color: var(--secondary);
   color: var(--primary);
   border: 1px solid var(--primary);
@@ -29,8 +31,8 @@ button {
   transition: all 0.2s ease-in-out;
 }
 
-#cancel-button:hover,
-#cancel-button:focus,
+.cancel-button:hover,
+.cancel-button:focus,
 .main-button:hover,
 .main-button:focus {
   box-shadow: 0 0 0 2px var(--primary);
@@ -42,8 +44,9 @@ button {
   outline: none;
 }
 
-#cancel-button:focus,
-.main-button:focus {
+.cancel-button:focus,
+.main-button:focus,
+.save-button:focus {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
@@ -94,8 +97,9 @@ button {
 .button-spacing {
   margin: 1rem;
 }
+
 /* Toggle Switch Styling */
-.toggle{
+.toggle {
   border: 1px solid gray;
   width: 50px;
   height: 25px;
@@ -105,7 +109,8 @@ button {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-.toggle::after{
+
+.toggle::after {
   content: "";
   width: 20px;
   height: 20px;
@@ -115,11 +120,79 @@ button {
   top: 2px;
   left: 2.5px;
   transition: transform 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
-.toggle.active{
+.toggle.active {
   background-color: rgb(32, 214, 32);
 }
-.toggle.active::after{
+.toggle.active::after {
   transform: translateX(25px);
+}
+
+.payeeButtonContainer {
+  display: flex;
+  justify-content: end;
+}
+.addPayeeButton {
+  width: 34px;
+  height: 34px;
+  font-size: x-large;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.removePayeeButton {
+  width: 34px;
+  height: 34px;
+  font-size: x-large;
+  border: 2px solid red;
+  color: red;
+}
+.transparent-button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: #000;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+}
+.buttons-csv {
+  /* Box Model & Layout */
+  padding: 10px 15px;
+  /* Vertical padding: 10px, Horizontal padding: 15px */
+  border: none;
+  border-radius: 5px;
+  /* Rounded corners */
+  cursor: pointer;
+  /* Change cursor to a hand to indicate clickability */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  /* Space between text and icon (if you add one) */
+
+  /* Typography */
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  /* Makes the "CSV" stand out */
+
+  background-color: #4caf50;
+  color: white;
+
+  box-shadow: 0 4px #388e3c;
+  /* Darker bottom shadow for 3D/pressed look */
+  transition: all 0.2s ease;
+}
+
+.buttons-csv:hover {
+  background-color: #66bb6a;
+}
+
+.buttons-csv:active {
+  background-color: #388e3c;
+  box-shadow: 0 2px #388e3c;
+  transform: translateY(2px);
+  /* Move button down 2px */
 }

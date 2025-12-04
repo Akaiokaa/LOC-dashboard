@@ -6,11 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Loc Dashboard</title>
   <link rel="stylesheet" href="/styles/home.css" />
-  
+
   <link rel="icon" href="/images/GRC_logo.svg" />
+  <script>
+    window.programsUnderReview = <%- JSON.stringify(programsUnderReview) %>;
+  </script>
   <script src="js/globals.js"></script>
   <script src="js/search.js" defer></script>
-  <script src="/data/divisionsData.js" type="module"></script> 
   <script src="js/index.js" type="module"></script>
 </head>
 
@@ -34,8 +36,8 @@
         <!-- for each loop to display different academic divisions -->
         <div class="grid-container">
           <% academicDivisions.forEach(academicDivision=> { %>
-         <!-- if(programsUnderReview.year_22_23.includes(academicDivision.divisionName)) -->
-              <div class="card">
+            <!-- if(programsUnderReview.year_22_23.includes(academicDivision.divisionName)) -->
+            <div class="card">
               <div class="card-head">
                 <h2>
                   <%= academicDivision.divisionName %>
@@ -48,22 +50,23 @@
                   <% academicDivision.programs.forEach(program=> { %>
                     <li class="review-list-items">
                       <%= program %>
-                    </li>  
-                  <% });%>
+                    </li>
+                    <% });%>
                 </ul>
               </div>
 
-              <div class="remove-dropdown-container">
-              </div>
+              <div class="remove-dropdown-container"></div>
 
               <div class="card-foot">
                 <div class="add-remove-programs">
-                  <a href="#" class="main-button button-spacing add-program-btn"
-                    data-division="<%= academicDivision.divisionName %>">
+                  <a class="main-button button-spacing add-program-btn"
+                    data-division="<%= academicDivision.divisionName %>"
+                    data-division-id="<%= academicDivision.division_id %>">
                     +
                   </a>
                   <a class="main-button button-spacing remove-program-btn"
-                    data-division="<%= academicDivision.divisionName %>">
+                    data-division="<%= academicDivision.divisionName %>"
+                    data-division-id="<%= academicDivision.division_id %>">
                     -
                   </a>
                 </div>
@@ -73,8 +76,8 @@
                 </a>
               </div>
             </div>
-        <!-- } -->
-          <% });%>
+            <!-- } -->
+            <% });%>
         </div>
       </div>
     </main>

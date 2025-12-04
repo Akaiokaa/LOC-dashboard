@@ -7,6 +7,7 @@
 main {
   display: flex;
   padding: 1rem;
+  margin-bottom: 2rem;
 }
 
 .main {
@@ -34,7 +35,7 @@ main {
   margin: 1rem;
 }
 
-.add-remove-programs a{
+.add-remove-programs a {
   margin-right: -1rem;
   font-size: 1.3rem;
   padding: -1rem;
