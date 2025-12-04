@@ -80,7 +80,7 @@ async function fetchHomeDivisionsData() {
 
 // ROUTE TO ADD A PROGRAM, ASSESSMENT, AND SCHEDULE ENTRY
 app.post("/add-program", async (req, res) => {
-  const { programName, divisionId } = req.body;
+  const { programName, divisionId, selectedYear } = req.body;
   let connection;
 
   console.log(
@@ -116,16 +116,8 @@ app.post("/add-program", async (req, res) => {
         (program_id, academic_year, report_submitted, notes) 
         VALUES (?, ?, ?, ?)
     `;
-    // Placeholder values: '2024' as the current year, 'No' for report submitted, empty notes
-    const [assessmentResult] = await connection.query(assessmentSql, [
-      newProgramId,
-      "2024",
-      "No",
-      "",
-    ]);
-    console.log(
-      `[ADD] Program_Assessment inserted. New Assessment ID: ${assessmentResult.insertId}`
-    );
+    const [assessmentResult] = await connection.query(assessmentSql, [newProgramId, selectedYear, 'No', '']);
+    console.log(`[ADD] Program_Assessment inserted. New Assessment ID: ${assessmentResult.insertId}`);
 
     // --- STEP 3: INSERT into PAI_Schedule table ---
     // Set the first review year (e.g., 5 years from now)
@@ -135,18 +127,16 @@ app.post("/add-program", async (req, res) => {
         (program_id, review_year) 
         VALUES (?, ?)
     `;
-    // Placeholder value: '2024-25' as the next scheduled review year
-    await connection.query(scheduleSql, [newProgramId, "2024-25"]);
+    // Use selectedYear for PAI_Schedule
+    await connection.query(scheduleSql, [newProgramId, selectedYear]);
     console.log("[ADD] PAI_Schedule inserted.");
 
     // 4. Commit the transaction if all INSERTS succeeded
     await connection.commit();
     console.log("[ADD] Transaction committed successfully.");
 
-    res.json({
-      success: true,
-      message: "Program, assessment, and schedule created!",
-    });
+    res.json({ success: true, message: "Program, assessment, and schedule created!" });
+
   } catch (err) {
     // If any error occurred, rollback the transaction
     if (connection) {
@@ -156,17 +146,12 @@ app.post("/add-program", async (req, res) => {
 
     console.error("[ADD] Database error adding program:", err);
     // Note: The `ER_DUP_ENTRY` error (1062) means a program with that name already exists.
-    if (err.code === "ER_DUP_ENTRY") {
-      return res.status(409).json({
-        success: false,
-        message: `Program '${programName}' already exists.`,
-      });
+    if (err.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ success: false, message: `Program '${programName}' already exists.` });
     }
 
-    res.status(500).json({
-      success: false,
-      message: "Database error during program creation.",
-    });
+    res.status(500).json({ success: false, message: "Database error during program creation." });
+
   } finally {
     // Always release the connection
     if (connection) {
@@ -196,7 +181,8 @@ app.post("/remove-program", async (req, res) => {
     await connection.beginTransaction();
     console.log("[REMOVE] Transaction started.");
 
-    // 2. Find the program_id (We need the ID to delete related records)
+    // --- STEP 2: Find the program_id ---
+    // This MUST be the first step after transaction start
     const [programRows] = await connection.query(
       "SELECT program_id FROM Programs WHERE program_name = ? AND division_id = ?",
       [programName, divisionId]
@@ -211,39 +197,60 @@ app.post("/remove-program", async (req, res) => {
         message: "Program not found (already removed).",
       });
     }
-
-    const programId = programRows[0].program_id;
+    
+    // Assign programId here, BEFORE it's used
+    const programId = programRows[0].program_id; 
     console.log(`[REMOVE] Program ID found: ${programId}`);
 
-    // --- STEP 3: DELETE from Program_Assessment table ---
+
+    // --- STEP 3: DELETE FROM Assessment_Payments (Child of Program_Assessment) ---
+    // We need to find the assessment_ids associated with this program first
+    const [assessments] = await connection.query(
+      "SELECT assessment_id FROM Program_Assessment WHERE program_id = ?",
+      [programId] // <--- programId is now defined
+    );
+
+    if (assessments.length > 0) {
+      const assessmentIds = assessments.map(a => a.assessment_id);
+      // Delete payments for these assessments
+      const [deletePaymentsResult] = await connection.query(
+        `DELETE FROM Assessment_Payments WHERE assessment_id IN (?)`,
+        [assessmentIds]
+      );
+      console.log(`[REMOVE] Deleted ${deletePaymentsResult.affectedRows} records from Assessment_Payments.`);
+    }
+
+
+    // --- STEP 4: DELETE from Program_Assessment table (Child of Programs) ---
     // Must be done BEFORE deleting from Programs due to Foreign Key Constraint
-    await connection.query(
+    const [deleteAssessmentResult] = await connection.query(
       "DELETE FROM Program_Assessment WHERE program_id = ?",
       [programId]
     );
-    console.log("[REMOVE] Deleted related records from Program_Assessment.");
+    console.log(`[REMOVE] Deleted ${deleteAssessmentResult.affectedRows} related records from Program_Assessment.`);
 
-    // --- STEP 4: DELETE from PAI_Schedule table ---
+
+    // --- STEP 5: DELETE from PAI_Schedule table (Child of Programs) ---
     // Must also be done BEFORE deleting from Programs
-    await connection.query("DELETE FROM PAI_Schedule WHERE program_id = ?", [
-      programId,
-    ]);
-    console.log("[REMOVE] Deleted related records from PAI_Schedule.");
+    const [deleteScheduleResult] = await connection.query(
+      "DELETE FROM PAI_Schedule WHERE program_id = ?",
+      [programId]
+    );
+    console.log(`[REMOVE] Deleted ${deleteScheduleResult.affectedRows} related records from PAI_Schedule.`);
 
-    // --- STEP 5: DELETE from Programs table (the parent record) ---
-    await connection.query("DELETE FROM Programs WHERE program_id = ?", [
-      programId,
-    ]);
-    console.log(`[REMOVE] Deleted program '${programName}' from Programs.`);
+    // --- STEP 6: DELETE from Programs table (the parent record) ---
+    const [deleteProgramResult] = await connection.query(
+      "DELETE FROM Programs WHERE program_id = ?",
+      [programId]
+    );
+    console.log(`[REMOVE] Deleted ${deleteProgramResult.affectedRows} program '${programName}' from Programs.`);
 
-    // 6. Commit the transaction if all DELETES succeeded
+
+    // 7. Commit the transaction if all DELETES succeeded
     await connection.commit();
     console.log("[REMOVE] Transaction committed successfully.");
 
-    res.json({
-      success: true,
-      message: "Program and all related records removed!",
-    });
+    res.json({ success: true, message: "Program and all related records removed!" });
   } catch (err) {
     // If any error occurred, rollback the transaction
     if (connection) {
@@ -253,6 +260,7 @@ app.post("/remove-program", async (req, res) => {
 
     console.error("[REMOVE] Database error removing program:", err);
     res.status(500).json({ success: false, message: "Database error." });
+
   } finally {
     // Always release the connection
     if (connection) {
@@ -293,10 +301,10 @@ app.get("/summary", async (req, res) => {
 
 app.get("/form", async (req, res) => {
   const [programFields] = await pool.query(
-    "SELECT division_id, p.program_id, program_name, assessment_id, academic_year, is_scheduled, has_been_paid, report_submitted, notes FROM Programs AS p JOIN Program_Assessment AS pa ON p.program_id = pa.program_id"
+    "SELECT division_id, p.program_id, program_name, assessment_id, academic_year, is_scheduled, has_been_paid, report_submitted, notes FROM Programs AS p LEFT JOIN Program_Assessment AS pa ON p.program_id = pa.program_id"
   );
   const [divisionFields] = await pool.query(
-    "SELECT DISTINCT d.division_id, division_name, dean, pen_contact, loc_rep, chair FROM Divisions AS d JOIN Programs AS p ON p.division_id = d.division_id;"
+    "SELECT DISTINCT d.division_id, division_name, dean, pen_contact, loc_rep, chair FROM Divisions AS d LEFT JOIN Programs AS p ON p.division_id = d.division_id;"
   );
 
   const [payees] = await pool.query(
@@ -380,46 +388,79 @@ app.delete("/payee/:id", async (req, res) => {
 });
 
 app.post("/submit_program/:id", async (req, res) => {
+  const connection = await pool.getConnection();
+  await connection.beginTransaction();
+
   const { report_submitted, notes, academic_year, payee_name, amount } =
     req.body;
   const assessment_id = req.params.id;
 
-  await pool.query(
-    `UPDATE Program_Assessment 
-     SET report_submitted = ?, notes = ?, academic_year = ? 
-     WHERE assessment_id = ?`,
-    [report_submitted, notes, academic_year, assessment_id]
-  );
+  try {
+    // 1. Update Assessment Metadata
+    await connection.query(
+      `UPDATE Program_Assessment 
+         SET report_submitted = ?, notes = ?, academic_year = ? 
+         WHERE assessment_id = ?`,
+      [report_submitted, notes, academic_year, assessment_id]
+    );
 
-  for (let i = 0; i < payee_name.length; i++) {
-    const name = payee_name[i];
-    const currentAmount = amount[i];
+    // 2. CLEAR existing payments for this assessment
+    await connection.query(
+      `DELETE FROM Assessment_Payments WHERE assessment_id = ?`,
+      [assessment_id]
+    );
 
-    // Insert-or-get payee_id
-    const insertPayeeSQL = `
-      INSERT INTO Payees (payee_name)
-      VALUES (?) 
-      ON DUPLICATE KEY UPDATE payee_id = LAST_INSERT_ID(payee_id);
-    `;
+    // 3. Re-insert the Payees
+    const names = [].concat(payee_name || []);
+    const amounts = [].concat(amount || []);
 
-    const [result] = await pool.query(insertPayeeSQL, [name]);
-    const payee_id = result.insertId; // ALWAYS correct
+    for (let i = 0; i < names.length; i++) {
+      const name = names[i];
+      const currentAmount = amounts[i];
 
-    // Insert or update payment record
-    const insertPaymentSQL = `
-      INSERT INTO Assessment_Payments (assessment_id, payee_id, amount)
-      VALUES (?, ?, ?)
-      ON DUPLICATE KEY UPDATE amount = VALUES(amount);
-    `;
+      if (!name || !currentAmount) continue; // Skip if name or amount is missing
 
-    await pool.query(insertPaymentSQL, [
-      assessment_id,
-      payee_id,
-      currentAmount,
-    ]);
+      // Find or Create Payee (Requires payee_name to have a UNIQUE index)
+      const [payeeResult] = await connection.query(
+        `INSERT INTO Payees (payee_name) VALUES (?) 
+             ON DUPLICATE KEY UPDATE payee_id = LAST_INSERT_ID(payee_id)`,
+        [name]
+      );
+      
+      let payee_id = payeeResult.insertId;
+
+      // FIX: If the payee already exists, insertId will be 0. 
+      // We need to manually SELECT the ID in that case.
+      if (payee_id === 0) {
+        const [existingPayee] = await connection.query(
+          `SELECT payee_id FROM Payees WHERE payee_name = ?`,
+          [name]
+        );
+        if (existingPayee.length > 0) {
+            payee_id = existingPayee[0].payee_id;
+        } else {
+            // Should not happen, but as a safeguard
+            throw new Error(`Could not find or create payee: ${name}`);
+        }
+      }
+
+      // Insert Link
+      await connection.query(
+        `INSERT INTO Assessment_Payments (assessment_id, payee_id, amount) VALUES (?, ?, ?)`,
+        [assessment_id, payee_id, currentAmount]
+      );
+    }
+
+    await connection.commit();
+    res.redirect("/form");
+
+  } catch (err) {
+    await connection.rollback();
+    console.error(err);
+    res.status(500).send("Error saving program");
+  } finally {
+    connection.release();
   }
-
-  res.redirect("/form");
 });
 
 app.post("/submit_login", (req, res) => {

@@ -204,11 +204,15 @@ function renderForms(programs, targetContainer) {
                 </div>
 
               </div>
-              <div class="payeeButtonContainer"> 
-            <button type="button" onclick="addPayee(${
-              program.program_id
-            })" class="addPayeeButton">+</button>
-              </div>
+<div class="payeeButtonContainer"> 
+        <button 
+            type="button" 
+            id="add-payee-btn-${program.program_id}" 
+            onclick="addPayee(${program.program_id})" 
+            class="addPayeeButton"
+            style="display: none;"> +
+        </button>
+    </div>
 
           <div class="notes">
               <label for="notess">Notes</label>
@@ -250,6 +254,8 @@ function renderForms(programs, targetContainer) {
 }
 
 function isEditable(index, isEditable) {
+  // 1. Toggle Inputs (Read-only state)
+  // Now that we fixed renderForms, this selector will correctly find the Payee inputs too
   const programInputs = document.querySelectorAll(`.programInput${index}`);
   const trashButtons = document.querySelectorAll(`transparent-button`);
   console.log(programInputs);
@@ -260,20 +266,32 @@ function isEditable(index, isEditable) {
     });
   } else {
     programInputs.forEach((input) => {
-      input.setAttribute("readonly", "");
+      input.setAttribute("readonly", "true");
       input.classList.add("readonly-input");
     });
   }
 
-  document.getElementById(`edit-details${index}`).style.display = isEditable
-    ? "none"
-    : "block";
-  document.getElementById(`cancel-button${index}`).style.display = isEditable
-    ? "block"
-    : "none";
-  document.getElementById(`save-program${index}`).style.display = isEditable
-    ? "block"
-    : "none";
+  // 2. Toggle Main Buttons (Edit/Save/Cancel)
+  const editBtn = document.getElementById(`edit-details${index}`);
+  const cancelBtn = document.getElementById(`cancel-button${index}`);
+  const saveBtn = document.getElementById(`save-program${index}`);
+
+  if (editBtn) editBtn.style.display = isEditable ? "none" : "block";
+  if (cancelBtn) cancelBtn.style.display = isEditable ? "block" : "none";
+  if (saveBtn) saveBtn.style.display = isEditable ? "block" : "none";
+
+  // 3. Toggle Payee Buttons (Add + and Trash Icons)
+  // This finds the specific add button for this program
+  const addPayeeBtn = document.getElementById(`add-payee-btn-${index}`);
+  if (addPayeeBtn) {
+    addPayeeBtn.style.display = isEditable ? "block" : "none";
+  }
+
+  // This finds all trash cans associated with this program
+  const deleteButtons = document.querySelectorAll(`.delete-btn-${index}`);
+  deleteButtons.forEach((btn) => {
+    btn.style.display = isEditable ? "block" : "none";
+  });
 }
 
 function deleteBlankPayee(programid, payeeIndex) {
@@ -315,19 +333,15 @@ async function deletePayee(id) {
 
 function renderPayeeInputs(payeesArray, programId) {
   if (payeesArray.length === 0) {
-    // Render a single blank pair if no payees exist
     payeesArray = [{ name: "", amount: 0 }];
   }
-  // Use .map() to create an HTML string for each payee object
   return payeesArray
     .map((payee, index) => {
-      // Use a unique index in the name/id for identification during saving
       return `
             <div class="payee-pair" id="payee-pair-${programId}-${index}">
                 <input 
                     type="text" 
                     name="payee_name" 
-                    id="payee_name"
                     value="${payee.payee_name || ""}"
                     placeholder="Payee Name"
                     class="programInput${programId} readonly-input"
@@ -336,7 +350,6 @@ function renderPayeeInputs(payeesArray, programId) {
                 <input 
                     type="number" 
                     name="amount" 
-                    id="amount"
                     value="${payee.amount || ""}"
                     placeholder="Amount"
                     class="programInput${programId} readonly-input"
@@ -348,40 +361,38 @@ function renderPayeeInputs(payeesArray, programId) {
             </div>
         `;
     })
-    .join(""); // Join the array of HTML strings into one continuous string
+    .join("");
 }
 
 function addPayee(programId) {
   const container = document.getElementById(
     `payee-inputs-container${programId}`
   );
+  const currentPayees = container.querySelectorAll(".payee-pair").length; // Removed -1 logic to just count total
 
-  // Get current number of payee pairs to create unique index
-  const payeeIndex = container.querySelectorAll(".payee-pair").length;
-
+  // NOTE: Removed 'readonly' attribute and 'readonly-input' class
+  // NOTE: Delete button is visible (display: block or inline)
   const newPayeeHTML = `
     <div class="payee-pair" id="payee-pair-${programId}-${payeeIndex}">
         <input 
             type="text" 
             name="payee_name" 
-            id="payee_name"
             value=""
             placeholder="Payee Name"
-            class="programInput${programId} readonly-input"
+            class="programInput${programId}" 
         />
         <input 
             type="number" 
             name="amount" 
-            id="amount"
             value=""
             placeholder="Amount"
-            class="programInput${programId} readonly-input"
+            class="programInput${programId}" 
         />
            <button type="button" onclick="deleteBlankPayee(${programId},${payeeIndex})" class="transparent-button"><i class="fa fa-trash-o" style="font-size:34px;color:red"></i></button>
     </div>
   `;
 
-  container.innerHTML += newPayeeHTML;
+  container.insertAdjacentHTML("beforeend", newPayeeHTML);
 }
 
 // Add a listener for the year dropdown/input
