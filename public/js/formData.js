@@ -177,10 +177,7 @@ function renderForms(programs, targetContainer) {
     const payeesList = payees.filter(
       (payee) => program.assessment_id === payee.assessment_id
     );
-    const payeeInputsHTML = renderPayeeInputs(
-      payeesList,
-      program.assessment_id
-    );
+    const payeeInputsHTML = renderPayeeInputs(payeesList, program.program_id);
     const academic_year = document.getElementById("year").value;
     formWrapper.innerHTML = `<form method="POST" action ="/submit_program/${
       program.program_id
@@ -254,6 +251,7 @@ function renderForms(programs, targetContainer) {
 
 function isEditable(index, isEditable) {
   const programInputs = document.querySelectorAll(`.programInput${index}`);
+  const trashButtons = document.querySelectorAll(`transparent-button`);
   console.log(programInputs);
   if (isEditable) {
     programInputs.forEach((input) => {
@@ -278,15 +276,41 @@ function isEditable(index, isEditable) {
     : "none";
 }
 
-function deletePayee(programId, index) {
-  const payeeElements = document.querySelectorAll(
-    `#programs .payee-pair[id^="payee-pair-${programId}-"]`
-  );
-  if (payeeElements.length <= 1) {
+function deleteBlankPayee(programid, payeeIndex) {
+  const payeesLength = document.querySelectorAll(".payee-pair").length;
+
+  if (payeesLength <= 1) {
     alert("At least one payee must exist.");
     return; // Stop the function, don’t delete
   }
-  document.getElementById(`payee-pair-${programId}-${index}`).remove();
+  document.getElementById(`payee-pair-${programid}-${payeeIndex}`).remove();
+}
+
+async function deletePayee(id) {
+  if (length <= 1) {
+    alert("At least one payee must exist.");
+    return; // Stop the function, don’t delete
+  }
+  if (!confirm("Are you sure you want to delete this payee?")) return;
+
+  try {
+    const res = await fetch(`/payee/${id}`, {
+      method: "DELETE",
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("Payee deleted!");
+      // Optionally refresh the page or remove the item from the DOM
+      location.reload();
+    } else {
+      alert("Failed to delete payee");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("An error occurred");
+  }
 }
 
 function renderPayeeInputs(payeesArray, programId) {
@@ -307,6 +331,7 @@ function renderPayeeInputs(payeesArray, programId) {
                     value="${payee.payee_name || ""}"
                     placeholder="Payee Name"
                     class="programInput${programId} readonly-input"
+                    readonly
                 />
                 <input 
                     type="number" 
@@ -315,8 +340,11 @@ function renderPayeeInputs(payeesArray, programId) {
                     value="${payee.amount || ""}"
                     placeholder="Amount"
                     class="programInput${programId} readonly-input"
+                    readonly
                 />
-                <button type="button" onclick="deletePayee(${programId}, ${index})" class="transparent-button"><i class="fa fa-trash-o" style="font-size:34px;color:red"></i></button>
+                <button type="button" onclick="deletePayee(${
+                  payee.payee_id
+                })" class="transparent-button"><i class="fa fa-trash-o" style="font-size:34px;color:red"></i></button>
             </div>
         `;
     })
@@ -329,10 +357,10 @@ function addPayee(programId) {
   );
 
   // Get current number of payee pairs to create unique index
-  const currentPayees = container.querySelectorAll(".payee-pair").length - 1;
+  const payeeIndex = container.querySelectorAll(".payee-pair").length;
 
   const newPayeeHTML = `
-    <div class="payee-pair" id="payee-pair-${programId}-${currentPayees}">
+    <div class="payee-pair" id="payee-pair-${programId}-${payeeIndex}">
         <input 
             type="text" 
             name="payee_name" 
@@ -349,9 +377,7 @@ function addPayee(programId) {
             placeholder="Amount"
             class="programInput${programId} readonly-input"
         />
-        <button type="button" onclick="deletePayee(${programId}, ${currentPayees})" class="transparent-button">
-            <i class="fa fa-trash-o" style="font-size:34px;color:red"></i>
-        </button>
+           <button type="button" onclick="deleteBlankPayee(${programId},${payeeIndex})" class="transparent-button"><i class="fa fa-trash-o" style="font-size:34px;color:red"></i></button>
     </div>
   `;
 
@@ -376,7 +402,7 @@ if (yearInput) {
         (program) => program.division_id === id
       );
 
-      // 2. UNIFIED FILTERING: If toggle is ON, overwrite programsList 
+      // 2. UNIFIED FILTERING: If toggle is ON, overwrite programsList
       //    with the list filtered by academic_year.
       if (toggleState) {
         programsList = programsList.filter(
